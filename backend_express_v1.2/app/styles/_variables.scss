@@ -1,0 +1,35 @@
+//colores
+$form-color: #64b5f6 !default;
+
+//tonos de gris
+$fiord-blue:   #3D5170 !default;
+$shuttle-gray: #5A6169 !default;
+$reagent-gray: #818EA3 !default;
+$mischka:      #CACEDB !default;
+$athens-gray:  #E9ECEF !default;
+$light-gray:  rgb(245, 244, 248) !default;
+
+.fiord-blue{
+ color: $fiord-blue !important;
+}
+.shuttle-gray{
+ color: $shuttle-gray !important;
+}
+.reagent-gray{
+ color: $reagent-gray !important;
+}
+.mischka{
+ color: $mischka !important;
+}
+.athens-gray{
+ color: $athens-gray !important;
+}
+
+body{
+  background-color: $light-gray;
+  
+}
+
+.vh-100{
+  height: 100vh;
+}

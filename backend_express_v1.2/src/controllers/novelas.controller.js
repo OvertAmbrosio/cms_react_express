@@ -8,11 +8,16 @@ novelasCtrl.getNovelas = async (req, res) => {
 }
 
 novelasCtrl.crearNovela = async (req, res) => {
-    const { titulo, contenido, autor } = req.body;
+    const { titulo, acron, titulo_alt, autor, sinopsis, tipo, estado, etiquetas } = req.body;
     const nuevaNovela = new Novela({
         titulo,
-        contenido,
-        autor
+        acron,
+        titulo_alt,
+        autor,
+        sinopsis,
+        tipo,
+        estado,
+        etiquetas
     });
     await nuevaNovela.save();
     res.json({message: 'Novela Guardada'});

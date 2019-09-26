@@ -62,6 +62,8 @@ router.post("/login", (req, res) => {
       // Check if user exists
       if (!user) {
         return res.status(404).json({ emailnotfound: "Correo no encontrado" });
+      } else if (user.state == false) {
+        return res.status(404).json({ userstate: "Usuario inactivo" });
       }
       // Check password
       bcrypt.compare(password, user.password).then(isMatch => {
@@ -69,7 +71,8 @@ router.post("/login", (req, res) => {
           // User matched
           // Create JWT Payload
           const payload = {
-            id: user.id
+            id: user.id,
+            name: user.name
           };
           // Sign token
           jwt.sign(
