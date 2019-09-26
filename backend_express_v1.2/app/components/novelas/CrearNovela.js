@@ -115,7 +115,7 @@ export default class  CrearNovela extends Component {
                               {categoria.nombre}
                               <Checkbox
                                 name={categoria.nombre}
-                                checked="true"
+                                checked={this.state.checkedItems.get(categoria.nombre)}
                                 onChange={this.handleChange}
                               />
                             </label>
