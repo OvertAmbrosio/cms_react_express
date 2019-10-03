@@ -1,3 +1,12 @@
+const cloudinary = require('cloudinary');
+const fs = require('fs-extra');
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+})
+
 const novelasCtrl = {};
 
 const Novela = require('../models/Novela');
@@ -8,7 +17,23 @@ novelasCtrl.getNovelas = async (req, res) => {
 }
 
 novelasCtrl.crearNovela = async (req, res) => {
-    const { titulo, acron, titulo_alt, autor, sinopsis, tipo, estado, etiquetas } = req.body;
+    console.log(req.body);
+    const { titulo, 
+            acron,
+            titulo_alt,
+            autor,
+            sinopsis,
+            estado,
+            tipo,
+            categoria,
+            etiquetas  } = req.body;
+    let images = [];
+    console.log(req);
+    for ( element of req.files) {
+        images.push(await cloudinary.v2.uploader.upload(element.path, {use_filename: true}));
+        
+    };
+    portada.titulo;
     const nuevaNovela = new Novela({
         titulo,
         acron,
@@ -17,10 +42,14 @@ novelasCtrl.crearNovela = async (req, res) => {
         sinopsis,
         tipo,
         estado,
-        etiquetas
-    });
-    await nuevaNovela.save();
-    res.json({message: 'Novela Guardada'});
+        categoria,
+        etiquetas,
+        imagen_portada: portada
+    })
+    console.log("aqui viene el cloud")
+    console.log(images);
+    
+    res.send('recibido compa')
 }
 
 novelasCtrl.getNovela = async (req, res) => {

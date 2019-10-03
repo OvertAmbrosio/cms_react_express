@@ -51,15 +51,19 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <Layout>
+          {/* <Layout>
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/" component={Novelas}/>
             <Route exact path="/capitulos" component={Capitulos}/>
-          </Layout>
-          <Route exact path="/login" component={Login} />{/* cambiar */}
+          </Layout> */}
+          <Route exact path="/" component={Novelas} />{/* cambiar */}
           <Route exact path="/registro" component={Registro} />
           <Switch>
-            <PrivateRoute exact path="/dashboards" component={Dashboard}/>
+          <Layout>
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <PrivateRoute exact path="/novelas" component={Novelas}/>
+            <PrivateRoute exact path="/capitulos" component={Capitulos}/>
+          </Layout>
           </Switch>
         </Router>
       </Provider>

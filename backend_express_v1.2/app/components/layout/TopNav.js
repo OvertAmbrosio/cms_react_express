@@ -36,6 +36,7 @@ class TopNav extends Component {
               <Nav.Link to="/novelas" as={Link}>Novelas</Nav.Link>
               <Nav.Link to="/Capitulos" as={Link}>Capitulos</Nav.Link>
               <Nav.Link to="/" as={Link}>Usuarios</Nav.Link>
+              <div ></div>
               <NavDropdown id="basic-nav-dropdown" title={<span><i className="fas fa-user-circle"></i> Hola, {user.name}</span>} drop="down">
                 <NavDropdown.Item href="#action/3.1"><i className="fas fa-cog"></i> Perfil</NavDropdown.Item>
                 <NavDropdown.Divider />

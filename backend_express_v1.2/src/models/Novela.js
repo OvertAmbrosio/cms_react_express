@@ -51,6 +51,16 @@ const novelaSchema = new Schema({
       ref: 'Usuario',
       unique: true
     }
+  },
+  imagen_portada: {
+    titulo: String,
+    url: String,
+    public_id:String
+  },
+  imagen_mini: {
+    titulo: String,
+    url: String,
+    public_id:String
   }
 }, 
 {
