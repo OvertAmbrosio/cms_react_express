@@ -30,10 +30,19 @@ app.use(express.urlencoded({extended: false}));
 const storage = multer.diskStorage({
     destination: path.join(__dirname, '/public/img/uploads'),
     filename: (req, file, cb) =>{
-        cb(null, "image_" + file.originalname);
+        cb(null, "image_" + file.originalname); 
     }
 });
-app.use(multer({storage}).array('file',2));
+app.use(multer({storage}).fields([
+    { 
+      name: 'portada', 
+      maxCount: 1 
+    }, 
+    { 
+      name: 'mini', 
+      maxCount: 1 
+    }
+  ]));
 app.use(cors());
 app.use(session({
     secret: 'mysecretsession',

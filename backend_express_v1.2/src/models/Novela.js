@@ -21,8 +21,8 @@ const novelaSchema = new Schema({
   },
   sinopsis: String,
   tipo: {
-    type: Schema.ObjectId, 
-    ref: 'NovelaTipo'
+    type: String,
+    trim: true
   },
   estado: {
     type: String,
@@ -30,8 +30,8 @@ const novelaSchema = new Schema({
   },
   categoria: [
     {
-      type: Schema.ObjectId,
-      ref: 'NovelasCate'
+      type: String,
+      trim: true
     }
   ],
   etiquetas: {
@@ -48,8 +48,7 @@ const novelaSchema = new Schema({
     },
     usuario: {
       type: Schema.ObjectId,
-      ref: 'Usuario',
-      unique: true
+      ref: 'Usuario'
     }
   },
   imagen_portada: {
@@ -61,6 +60,9 @@ const novelaSchema = new Schema({
     titulo: String,
     url: String,
     public_id:String
+  },
+  createdBy: {
+    type: String
   }
 }, 
 {

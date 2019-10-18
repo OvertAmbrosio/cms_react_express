@@ -25,6 +25,7 @@ import Registro from "./views/Registro";
 import Login from "./views/Login"
 import Dashboard from "./views/Dashboard";
 import Novelas from "./views/Novelas";
+import CrearNovela from "./views/CrearNovela";
 import Capitulos from "./views/Capitulos";
 
 // Check for token to keep user logged in
@@ -51,19 +52,20 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          {/* <Layout>
+          <Layout>
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/" component={Novelas}/>
+            <Route exact path="/novelas/crear" component={CrearNovela}/>
             <Route exact path="/capitulos" component={Capitulos}/>
-          </Layout> */}
-          <Route exact path="/" component={Novelas} />{/* cambiar */}
+          </Layout>
+          <Route exact path="/s" component={Login} />{/* cambiar */}
           <Route exact path="/registro" component={Registro} />
           <Switch>
-          <Layout>
+          {/* <Layout>
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute exact path="/novelas" component={Novelas}/>
             <PrivateRoute exact path="/capitulos" component={Capitulos}/>
-          </Layout>
+          </Layout> */}
           </Switch>
         </Router>
       </Provider>

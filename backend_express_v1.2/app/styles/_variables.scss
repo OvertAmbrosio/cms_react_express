@@ -25,6 +25,17 @@ $light-gray:  rgb(245, 244, 248) !default;
  color: $athens-gray !important;
 }
 
+.bg-white{
+  background-color: #fff !important;
+ }
+.bg-mischka{
+  background-color: $mischka !important;
+ }
+.bg-athens-gray{
+  background-color: $athens-gray !important;
+ }
+ 
+
 body{
   background-color: $light-gray;
   

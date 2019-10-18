@@ -1,53 +1,81 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 import { logoutUser } from "../../actions/authActions";
-import { Nav, Navbar, NavDropdown, Container } from "react-bootstrap";
 
-class TopNav extends Component {
-  
-  onLogoutClick = e => {
+import {
+  Collapse,
+  Nav, NavItem, NavLink,
+  Navbar, NavbarToggler, NavbarBrand,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap'
+
+const TopNav = ({logoutUser, auth}) => {
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggle = () => setIsOpen(!isOpen);
+
+  const onLogoutClick = (e) => {
     e.preventDefault();
-    this.props.logoutUser();
+    logoutUser();
   };
 
-  render() {
+  const { user } = auth;
 
-    const { user } = this.props.auth;
-
-    return (
-      <Navbar bg="light" expand="lg">
-        <Container>
-          <Navbar.Brand to="/" as={Link}>Esnovel CMS</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-            <Nav className="justify-content-end">
-              <Nav.Link to="/novelas" as={Link}>Novelas</Nav.Link>
-              <Nav.Link to="/Capitulos" as={Link}>Capitulos</Nav.Link>
-              <Nav.Link to="/" as={Link}>Usuarios</Nav.Link>
-              <div ></div>
-              <NavDropdown id="basic-nav-dropdown" title={<span><i className="fas fa-user-circle"></i> Hola, {user.name}</span>} drop="down">
-                <NavDropdown.Item href="#action/3.1"><i className="fas fa-cog"></i> Perfil</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={this.onLogoutClick} className="text-danger"><i className="fas fa-power-off"></i> Desconectar</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
+  return (
+    <div>
+      <Navbar color="light" light expand="md">
+        <NavbarBrand to="/" tag={Link}>Esnovel CMS</NavbarBrand>
+        <NavbarToggler onClick={toggle} />
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="ml-auto" navbar>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                Novelas
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem to="/novelas" tag={Link}>
+                  Listar
+                </DropdownItem>
+                <DropdownItem to="/novelas/crear" tag={Link}>
+                  Crear
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>
+                  Configuraciones
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+            <NavItem>
+              <NavLink to="/capitulos" tag={Link}>Capitulos</NavLink>
+            </NavItem>
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                <span>
+                  <i className="fas fa-user-circle"></i>{` `}Hola, {user.name}
+                </span>
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem to="/novelas" tag={Link}>
+                  <i className="fas fa-cog"></i> Perfil
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem className="text-danger" onClick={onLogoutClick}>
+                  <i className="fas fa-power-off"></i> Desconectar
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </Nav>
+        </Collapse>
       </Navbar>
-    );
-  }
+    </div>
+  )
 }
 
 TopNav.propTypes = {
