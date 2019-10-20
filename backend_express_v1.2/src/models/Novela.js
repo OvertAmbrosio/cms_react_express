@@ -28,12 +28,11 @@ const novelaSchema = new Schema({
     type: String,
     trim: true
   },
-  categoria: [
-    {
-      type: String,
-      trim: true
-    }
-  ],
+  categorias: {
+    type: Array,
+    trim: true,
+    default: []
+  },
   etiquetas: {
     type: Array,
     trim: true,

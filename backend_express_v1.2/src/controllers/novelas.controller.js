@@ -38,10 +38,10 @@ novelasCtrl.crearNovela = async (req, res) => {
             sinopsis,
             estado,
             tipo,
-            categoria,
+            categorias,
             etiquetas,
             createdBy  } = JSON.parse(req.body.novela);
-            
+    console.log(JSON.parse(req.body.novela))      
     let rportada = await cloudinary.v2.uploader.upload(req.files.portada[0].path, {use_filename: true});
     let rmini = await cloudinary.v2.uploader.upload(req.files.mini[0].path, {use_filename: true});
 
@@ -65,7 +65,7 @@ novelasCtrl.crearNovela = async (req, res) => {
         sinopsis,
         tipo,
         estado,
-        categoria,
+        categorias,
         etiquetas,
         imagen_portada: portada,
         imagen_mini: mini,

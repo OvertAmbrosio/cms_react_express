@@ -137,7 +137,7 @@ class CrearNovela extends Component {
     e.preventDefault();
     let file = []; //array de imagenes
     let aux = this.state.checkedItems; //array de categorias en el estaodo
-    let categorias = []; //array de categorias por organizar
+    let nCate = []; //array de categorias por organizar
     let formData = new FormData(); //variable para enviar los datos
     //empieza el sweetalert
     swalWithBootstrapButtons.fire({
@@ -153,9 +153,10 @@ class CrearNovela extends Component {
         //preparando categorias
         for (let a of aux) {
           if (aux.get(a[0]) == true) {
-            categorias.push(a[0])
+            nCate.push({nombre: a[0], value: "true"})
           }
         };
+        console.log(nCate)
         //agregando las imagenes 
         formData.append('portada', this.state.portada);
         formData.append('mini', this.state.mini);
@@ -168,7 +169,7 @@ class CrearNovela extends Component {
           sinopsis: this.state.sinopsis,
           estado: this.state.estado,
           tipo: this.state.tipoSelected,
-          categoria: categorias,
+          categorias: nCate,
           etiquetas: this.state.tags,
           createdBy: this.state.createdBy
         };
@@ -284,10 +285,10 @@ class CrearNovela extends Component {
                       </CustomInput>
                     </FormGroup>
                     <Row form className="my-2">
-                      <Label as="legend" sm="4">
+                      <Label as="legend" sm={4}>
                         Tipo de Novela
                       </Label>
-                      <Col sm="8">
+                      <Col sm={8}>
                         {
                           this.state.tipos.map(tipo => (
                             <CustomInput
@@ -304,10 +305,10 @@ class CrearNovela extends Component {
                       </Col>
                     </Row>
                     <Row form className="my-3">
-                      <Label as="legend" sm="4">
+                      <Label as="legend" sm={4}>
                         Categoria de Novela
                       </Label>
-                      <Col sm="8">
+                      <Col sm={8}>
                         {
                           this.state.categorias.map(categoria => (
                             <CustomInput

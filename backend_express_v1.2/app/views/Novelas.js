@@ -29,7 +29,7 @@ const Toast = Swal.mixin({
 })
 
 const Novelas = () => {
-  const [tituloOrUser, setTituloOrUser] = useState('')
+  const [tituloOrUser, setTituloOrUser] = useState('');
   const [estadoModal, setEstadoModal] = useState(false);
   const [novela, setNovela] = useState({});
   const [novelas, setNovelas] = useState([]);
@@ -37,12 +37,41 @@ const Novelas = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [novelasPorPagina] = useState(10);
   const inputBusqueda = useRef(null);
+  //variables para tipo, categorias y etiquetas
+  const [tipoNovela, setTipoNovela] = useState([]);
+  const [categoriaNovela, setCategoriaNovela] = useState([]);
+  const [etiquetaNovela, setEtiquetaNovela] = useState([]);
   
   //Efecto para listar novelas y focus en el input de busqueda
   useEffect(() => {
     inputBusqueda.current.focus();
+    cargarDatosNovelas();
     listarNovelas();
   }, []);
+  //funcion para cargar Tipo y Categorias
+  function cargarDatosNovelas(){
+    const tipoN = async () => {
+      await axios.get('http://localhost:4000/api/novelas/tipo')
+      .then(res => {
+        setTipoNovela(res.data)
+      })
+    }
+    const cateN = async () => {
+      await axios.get('http://localhost:4000/api/novelas/categoria')
+      .then(res => {
+        setCategoriaNovela(res.data)
+      })
+    }
+    const tagN = async () => {
+      await axios.get('http://localhost:4000/api/novelas/etiquetas')
+      .then(res => {
+        setEtiquetaNovela(res.data)
+      })
+    }
+    tipoN();
+    cateN();
+    tagN();
+  }
   //listar novela
   function listarNovelas() {
     const cargarNovelas = async () => {
@@ -160,7 +189,7 @@ const Novelas = () => {
       } catch (error) {
         console.log(error)
       } finally {
-        console.log("final")
+        console.log("Modal Abierto compa")
       }
     }
   }
@@ -221,6 +250,9 @@ const Novelas = () => {
           <ModalBody>
             <FormNovela
               novela={novela}
+              novelaTipo={tipoNovela}
+              novelaCategoria={categoriaNovela}
+              novelaEtiquetas={etiquetaNovela}
             />
           </ModalBody>
           <ModalFooter>
