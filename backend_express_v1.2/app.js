@@ -11,6 +11,7 @@ const path = require('path');
 //rutas apis
 const users = require("./src/routes/users");
 const novelas = require("./src/routes/novelas");
+const capitulos = require("./src/routes/capitulos");
 
 //inicializaciones
 const app = express();
@@ -64,6 +65,7 @@ app.use((req, res, next) => {
 app.use(passport.initialize());
 
 //Routes
+app.use('/api/capitulos', capitulos);
 app.use('/api/novelas', novelas);
 app.use('/api/users', users); //usuarios dentro del cms
 

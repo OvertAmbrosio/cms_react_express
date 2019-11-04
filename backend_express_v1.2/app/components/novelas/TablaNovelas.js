@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import {
   Table, Badge, Button
 } from 'reactstrap'
 import Moment from 'react-moment'
 
 const TablaNovelas = ({novela, editar, borrar, loading}) => {
+  
   if (loading) {
     return (
       <div className="d-flex justify-content-center">
@@ -46,10 +48,34 @@ const TablaNovelas = ({novela, editar, borrar, loading}) => {
                 </Moment>
               </td>
               <td>
-                <Button color="warning" onClick={() => editar(novela)}>
+                <Button 
+                  title="Editar Novela" 
+                  color="warning" 
+                  onClick={() => editar(novela)}
+                >
                   <i className="fas fa-edit"></i>
                 </Button>
-                <Button color="danger" onClick={() => borrar(novela._id, novela.titulo)}>
+                <Button 
+                  title="Agregar Capitulo" 
+                  color="info" 
+                  tag={Link} 
+                  to={{
+                    pathname: '/capitulos/listar/' + novela.slug, 
+                    state: { 
+                      params: { 
+                        id: novela._id,
+                        titulo: novela.titulo
+                      }
+                    }
+                  }}
+                >
+                  <i className="fas fa-folder-plus"></i>
+                </Button>
+                <Button 
+                  title="Borrar Novela"
+                  color="danger" 
+                  onClick={() => borrar(novela._id, novela.titulo)}
+                >
                   <i className="fas fa-trash-alt"></i>
                 </Button>
               </td>

@@ -99,7 +99,7 @@ class CrearNovela extends Component {
       [e.target.name]: e.target.files[0]
     });
   }
-//etiquetas
+//categorias
   handleChange(e) {
     const item = e.target.name;
     const isChecked = e.target.checked;
@@ -107,7 +107,7 @@ class CrearNovela extends Component {
       checkedItems: prevState.checkedItems.set(item, isChecked) 
     }));
   }
-
+//etiquetas
   handleDelete(i) {
     const { tags } = this.state;
     this.setState({
@@ -135,7 +135,6 @@ class CrearNovela extends Component {
 //enviar formulario
   onSubmit = async e => {
     e.preventDefault();
-    let file = []; //array de imagenes
     let aux = this.state.checkedItems; //array de categorias en el estaodo
     let nCate = []; //array de categorias por organizar
     let formData = new FormData(); //variable para enviar los datos
@@ -148,15 +147,12 @@ class CrearNovela extends Component {
       cancelButtonText: 'Cancelar',
       onBeforeOpen: () =>{
         console.log("preparando variables");
-        file.push(this.state.portada);//imagen de portada
-        file.push(this.state.mini);//imagen de miniatura
         //preparando categorias
         for (let a of aux) {
           if (aux.get(a[0]) == true) {
-            nCate.push({nombre: a[0], value: "true"})
+            nCate.push({nombre: a[0], valor: "true"})
           }
         };
-        console.log(nCate)
         //agregando las imagenes 
         formData.append('portada', this.state.portada);
         formData.append('mini', this.state.mini);

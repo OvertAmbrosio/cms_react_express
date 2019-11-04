@@ -3,11 +3,11 @@ import {
   Pagination, PaginationItem, PaginationLink,
 } from 'reactstrap';
 
-const Paginacion = ({novelasPorPagina, totalNovelas, paginacion}) => {
+const Paginacion = ({objetosPorPagina, totalObjetos, paginacion}) => {
 
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalNovelas / novelasPorPagina); i++) {
+  for (let i = 1; i <= Math.ceil(totalObjetos / objetosPorPagina); i++) {
     pageNumbers.push(i);
   }
   

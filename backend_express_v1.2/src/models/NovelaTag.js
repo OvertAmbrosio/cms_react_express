@@ -1,10 +1,14 @@
-const { Schema, model } = require('mongoose');
-const URLSlugs = require('mongoose-url-slugs');
+const { Schema, model, plugin } = require('mongoose');
+var slug = require('mongoose-slug-updater');
+plugin(slug);
+
 
 const etiquetasSchema = new Schema({
-  text: String
+  text: String,
+  slug: {
+    type: String,
+    slug: "text"
+  },
 });
-
-etiquetasSchema.plugin(URLSlugs('text', {field: 'id'}));
 
 module.exports = model('Etiquetas', etiquetasSchema);

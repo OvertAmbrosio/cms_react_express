@@ -5,6 +5,7 @@ import {
   Form, FormGroup, Input, Label, CustomInput, FormText
 } from 'reactstrap'
 import { WithContext as ReactTags } from 'react-tag-input';
+import axios from 'axios';
 import Swal from "sweetalert2";  
 
 //libreria para crear slug / url
@@ -26,14 +27,24 @@ const swalWithBootstrapButtons = Swal.mixin({
 })
 
 
-const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas}) => {
+const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas, listar, modal}) => {
 
-  const [estado, setEstado] = useState('')
-  const [checkCate, setCheckCate] = useState([])
-  const [tipo, setTipo] = useState('')
-  const [checkedItems, setCheckedItems] = useState(new Map());
-  const [suggestions, setSuggestions] = useState([]);
+  const [titulo, setTitulo] = useState(novela.titulo);
+  const [acron, setAcron] = useState(novela.acron);
+  const [titulo_alt, setTitulo_alt] = useState(novela.titulo_alt);
+  const [autor, setAutor] = useState(novela.autor);
+  const [sinopsis, setSinopsis] = useState(novela.sinopsis);
+  const [estado, setEstado] = useState(novela.estado);
+  const [checkCate, setCheckCate] = useState([]);
+  const [tipo, setTipo] = useState(novela.tipo);
+  const [categorias, setCategorias] = useState([]);
   const [tags, setTags] = useState([]);
+  const [portada, setPortada] = useState('');
+  const [mini, setMini] = useState('');
+  const [updateNovela, setUpdateNovela] = useState('');
+  const [listo, setListo] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  
 
   useEffect(() => {
     setSuggestions(novelaEtiquetas);
@@ -55,6 +66,7 @@ const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas}) => {
       }
     })
     setCheckCate(aux);
+    setCategorias(b);
   }
   //etiquetas
   const handleDelete = (i) => {
@@ -80,13 +92,108 @@ const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas}) => {
     setTags(newTags);
   }
   //checkbox
-  const checkboxChange = (event) => {
-    console.log(event)
+  const checkboxChange = (e) => {
+    const item = e.target.name;
+    const isChecked = e.target.checked;
+    let cate = categorias.filter((c) => c.nombre != item);
+    cate.push({nombre :item, valor: isChecked});
+    setCategorias(cate.filter((c) => c.valor != false));
+  }
+  //actualizar novela
+  useEffect(() => {
+    if (listo==true) {
+      submit();
+    }
+  },[listo]);
+
+  const enviarObjeto = () => {
+    let Novela = {
+      titulo: titulo,
+      acron: acron,
+      titulo_alt: titulo_alt,
+      autor: autor,
+      sinopsis: sinopsis,
+      estado: estado,
+      tipo: tipo,
+      categorias: categorias,
+      etiquetas: tags,
+      p: novela.imagen_portada,
+      m: novela.imagen_mini
+    };
+    setUpdateNovela(Novela);
+    setListo(true)
   }
 
+  async function submit() {
+    let Novela = new FormData();
+    swalWithBootstrapButtons.fire({
+      title: '¿Guardar Cambios?',
+      text: 'Actualizar novela "' + novela.titulo + '".',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, ¡Actualizar compa!',
+      cancelButtonText: 'Cancelar',
+      onOpen: () => {
+        console.log("preparando variables");
+        Novela.append('portada', portada);
+        Novela.append('mini', mini);
+        Novela.append('novela', JSON.stringify(updateNovela));
+      }
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire({
+          onBeforeOpen: async e => {
+            Swal.showLoading()
+            console.log(Novela);
+            await axios({
+              method: 'put',
+              url: 'http://localhost:4000/api/novelas/buscar/' + novela._id,
+              data: Novela,
+              processData : false,
+              headers: {
+                'content-type': 'multipart/form-data'
+              }
+            }).then((res) => {
+              Swal.hideLoading()
+              console.log(res.data.message);
+              Swal.fire({
+                title: res.data.title,
+                text: res.data.message,
+                type: res.data.status
+              }).then((result) => {
+                if(result.value){
+                  setListo(false);
+                  listar();
+                  modal();
+                }
+              });
+            });
+          }
+        })
+      }else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire({
+          title:'Cancelado',
+          text: 'Novela no guardada',
+          type: 'error',
+          onBeforeOpen: () => {
+            setListo(false)
+          }
+        })
+      }
+      setListo(false)
+    })
+  }
+
+  const actualizarNovela = (e) => {
+    e.preventDefault();
+    enviarObjeto();
+  }
   return (
     <div>
-      <Form>
+      <Form onSubmit={actualizarNovela}>
         <Row>
           <Col md={6}>
             <FormGroup>
@@ -97,6 +204,7 @@ const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas}) => {
                 name="titulo" 
                 id="novelaTitulo" 
                 defaultValue={novela.titulo}
+                onChange={e => setTitulo(e.target.value)}
               />
             </FormGroup>
             <FormGroup>
@@ -107,6 +215,7 @@ const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas}) => {
                 name="tituloAlt" 
                 id="novelaTituloAlt" 
                 defaultValue={novela.titulo_alt}
+                onChange={e => setTitulo_alt(e.target.value)}
               />
             </FormGroup>
             <FormGroup>
@@ -117,6 +226,7 @@ const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas}) => {
                 name="acron" 
                 id="novelaAcron" 
                 defaultValue={novela.acron}
+                onChange={e => setAcron(e.target.value)}
               />
             </FormGroup>
             <FormGroup>
@@ -127,6 +237,7 @@ const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas}) => {
                 name="acron" 
                 id="novelaAutor" 
                 defaultValue={novela.autor}
+                onChange={e => setAutor(e.target.value)}
               />
             </FormGroup>
             <FormGroup>
@@ -136,6 +247,7 @@ const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas}) => {
                 name="sinopsis" 
                 id="novelaSinopsis" 
                 defaultValue={novela.sinopsis}
+                onChange={e => setSinopsis(e.target.value)}
               />
             </FormGroup>
             <FormGroup>
@@ -145,7 +257,7 @@ const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas}) => {
               onChange={e => setEstado(e.target.value)}
               name="novelaEstado" 
               id="novelaEstado" 
-              value={novela.estado}>
+              defaultValue={novela.estado}>
                 <option value="Emision">Emision</option>
                 <option value="Finalizado">Finalizado</option>
                 <option value="Cancelado">Cancelado</option>
@@ -165,7 +277,7 @@ const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas}) => {
                       name="tipoSelected"
                       key={nTipo._id}
                       label={nTipo.nombre}
-                      value={nTipo.nombre}
+                      defaultValue={nTipo.nombre}
                       id={nTipo.nombre}
                     />
                   ))
@@ -178,16 +290,16 @@ const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas}) => {
               </Label>
               <Col sm={8}>
                 {
-                  checkCate.map(nCate => (
+                  checkCate.map((nCate, i) => (
                     <CustomInput
                       type="checkbox"
                       onChange={checkboxChange}
                       name={nCate.nombre}
-                      id={nCate._id}
+                      id={i}
                       key={nCate._id}
                       label={nCate.nombre}
-                      value={nCate._id}
-                      checked={nCate.valor}
+                      defaultValue={nCate._id}
+                      defaultChecked={nCate.valor}
                     />
                   ))
                 }
@@ -223,7 +335,7 @@ const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas}) => {
               <Input  
                 type="file" 
                 name="portada"
-                className=""/>
+                onChange={e => setPortada(e.target.files[0])}/>
               <FormText className="text-muted">
                 Agregar imagen de portada 300x500
               </FormText>
@@ -239,14 +351,14 @@ const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas}) => {
               <Input  
                 type="file" 
                 name="mini"
-                className=""/>
+                onChange={e => setMini(e.target.files[0])}/>
               <FormText className="text-muted">
                 Agregar imagen de portada 150x150
               </FormText>
             </FormGroup>
           </Col>
         </Row> 
-        <Button color="primary">Actualizar</Button>
+        <Button type="submit" color="primary">Actualizar</Button>
       </Form>
     </div>
   )
@@ -255,7 +367,8 @@ const FormNovela = ({novela, novelaTipo, novelaCategoria, novelaEtiquetas}) => {
 FormNovela.propTypes = {
   novela: PropTypes.object,
   novelaTipo: PropTypes.array,
-  novelaCategoria: PropTypes.array
+  novelaCategoria: PropTypes.array,
+  listar: PropTypes.func
 }
 
 export default FormNovela

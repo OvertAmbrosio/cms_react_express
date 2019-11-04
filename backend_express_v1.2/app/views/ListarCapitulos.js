@@ -27,7 +27,7 @@ const Toast = Swal.mixin({
   timer: 3000
 })
 
-const Capitulos = () => {
+const ListarCapitulos = (props) => {
   const inputBusqueda = useRef(null);
   const [numeroOrTraductor, setNumeroOrTraductor] = useState('');
   const [estadoModal, setEstadoModal] = useState(false);
@@ -167,7 +167,7 @@ const Capitulos = () => {
     <Container className="bg-white py-3 px-4 shadow-sm">
       <Row className="mb-3 justify-content-between">
         <Col sm={4} md={4} className="pt-2">
-          <h4>Lista de Capitulos</h4>
+          <h4>Capitulos de "{props.location.state.params.titulo}"</h4>
         </Col>
         <Col sm={8} md={8} lg={5}>
           <Form className="my-2 my-lg-0" inline>
@@ -205,6 +205,7 @@ const Capitulos = () => {
       </Row>
       <Row className="d-flex justify-content-center">
         <TablaCapitulos
+          primerCampo="Titulo Capitulo"
           capitulos={currentCaps}
           loading={loading}
           borrar={borrarCapitulo}
@@ -238,6 +239,7 @@ const Capitulos = () => {
       </Modal>       
     </Container>
   )
-};
+}
 
-export default Capitulos;
+
+export default ListarCapitulos

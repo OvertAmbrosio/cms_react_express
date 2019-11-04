@@ -6,11 +6,8 @@ import setAuthToken from "./utils/setAuthToken";
 import { Provider } from "react-redux";
 import store from "./store";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
-
 //estilos
 import "./styles/main.scss";
-//js
-
 //iconos
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -27,6 +24,8 @@ import Dashboard from "./views/Dashboard";
 import Novelas from "./views/Novelas";
 import CrearNovela from "./views/CrearNovela";
 import Capitulos from "./views/Capitulos";
+import ListarCapitulos from "./views/ListarCapitulos";
+import CrearCapitulo from "./views/CrearCapitulo";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -53,10 +52,9 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <Layout>
-            <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/" component={Novelas}/>
-            <Route exact path="/novelas/crear" component={CrearNovela}/>
-            <Route exact path="/capitulos" component={Capitulos}/>
+            <Route exact path="/capitulos/listar/:var" component={ListarCapitulos}/>
+            <Route exact path="/capitulos/crear/:var" component={CrearCapitulo}/>
           </Layout>
           <Route exact path="/s" component={Login} />{/* cambiar */}
           <Route exact path="/registro" component={Registro} />
@@ -64,7 +62,10 @@ class App extends Component {
           {/* <Layout>
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute exact path="/novelas" component={Novelas}/>
+            <PrivateRoute exact path="/novelas/crear" component={CrearNovela}/>
             <PrivateRoute exact path="/capitulos" component={Capitulos}/>
+            <PrivateRoute exact path="/capitulos/listar/:var" component={ListarCapitulos}/>
+            <PrivateRoute exact path="/capitulos/crear/:var" component={CrearCapitulo}/>
           </Layout> */}
           </Switch>
         </Router>

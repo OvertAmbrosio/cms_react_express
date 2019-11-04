@@ -31,55 +31,55 @@ novelasCtrl.getNovelas = async (req, res) => {
 }
 
 novelasCtrl.crearNovela = async (req, res) => {
-    const { titulo, 
-            acron,
-            titulo_alt,
-            autor,
-            sinopsis,
-            estado,
-            tipo,
-            categorias,
-            etiquetas,
-            createdBy  } = JSON.parse(req.body.novela);
-    console.log(JSON.parse(req.body.novela))      
-    let rportada = await cloudinary.v2.uploader.upload(req.files.portada[0].path, {use_filename: true});
-    let rmini = await cloudinary.v2.uploader.upload(req.files.mini[0].path, {use_filename: true});
+  const { titulo, 
+          acron,
+          titulo_alt,
+          autor,
+          sinopsis,
+          estado,
+          tipo,
+          categorias,
+          etiquetas,
+          createdBy  } = JSON.parse(req.body.novela);
+  console.log(JSON.parse(req.body.novela))      
+  let rportada = await cloudinary.v2.uploader.upload(req.files.portada[0].path, {use_filename: true});
+  let rmini = await cloudinary.v2.uploader.upload(req.files.mini[0].path, {use_filename: true});
 
-    var portada = {
-        titulo: rportada.original_filename,
-        url: rportada.secure_url,
-        public_id: rportada.public_id
-    }
+  var portada = {
+      titulo: rportada.original_filename,
+      url: rportada.secure_url,
+      public_id: rportada.public_id
+  }
 
-    var mini = {
-        titulo: rmini.original_filename,
-        url: rmini.secure_url,
-        public_id: rmini.public_id
-    }
+  var mini = {
+      titulo: rmini.original_filename,
+      url: rmini.secure_url,
+      public_id: rmini.public_id
+  }
 
-    const nuevaNovela = new Novela({
-        titulo,
-        acron,
-        titulo_alt,
-        autor,
-        sinopsis,
-        tipo,
-        estado,
-        categorias,
-        etiquetas,
-        imagen_portada: portada,
-        imagen_mini: mini,
-        createdBy
-    })
-    console.log("aqui viene el cloud")
-    console.log(rportada);
-    console.log(rmini);
-    console.log('esto guarda')
-    console.log(nuevaNovela);
-    await nuevaNovela.save();
-    await fs.unlink(path.resolve(req.files.portada[0].path));
-    await fs.unlink(path.resolve(req.files.mini[0].path));
-    res.send('Guardado Con éxito Compa.!');
+  const nuevaNovela = new Novela({
+      titulo,
+      acron,
+      titulo_alt,
+      autor,
+      sinopsis,
+      tipo,
+      estado,
+      categorias,
+      etiquetas,
+      imagen_portada: portada,
+      imagen_mini: mini,
+      createdBy
+  })
+  console.log("aqui viene el cloud")
+  console.log(rportada);
+  console.log(rmini);
+  console.log('esto guarda')
+  console.log(nuevaNovela);
+  await nuevaNovela.save();
+  await fs.unlink(path.resolve(req.files.portada[0].path));
+  await fs.unlink(path.resolve(req.files.mini[0].path));
+  res.send('Guardado Con éxito Compa.!');
 }
 
 novelasCtrl.getNovela = async (req, res) => {
@@ -89,27 +89,88 @@ novelasCtrl.getNovela = async (req, res) => {
 }
 
 novelasCtrl.actualizarNovela = async (req, res) => {
-    const { titulo, contenido, autor } = req.body;
-    await Novela.findByIdAndUpdate(req.params.id, {
-        titulo,
-        contenido,
-        autor
+  let portada = {};
+  let mini = {};
+  const { titulo, 
+          acron,
+          titulo_alt,
+          autor,
+          sinopsis,
+          estado,
+          tipo,
+          categorias,
+          etiquetas,
+          p,
+          m } = JSON.parse(req.body.novela);
+  if (req.files.portada) {
+    console.log("si hay imagen de portada");
+    let res = await cloudinary.v2.uploader.destroy(p.public_id, function(error,result) {
+      console.log(result, error) 
     });
-    res.json({message: 'novela actualizada'});
+    let rportada = await cloudinary.v2.uploader.upload(req.files.portada[0].path, {use_filename: true});
+    portada = {
+      titulo: rportada.original_filename,
+      url: rportada.secure_url,
+      public_id: rportada.public_id
+    };
+    await fs.unlink(path.resolve(req.files.portada[0].path));
+  } else {
+    portada = p;
+  }
+  if (req.files.mini) {
+    console.log("hay mini");
+    let res = await cloudinary.v2.uploader.destroy(m.public_id, function(error,result) {
+      console.log(result, error) 
+    });
+    let rmini = await cloudinary.v2.uploader.upload(req.files.mini[0].path, {use_filename: true}); 
+    mini = {
+      titulo: rmini.original_filename,
+      url: rmini.secure_url,
+      public_id: rmini.public_id
+    };
+    await fs.unlink(path.resolve(req.files.mini[0].path));
+  }else {
+    mini = m;
+  }
+  try {
+    let r = await Novela.findByIdAndUpdate(req.params.id, {
+      titulo,
+      acron,
+      titulo_alt,
+      autor,
+      sinopsis,
+      tipo,
+      estado,
+      categorias,
+      etiquetas,
+      imagen_portada: portada,
+      imagen_mini: mini
+    });
+    console.log(r);    
+  } catch (error) {
+    console.log("Uy un error compa");    
+    console.log(error);
+    res.send({title: '¡Error!', message: 'No se ha actualizado, problema en el servidor.', status: 'error'});
+  } 
+  res.send({title: '¡Novela Creada!', message: 'Novela actualizada correctamente compa.', status: 'success'});
 }
 
 novelasCtrl.borrarNovela = async (req, res) => {
     const bn = await Novela.findById(req.params.id);
     console.log("portada");
-    const pres = await  cloudinary.v2.uploader.destroy(
-                            bn.imagen_portada.public_id, function(error,result) {
-                            console.log(result, error) 
-                        });
+    if (bn.imagen_portada.public_id) {
+      const pres = await cloudinary.v2.uploader.destroy(
+        bn.imagen_portada.public_id, function(error,result) {
+        console.log(result, error) 
+      });
+    }
     console.log("mini");
-    const mres = await  cloudinary.v2.uploader.destroy(
-                            bn.imagen_mini.public_id,function(error,result) {
-                            console.log(result, error) 
-                        });
+    if (bn.imagen_mini.public_id) {
+      const mres = await cloudinary.v2.uploader.destroy(
+        bn.imagen_mini.public_id,function(error,result) {
+        console.log(result, error) 
+      });
+    }
     console.log(bn.titulo);
     await Novela.findByIdAndDelete(bn._id);
     res.json({message: 'Novela borrada'})

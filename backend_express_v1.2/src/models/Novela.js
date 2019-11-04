@@ -1,10 +1,15 @@
-const { Schema, model } = require('mongoose');
-const URLSlugs = require('mongoose-url-slugs');
+const { Schema, model, plugin } = require('mongoose');
+var slug = require('mongoose-slug-updater');
+plugin(slug);
 
 const novelaSchema = new Schema({
   titulo: {
     type: String,
     trim: true,
+  },
+  slug: {
+    type: String,
+    slug: "titulo"
   },
   acron: {
     type: String,
@@ -68,6 +73,5 @@ const novelaSchema = new Schema({
   timestamps: true
 });
 
-novelaSchema.plugin(URLSlugs('titulo', {field: 'slug'}));
 
 module.exports = model('Novela', novelaSchema);

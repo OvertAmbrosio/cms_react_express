@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from "react-router-dom";
 import { 
   Container, Row, Col,
@@ -35,7 +35,7 @@ const Novelas = () => {
   const [novelas, setNovelas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [novelasPorPagina] = useState(10);
+  const [novelasPorPagina] = useState(30);
   const inputBusqueda = useRef(null);
   //variables para tipo, categorias y etiquetas
   const [tipoNovela, setTipoNovela] = useState([]);
@@ -48,7 +48,7 @@ const Novelas = () => {
     cargarDatosNovelas();
     listarNovelas();
   }, []);
-  //funcion para cargar Tipo y Categorias
+  //funcion para cargar Tipo, Categorias y Etiquetas
   function cargarDatosNovelas(){
     const tipoN = async () => {
       await axios.get('http://localhost:4000/api/novelas/tipo')
@@ -80,7 +80,6 @@ const Novelas = () => {
       setNovelas(res.data);
       setLoading(false);
     };
-
     cargarNovelas();
   }
   //borrar novela
@@ -133,14 +132,9 @@ const Novelas = () => {
       busqueda(e);
     }
   }
-  //guardar cambios en el input
-  const detectarCambio = (e) => {
-    setTituloOrUser(e.target.value);
-  }
   //realizar busqueda
   const busqueda = async (e) => {
     e.preventDefault();
-
     if (tituloOrUser == '') {
       swalWithBootstrapButtons.fire({
         title: 'Ingresar dato de busqueda',
@@ -173,7 +167,6 @@ const Novelas = () => {
           }
         })
       setLoading(false);
-      
     }
   } 
   //abrir modal
@@ -215,15 +208,13 @@ const Novelas = () => {
                 type="text" 
                 placeholder="Buscar" 
                 innerRef={inputBusqueda}
-                onChange={detectarCambio} 
+                onChange={e => setTituloOrUser(e.target.value)} 
                 onKeyPress={enterPressed}/>
               <Button color="primary" onClick={busqueda}>
                 <i className="fas fa-search"></i>{` `}Buscar
               </Button>
-              <Button color="success">
-                <Link to="/novelas/crear" className="text-decoration-none text-white">
+              <Button color="success" tag={Link} to="/novelas/crear">
                   <i className="fas fa-plus-circle"></i>{` `}Nuevo
-                </Link>
               </Button>
             </FormGroup>
           </Form>
@@ -237,8 +228,8 @@ const Novelas = () => {
           editar={editarNovela}
         />
         <Paginacion 
-          novelasPorPagina={novelasPorPagina}
-          totalNovelas={novelas.length}
+          objetosPorPagina={novelasPorPagina}
+          totalObjetos={novelas.length}
           paginacion={paginacion}
         />
         <Modal isOpen={estadoModal} toggle={abrirModal} centered size="lg">
@@ -253,6 +244,8 @@ const Novelas = () => {
               novelaTipo={tipoNovela}
               novelaCategoria={categoriaNovela}
               novelaEtiquetas={etiquetaNovela}
+              listar={listarNovelas}
+              modal={abrirModal}
             />
           </ModalBody>
           <ModalFooter>
@@ -265,88 +258,3 @@ const Novelas = () => {
 }
 
 export default Novelas;
-
-export class  ListarNovelas extends Component {
-
-  constructor (props){
-
-    super(props);
-
-    this.state = {
-      novelas: [],
-      isModalOpen: false,
-      modalTitle: '',
-      modalBody: ''
-    }
-    this.editarNovela = this.editarNovela.bind(this);
-    this.modalOpen = this.modalOpen.bind(this);
-    this.abrirModal = this.abrirModal.bind(this);
-
-  }
-
-  editarNovela = async (novelaId) => {
-    this.modalOpen();
-    console.log("editando" + novelaId);
-  }
-
-  modalOpen() {
-    this.setState(({
-      isModalOpen: !this.state.isModalOpen,
-    }));
-  }
-
-  abrirModal = (e, titulo, url) => {
-    this.modalOpen();
-    this.setState(({
-      modalTitle: titulo,
-      modalBody: url
-    }));
-  }
-
-  render() {
-    return (
-      <Container className="bg-white py-3 px-4 shadow-sm">
-        <Row className="mb-3 justify-content-between">
-          <Col sm={4} md={4} className="pt-2">
-            <h4>Lista de Novelas</h4>
-          </Col>
-          <Col sm={8} md={8} lg={5}>
-            <Form className="my-2 my-lg-0" inline>
-              <FormGroup>
-                <Input type="text" placeholder="Search"/>
-                <Button color="primary" type="submit">
-                  <i className="fas fa-search"></i>{` `}Buscar
-                </Button>
-                <Button color="success">
-                  <Link to="/novelas/crear" className="text-decoration-none text-white">
-                    <i className="fas fa-plus-circle"></i>{` `}Nuevo
-                  </Link>
-                </Button>
-              </FormGroup>
-            </Form>
-          </Col>
-        </Row>
-        <Row>
-          <TablaNovelas
-            novela={this.state.novelas}
-            editar={this.editarNovela}
-            borrar={this.borrarNovela}
-          />          
-            <Modal isOpen={this.state.isModalOpen} toggle={this.modalOpen} centered>
-              <ModalHeader toggle={this.modalOpen} className="text-truncate pr-1">
-                <span className="d-inline-block text-truncate" style={{maxWidth: '400px'}}>
-                  Hola
-                </span>
-              </ModalHeader>
-              <ModalBody>
-                Que fue
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" onClick={this.modalOpen}>Cerrar</Button>
-              </ModalFooter>
-            </Modal>                  
-        </Row>
-      </Container>
-    )
-  }
-}
