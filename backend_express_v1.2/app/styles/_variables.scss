@@ -34,7 +34,23 @@ $light-gray:  rgb(245, 244, 248) !default;
 .bg-athens-gray{
   background-color: $athens-gray !important;
  }
- 
+
+.btn-blue-accent{
+  color: #fff;
+  background-color: #2962ff;
+  &:hover{
+    color: #fff;
+    background-color: #2979ff !important;
+  }
+}
+.badge-blue-accent{
+  color: #fff;
+  background-color: #2962ff;
+}
+
+.r-20{
+  height: 20rem;
+}
 
 body{
   background-color: $light-gray;

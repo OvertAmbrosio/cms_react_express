@@ -19,7 +19,7 @@ class Register extends Component {
   componentDidMount() {
     // Si estas logeado y navegas sobre la ruta de registro, entonces serás redireccionado a dashboard
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      this.props.history.push("/cms/dashboard");
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -48,7 +48,7 @@ class Register extends Component {
       <div className="container">
         <div className="row">
           <div className="col s8 offset-s2">
-            <Link to="/" className="btn-flat waves-effect">
+            <Link to="/cms/" className="btn-flat waves-effect">
               <i className="fas fa-arrow-left"></i> Volver al inicio
             </Link>
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
@@ -56,7 +56,7 @@ class Register extends Component {
                 <b>Registro</b>
               </h4>
               <p className="grey-text text-darken-1">
-                ¿Ya tienes una cuenta? <Link to="/login">Ingresar</Link>
+                ¿Ya tienes una cuenta? <Link to="/cms/">Ingresar</Link>
               </p>
             </div>
             <form noValidate onSubmit={this.onSubmit}>

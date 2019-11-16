@@ -283,12 +283,12 @@ input[type=number],
   &[disabled],
   &[readonly] {
     box-shadow: none !important;
-    border-bottom: 1px dotted #ddd !important;
+    border-bottom: 1px dotted rgb(80, 80, 80) !important;
   }
 
   &[disabled],
   &[disabled]::placeholder {
-    color: #ddd !important;
+    color: rgb(80, 80, 80) !important;
   }
 
   &::-ms-clear {

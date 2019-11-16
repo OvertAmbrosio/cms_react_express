@@ -31,7 +31,7 @@ const TopNav = ({logoutUser, auth}) => {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand to="/" tag={Link}>Esnovel CMS</NavbarBrand>
+        <NavbarBrand to="/cms/" tag={Link}>TuNovelaOnline CMS</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
@@ -40,10 +40,10 @@ const TopNav = ({logoutUser, auth}) => {
                 Novelas
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem to="/novelas" tag={Link}>
+                <DropdownItem to="/cms/novelas" tag={Link}>
                   Listar
                 </DropdownItem>
-                <DropdownItem to="/novelas/crear" tag={Link}>
+                <DropdownItem to="/cms/novelas/crear" tag={Link}>
                   Crear
                 </DropdownItem>
                 <DropdownItem divider />
@@ -53,7 +53,7 @@ const TopNav = ({logoutUser, auth}) => {
               </DropdownMenu>
             </UncontrolledDropdown>
             <NavItem>
-              <NavLink to="/capitulos" tag={Link}>Capitulos</NavLink>
+              <NavLink to="/cms/capitulos" tag={Link}>Capitulos</NavLink>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
@@ -62,7 +62,7 @@ const TopNav = ({logoutUser, auth}) => {
                 </span>
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem to="/novelas" tag={Link}>
+                <DropdownItem to="/cms/novelas" tag={Link}>
                   <i className="fas fa-cog"></i> Perfil
                 </DropdownItem>
                 <DropdownItem divider />

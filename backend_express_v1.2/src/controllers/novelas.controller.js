@@ -1,16 +1,16 @@
-const cloudinary = require('cloudinary');
-const fs = require('fs-extra');
-const path = require('path');
-
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-})
+const AWS = require('aws-sdk');
+//AWS S3
+const bucket = process.env.S3_BUCKET;
+const s3 = new AWS.S3({
+  accessKeyId: process.env.S3_ID,
+  secretAccessKey: process.env.S3_SECRET,
+  Bucket: bucket
+});
 
 const novelasCtrl = {};
 
 const Novela = require('../models/Novela');
+const Imagen = require('../models/Imagen');
 
 novelasCtrl.buscarNovelas = async (req, res) => {
     const titulo = await Novela.find({"titulo": new RegExp(req.params.var, "i")});
@@ -26,154 +26,138 @@ novelasCtrl.buscarNovelas = async (req, res) => {
 }
 
 novelasCtrl.getNovelas = async (req, res) => {
-    const novelas = await Novela.find().sort({createdAt:-1});
+  try {
+    const novelas = await Novela.find().select({titulo:1, slug:1, tipo:1, createdBy:1, updatedAt: 1, estado:1}).sort({createdAt:-1});
     res.json(novelas)
+  } catch (error) {
+    res.send({message: "Error en el servidor", error: error})
+  }
 }
 
 novelasCtrl.crearNovela = async (req, res) => {
-  const { titulo, 
-          acron,
-          titulo_alt,
-          autor,
-          sinopsis,
-          estado,
-          tipo,
-          categorias,
-          etiquetas,
-          createdBy  } = JSON.parse(req.body.novela);
-  console.log(JSON.parse(req.body.novela))      
-  let rportada = await cloudinary.v2.uploader.upload(req.files.portada[0].path, {use_filename: true});
-  let rmini = await cloudinary.v2.uploader.upload(req.files.mini[0].path, {use_filename: true});
+  if (req.body.method == "crearNovela") {
+    const { titulo, 
+            acron,
+            titulo_alt,
+            autor,
+            sinopsis,
+            estado,
+            tipo,
+            categorias,
+            etiquetas,
+            portada,
+            miniatura,
+            createdBy  } = req.body;
+    //objetos a guardar
+    const nuevaNovela = new Novela({titulo,
+                                  acron,
+                                  titulo_alt,
+                                  autor,
+                                  sinopsis,
+                                  tipo,
+                                  estado,
+                                  categorias,
+                                  etiquetas,
+                                  createdBy});
 
-  var portada = {
-      titulo: rportada.original_filename,
-      url: rportada.secure_url,
-      public_id: rportada.public_id
+    const portadaObj = new Imagen({ id_novela: nuevaNovela._id,
+                                    titulo: nuevaNovela.titulo + " Portada",
+                                    tipo: "Portada",
+                                    url: portada.Location,
+                                    key: portada.Key});
+
+    const miniaturaObj = new Imagen({ id_novela: nuevaNovela._id,
+                                      titulo: nuevaNovela.titulo + " Miniatura",
+                                      tipo: "Miniatura",
+                                      url: miniatura.Location,
+                                      key: miniatura.Key});
+    //guardar en la base de datos
+    try {
+      await nuevaNovela.save();
+      await portadaObj.save();
+      await miniaturaObj.save();
+      res.send({title: 'Guardado Con éxito Compa.!', message: 'Novela creada correctamente.', status: 'success'});
+    } catch (error) {
+      console.log(error);
+      res.send({title: '¡Error!', message: error.errmsg, status: 'error', errorData:error})
+    }
+  //en caso no use el metedo adecuado
+  } else {
+    res.send({title: '¡Error!', message: 'Metodo incorrecto papu, ¿Por dónde tratas de entrar?', status: 'error', errorData:''})
   }
-
-  var mini = {
-      titulo: rmini.original_filename,
-      url: rmini.secure_url,
-      public_id: rmini.public_id
-  }
-
-  const nuevaNovela = new Novela({
-      titulo,
-      acron,
-      titulo_alt,
-      autor,
-      sinopsis,
-      tipo,
-      estado,
-      categorias,
-      etiquetas,
-      imagen_portada: portada,
-      imagen_mini: mini,
-      createdBy
-  })
-  console.log("aqui viene el cloud")
-  console.log(rportada);
-  console.log(rmini);
-  console.log('esto guarda')
-  console.log(nuevaNovela);
-  await nuevaNovela.save();
-  await fs.unlink(path.resolve(req.files.portada[0].path));
-  await fs.unlink(path.resolve(req.files.mini[0].path));
-  res.send('Guardado Con éxito Compa.!');
 }
 
 novelasCtrl.getNovela = async (req, res) => {
     const novela = await Novela.findById(req.params.id);
-    console.log(novela);
-    res.json({titulo: 'novela encontrada compa'});
+    res.send(novela);
 }
 
 novelasCtrl.actualizarNovela = async (req, res) => {
-  let portada = {};
-  let mini = {};
-  const { titulo, 
-          acron,
-          titulo_alt,
-          autor,
-          sinopsis,
-          estado,
-          tipo,
-          categorias,
-          etiquetas,
-          p,
-          m } = JSON.parse(req.body.novela);
-  if (req.files.portada) {
-    console.log("si hay imagen de portada");
-    let res = await cloudinary.v2.uploader.destroy(p.public_id, function(error,result) {
-      console.log(result, error) 
-    });
-    let rportada = await cloudinary.v2.uploader.upload(req.files.portada[0].path, {use_filename: true});
-    portada = {
-      titulo: rportada.original_filename,
-      url: rportada.secure_url,
-      public_id: rportada.public_id
-    };
-    await fs.unlink(path.resolve(req.files.portada[0].path));
+  if(req.body.method == "editarNovela"){
+    const { titulo, 
+            titulo_alt,
+            acron,
+            autor,
+            sinopsis,
+            estado,
+            tipo,
+            categorias,
+            etiquetas,
+            createdBy} = req.body;
+    try {
+      let r = await Novela.findByIdAndUpdate(req.params.id, {
+        titulo,
+        acron,
+        titulo_alt,
+        autor,
+        sinopsis,
+        tipo,
+        estado,
+        categorias,
+        etiquetas,
+        createdBy
+      });
+      res.send({title: '¡Novela Actualizada!', 
+                message: 'Novela actualizada correctamente compa.', 
+                status: 'success'});   
+    } catch (error) {
+      console.log("Uy un error compa");    
+      console.log(error);
+      res.send({title: '¡Error!', 
+                message: 'No se ha actualizado, problema en el servidor.', 
+                status: 'error', 
+                errorData: error});
+    } 
   } else {
-    portada = p;
+    res.send({title: '¡Error!', 
+              message: 'Estas actualizando por metodos no oficiales papu.', 
+              status: 'error'});
   }
-  if (req.files.mini) {
-    console.log("hay mini");
-    let res = await cloudinary.v2.uploader.destroy(m.public_id, function(error,result) {
-      console.log(result, error) 
-    });
-    let rmini = await cloudinary.v2.uploader.upload(req.files.mini[0].path, {use_filename: true}); 
-    mini = {
-      titulo: rmini.original_filename,
-      url: rmini.secure_url,
-      public_id: rmini.public_id
-    };
-    await fs.unlink(path.resolve(req.files.mini[0].path));
-  }else {
-    mini = m;
-  }
-  try {
-    let r = await Novela.findByIdAndUpdate(req.params.id, {
-      titulo,
-      acron,
-      titulo_alt,
-      autor,
-      sinopsis,
-      tipo,
-      estado,
-      categorias,
-      etiquetas,
-      imagen_portada: portada,
-      imagen_mini: mini
-    });
-    console.log(r);    
-  } catch (error) {
-    console.log("Uy un error compa");    
-    console.log(error);
-    res.send({title: '¡Error!', message: 'No se ha actualizado, problema en el servidor.', status: 'error'});
-  } 
-  res.send({title: '¡Novela Creada!', message: 'Novela actualizada correctamente compa.', status: 'success'});
 }
 
 novelasCtrl.borrarNovela = async (req, res) => {
-    const bn = await Novela.findById(req.params.id);
-    console.log("portada");
-    if (bn.imagen_portada.public_id) {
-      const pres = await cloudinary.v2.uploader.destroy(
-        bn.imagen_portada.public_id, function(error,result) {
-        console.log(result, error) 
-      });
+  if (req.body.method == "borrarNovela") {
+    const imagenes = await Imagen.find({id_novela:req.params.id})
+    if (imagenes.length > 0) {
+      try {
+        imagenes.map(async (imagen) => {
+          let ria = await s3.deleteObject({Bucket: bucket, Key: imagen.key}).promise();
+          let rio = await Imagen.findByIdAndDelete(imagen._id);
+        })
+      } catch (error) {
+        console.log(error);
+      }
     }
-    console.log("mini");
-    if (bn.imagen_mini.public_id) {
-      const mres = await cloudinary.v2.uploader.destroy(
-        bn.imagen_mini.public_id,function(error,result) {
-        console.log(result, error) 
-      });
+    //Borrar la novela
+    try {
+      const rn = await Novela.findByIdAndDelete(req.params.id);
+      res.send({title: '¡Novela Eliminada!', status: 'success', message: 'Novela eliminada exitosamente'})      
+    } catch (error) {
+      res.send({title: '¡Error en el servidor!', status: 'error', message: 'La novela no se eliminó, presiona F12/Console y envia la captura al administrador.', errorData: error})
+      console.log(error);
     }
-    console.log(bn.titulo);
-    await Novela.findByIdAndDelete(bn._id);
-    res.json({message: 'Novela borrada'})
+  }
+  
 }
 
 module.exports = novelasCtrl;

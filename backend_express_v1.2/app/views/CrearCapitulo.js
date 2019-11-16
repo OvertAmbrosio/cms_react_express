@@ -7,15 +7,22 @@ import {
   Card, CardHeader, CardBody
 } from 'reactstrap'
 
-import FormCapitulos from '../components/capitulos/FormCapitulos'
+import FormCapitulos from '../components/capitulos/FormCapitulos';
+import Error404 from '../components/layout/404';
 
 
 const CrearCapitulo = (props) => {
-  const [tipo] = useState(props.location.state.params.tipo);
+  const [tipo] = useState(props.location.state === undefined ? '': props.location.state.params.tipo);
   //parametros para enviar en la url
   const [slug, setSlug] = useState('');
   const [idNovela, setIdNovel] = useState('');
   const [tituloNovela, setTituloNovela] = useState('');
+
+  if (props.location.state === undefined) {
+    return(
+      <Error404/>
+    )
+  }
 
   useEffect(() => {
     setSlug(props.match.params.var);
@@ -29,7 +36,7 @@ const CrearCapitulo = (props) => {
           <div className="mb-2">
             <Link 
               to={{
-                pathname: '/capitulos/listar/' + slug, 
+                pathname: '/cms/capitulos/listar/' + slug, 
                 state: { 
                   params: { 
                     id: idNovela,

@@ -15,17 +15,12 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 library.add(fas, far, fab) 
 dom.i2svg() 
+//rutas
+import routes from "./routes";
 //Componentes     
 import PrivateRoute from "./components/private-route/PrivateRoute";
-import Layout from './components/layout/Layout'
 import Registro from "./views/Registro";
 import Login from "./views/Login"
-import Dashboard from "./views/Dashboard";
-import Novelas from "./views/Novelas";
-import CrearNovela from "./views/CrearNovela";
-import Capitulos from "./views/Capitulos";
-import ListarCapitulos from "./views/ListarCapitulos";
-import CrearCapitulo from "./views/CrearCapitulo";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -42,7 +37,7 @@ if (localStorage.jwtToken) {
     // Logout user
     store.dispatch(logoutUser());
     // Redirect to login
-    window.location.href = "./login";
+    window.location.href = "./cms/";
   }
 }
 
@@ -51,22 +46,23 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <Layout>
-            <Route exact path="/" component={Novelas}/>
-            <Route exact path="/capitulos/listar/:var" component={ListarCapitulos}/>
-            <Route exact path="/capitulos/crear/:var" component={CrearCapitulo}/>
-          </Layout>
-          <Route exact path="/s" component={Login} />{/* cambiar */}
-          <Route exact path="/registro" component={Registro} />
           <Switch>
-          {/* <Layout>
-            <PrivateRoute exact path="/dashboard" component={Dashboard} />
-            <PrivateRoute exact path="/novelas" component={Novelas}/>
-            <PrivateRoute exact path="/novelas/crear" component={CrearNovela}/>
-            <PrivateRoute exact path="/capitulos" component={Capitulos}/>
-            <PrivateRoute exact path="/capitulos/listar/:var" component={ListarCapitulos}/>
-            <PrivateRoute exact path="/capitulos/crear/:var" component={CrearCapitulo}/>
-          </Layout> */}
+            <Route exact path="/cms/" component={Login} />{/* cambiar */}
+            <Route exact path="/cms/registro" component={Registro} />
+            {routes.map((route, index) => {
+              return (
+                <PrivateRoute
+                  key={index}
+                  path={route.path}
+                  exact={route.exact}
+                  component={props => 
+                    <route.layout {...props}>
+                      <route.component {...props}/>
+                    </route.layout>
+                  }
+                />
+              );
+            })}
           </Switch>
         </Router>
       </Provider>

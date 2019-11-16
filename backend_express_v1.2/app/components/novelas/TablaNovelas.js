@@ -6,7 +6,7 @@ import {
 } from 'reactstrap'
 import Moment from 'react-moment'
 
-const TablaNovelas = ({novela, editar, borrar, loading}) => {
+const TablaNovelas = ({novela, borrar, loading}) => {
   
   if (loading) {
     return (
@@ -50,17 +50,25 @@ const TablaNovelas = ({novela, editar, borrar, loading}) => {
               <td>
                 <Button 
                   title="Editar Novela" 
-                  color="warning" 
-                  onClick={() => editar(novela)}
+                  color="warning"
+                  tag={Link} 
+                  to={{
+                    pathname: '/cms/novelas/editar/' + novela.slug, 
+                    state: { 
+                      params: { 
+                        id: novela._id,
+                      }
+                    }
+                  }}
                 >
                   <i className="fas fa-edit"></i>
                 </Button>
                 <Button 
-                  title="Agregar Capitulo" 
+                  title="Lista de Capitulos" 
                   color="info" 
                   tag={Link} 
                   to={{
-                    pathname: '/capitulos/listar/' + novela.slug, 
+                    pathname: '/cms/capitulos/listar/' + novela.slug, 
                     state: { 
                       params: { 
                         id: novela._id,
@@ -70,6 +78,22 @@ const TablaNovelas = ({novela, editar, borrar, loading}) => {
                   }}
                 >
                   <i className="fas fa-folder-plus"></i>
+                </Button>
+                <Button 
+                  title="Listar imagenes" 
+                  color="blue-accent" 
+                  tag={Link} 
+                  to={{
+                    pathname: '/cms/imagenes/listar/' + novela.slug, 
+                    state: { 
+                      params: { 
+                        id: novela._id,
+                        titulo: novela.titulo
+                      }
+                    }
+                  }}
+                >
+                  <i className="fas fa-images"></i>
                 </Button>
                 <Button 
                   title="Borrar Novela"
@@ -89,7 +113,6 @@ const TablaNovelas = ({novela, editar, borrar, loading}) => {
 
 TablaNovelas.propTypes = {
   novela: PropTypes.array,
-  editar: PropTypes.func,
   borrar: PropTypes.func
 }
 

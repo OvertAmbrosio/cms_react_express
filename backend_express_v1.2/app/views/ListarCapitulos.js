@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import TablaCapitulos from '../components/capitulos/TablaCapitulos';
 import Paginacion from '../components/common/Paginacion';
 import FormCapitulos from '../components/capitulos/FormCapitulos'
+import Error404 from '../components/layout/404'
 //personalizar estilo del sweetalert
 const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
@@ -40,6 +41,12 @@ const ListarCapitulos = (props) => {
   const [slug, setSlug] = useState('');
   const [idNovela, setIdNovel] = useState('');
   const [tituloNovela, setTituloNovela] = useState('');
+
+  if (props.location.state === undefined) {
+    return(
+      <Error404/>
+    )
+  }
 
   useEffect(() => {
     inputBusqueda.current.focus();
@@ -187,7 +194,7 @@ const ListarCapitulos = (props) => {
                 color="success" 
                 tag={Link} 
                 to={{
-                  pathname: '/capitulos/crear/' + slug, 
+                  pathname: '/cms/capitulos/crear/' + slug, 
                   state: { 
                     params: { 
                       id: idNovela,
@@ -205,7 +212,7 @@ const ListarCapitulos = (props) => {
       </Row>
       <Row className="d-flex justify-content-center">
         <TablaCapitulos
-          primerCampo="Titulo Capitulo"
+          primerCampo="Capitulo"
           capitulos={currentCaps}
           loading={loading}
           borrar={borrarCapitulo}

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { 
   Container, Row, Col,
   Form, Input, Button, FormGroup,
-  Modal, ModalHeader, ModalBody, ModalFooter,
 } from 'reactstrap';
 import axios from 'axios';
 import "regenerator-runtime/runtime";
@@ -11,9 +10,8 @@ import Swal from "sweetalert2";
 
 import TablaNovelas from '../components/novelas/TablaNovelas';
 import Paginacion from '../components/common/Paginacion';
-import FormNovela from '../components/Novelas/FormNovela';
 
-const swalWithBootstrapButtons = Swal.mixin({
+const SWBB = Swal.mixin({
   customClass: {
     confirmButton: 'btn btn-primary',
     cancelButton: 'btn btn-danger'
@@ -30,61 +28,26 @@ const Toast = Swal.mixin({
 
 const Novelas = () => {
   const [tituloOrUser, setTituloOrUser] = useState('');
-  const [estadoModal, setEstadoModal] = useState(false);
-  const [novela, setNovela] = useState({});
   const [novelas, setNovelas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [novelasPorPagina] = useState(30);
-  const inputBusqueda = useRef(null);
-  //variables para tipo, categorias y etiquetas
-  const [tipoNovela, setTipoNovela] = useState([]);
-  const [categoriaNovela, setCategoriaNovela] = useState([]);
-  const [etiquetaNovela, setEtiquetaNovela] = useState([]);
-  
+  const inputBusqueda = useRef(null);  
   //Efecto para listar novelas y focus en el input de busqueda
   useEffect(() => {
     inputBusqueda.current.focus();
-    cargarDatosNovelas();
-    listarNovelas();
-  }, []);
-  //funcion para cargar Tipo, Categorias y Etiquetas
-  function cargarDatosNovelas(){
-    const tipoN = async () => {
-      await axios.get('http://localhost:4000/api/novelas/tipo')
-      .then(res => {
-        setTipoNovela(res.data)
-      })
-    }
-    const cateN = async () => {
-      await axios.get('http://localhost:4000/api/novelas/categoria')
-      .then(res => {
-        setCategoriaNovela(res.data)
-      })
-    }
-    const tagN = async () => {
-      await axios.get('http://localhost:4000/api/novelas/etiquetas')
-      .then(res => {
-        setEtiquetaNovela(res.data)
-      })
-    }
-    tipoN();
-    cateN();
-    tagN();
-  }
-  //listar novela
-  function listarNovelas() {
-    const cargarNovelas = async () => {
-      setLoading(true);
-      const res = await axios.get('http://localhost:4000/api/novelas');
-      setNovelas(res.data);
-      setLoading(false);
-    };
     cargarNovelas();
-  }
+  }, []);
+  //listar novela
+  const cargarNovelas = async () => {
+    setLoading(true);
+    const res = await axios.get('http://localhost:4000/api/novelas');
+    setNovelas(res.data);
+    setLoading(false);
+  };
   //borrar novela
-  function borrarNovela(novelaId, titulo) {
-    swalWithBootstrapButtons.fire({
+  const borrarNovela = async(novelaId, titulo) => {
+    SWBB.fire({
       title: '¿Eliminar Novela?',
       text: `Estas borrando "${titulo}"`,
       type: 'warning',
@@ -98,16 +61,19 @@ const Novelas = () => {
             Swal.showLoading()
             await axios({
               method: 'delete',
-              url: ('http://localhost:4000/api/novelas/buscar/' + novelaId)
+              url: ('http://localhost:4000/api/novelas/buscar/' + novelaId),
+              data: { method: "borrarNovela"}
             }).then((res) => {
               Swal.hideLoading()
-              Swal.fire({
-                title: '¡Novela Eliminada!',
-                text: res.message,
-                type: 'success'
+              SWBB.fire({
+                title: res.data.title,
+                text: res.data.message,
+                type: res.data.status
               }).then((result) => {
-                if(result.value){
-                  listarNovelas();
+                if(result.value && res.data.status == "error"){
+                  console.log(res.data.errorData);
+                } else if (result.value){
+                  cargarNovelas();
                 }
               });
             });
@@ -117,7 +83,7 @@ const Novelas = () => {
       /* Read more about handling dismissals below */
       result.dismiss === Swal.DismissReason.cancel
       ){
-        swalWithBootstrapButtons.fire(
+        SWBB.fire(
           'Cancelado',
           'Tu novela esta segura compa',
           'error',
@@ -169,23 +135,6 @@ const Novelas = () => {
       setLoading(false);
     }
   } 
-  //abrir modal
-  const abrirModal = async () => {
-    setEstadoModal(!estadoModal);
-  }
-  //editar novela
-  function editarNovela(e) {
-    if(e){
-      try {
-        setNovela(e);
-        abrirModal();
-      } catch (error) {
-        console.log(error)
-      } finally {
-        console.log("Modal Abierto compa")
-      }
-    }
-  }
   
   //Conseguir Pagina actual
   const indexOfLastNovel = currentPage * novelasPorPagina;
@@ -213,7 +162,7 @@ const Novelas = () => {
               <Button color="primary" onClick={busqueda}>
                 <i className="fas fa-search"></i>{` `}Buscar
               </Button>
-              <Button color="success" tag={Link} to="/novelas/crear">
+              <Button color="success" tag={Link} to="/cms/novelas/crear">
                   <i className="fas fa-plus-circle"></i>{` `}Nuevo
               </Button>
             </FormGroup>
@@ -225,33 +174,12 @@ const Novelas = () => {
           novela={currentNovels}
           loading={loading}
           borrar={borrarNovela}
-          editar={editarNovela}
         />
         <Paginacion 
           objetosPorPagina={novelasPorPagina}
           totalObjetos={novelas.length}
           paginacion={paginacion}
-        />
-        <Modal isOpen={estadoModal} toggle={abrirModal} centered size="lg">
-          <ModalHeader toggle={abrirModal} className="text-truncate pr-1">
-            <span className="d-inline-block text-truncate" style={{maxWidth: '400px'}}>
-              Editar Novela
-            </span>
-          </ModalHeader>
-          <ModalBody>
-            <FormNovela
-              novela={novela}
-              novelaTipo={tipoNovela}
-              novelaCategoria={categoriaNovela}
-              novelaEtiquetas={etiquetaNovela}
-              listar={listarNovelas}
-              modal={abrirModal}
-            />
-          </ModalBody>
-          <ModalFooter>
-            <Button color="danger" onClick={abrirModal}>Cerrar</Button>
-          </ModalFooter>
-        </Modal>             
+        /> 
       </Row>
     </Container>
   );

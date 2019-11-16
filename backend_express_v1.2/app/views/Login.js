@@ -5,8 +5,10 @@ import { connect } from "react-redux";
 import { loginUser } from "../actions/authActions";
 import classnames from "classnames";
 
-import { Button, Card, Form} from "react-bootstrap"
-
+import {
+  Card, CardBody, CardTitle, CardSubtitle,
+  Form, FormGroup, FormText, Input, Button
+} from 'reactstrap';
 
 class Login extends Component {
   constructor() {
@@ -20,12 +22,12 @@ class Login extends Component {
   componentDidMount() {
     // Si el usuario esta logeado y navega en la ruta del login, será redireccionado al dashboard
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      this.props.history.push("/cms/dashboard");
     }
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/dashboard"); // redirecciona al dashboard cuando el usuario se logee
+      this.props.history.push("/cms/dashboard"); // redirecciona al dashboard cuando el usuario se logee
     }
     if (nextProps.errors) {
       this.setState({
@@ -54,16 +56,16 @@ class Login extends Component {
         <div className="row h-100">
           <div className="m-auto col-10 col-sm-6 col-md-4 col-lg-3">
             <Card className="shadow-sm rounded-lg">
-              <Card.Body>
-                <Card.Title className="fiord-blue card-titulo">
-                  <p className="text-center">Bienvenido</p>
-                </Card.Title>
-                <Card.Subtitle className="garey-text reagent-gray text-center">
-                  ¿No tienes una cuenta? <Link to="/registro" className="text-decoration-none">Registro</Link>
-                </Card.Subtitle><br/>
+              <CardBody>
+                <CardTitle className="fiord-blue mb-4">
+                  <h4 className="text-center">Bienvenido</h4>
+                </CardTitle>
+                <CardSubtitle className="garey-text reagent-gray text-center">
+                  ¿No tienes una cuenta? <Link to="/cms/registro" className="text-decoration-none">Registro</Link>
+                </CardSubtitle><br/>
                 <Form noValidate onSubmit={this.onSubmit}>
-                  <Form.Group>
-                    <Form.Control
+                  <FormGroup>
+                    <Input
                       onChange={this.onChange}
                       value={this.state.email}
                       error={errors.email}
@@ -75,14 +77,14 @@ class Login extends Component {
                         'is-invalid': errors.email || errors.emailnotfound
                       })}
                     />
-                    <Form.Text className="text-danger">
+                    <FormText className="text-danger">
                       {errors.email}
                       {errors.emailnotfound}
                       {errors.userstate}
-                    </Form.Text>
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Control
+                    </FormText>
+                  </FormGroup>
+                  <FormGroup>
+                    <Input
                       onChange={this.onChange}
                       value={this.state.password}
                       error={errors.password}
@@ -94,18 +96,18 @@ class Login extends Component {
                         'is-invalid': errors.password || errors.passwordincorrect
                       })}
                     />
-                    <Form.Text className="text-danger">
+                    <FormText className="text-danger">
                       {errors.password}
                       {errors.passwordincorrect}
-                    </Form.Text>
-                  </Form.Group>
+                    </FormText>
+                  </FormGroup>
                   <div className="mx-auto" style={{ marginTop: "1rem" }}>
-                    <Button type="submit" className="btn btn-primary blue accent-4" >
+                    <Button type="submit" color="blue-accent" >
                       Ingresar
                     </Button>
                   </div>
                 </Form>
-              </Card.Body>
+              </CardBody>
             </Card>
           </div>
         </div>

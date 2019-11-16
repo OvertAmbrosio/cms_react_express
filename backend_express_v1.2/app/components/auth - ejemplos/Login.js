@@ -17,12 +17,12 @@ class Login extends Component {
   componentDidMount() {
     // Si el usuario esta logeado y navega en la ruta del login, será redireccionado al dashboard
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
+      this.props.history.push("/cms/dashboard");
     }
   }
   componentWillReceiveProps(nextProps) {
       if (nextProps.auth.isAuthenticated) {
-        this.props.history.push("/dashboard"); // redirecciona al dashboard cuando el usuario se logee
+        this.props.history.push("/cms/dashboard"); // redirecciona al dashboard cuando el usuario se logee
       }
   if (nextProps.errors) {
         this.setState({
@@ -47,7 +47,7 @@ class Login extends Component {
       <div className="container">
         <div style={{ marginTop: "4rem" }} className="row">
           <div className="col s8 offset-s2">
-            <Link to="/" className="btn-flat waves-effect">
+            <Link to="/cms/" className="btn-flat waves-effect">
               <i className="fas fa-arrow-left"></i> Volver al inicio
             </Link>
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>

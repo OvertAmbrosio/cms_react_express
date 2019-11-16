@@ -27,7 +27,7 @@ const Toast = Swal.mixin({
   timer: 3000
 })
 
-const Capitulos = () => {
+const Capitulos = (props) => {
   const inputBusqueda = useRef(null);
   const [numeroOrTraductor, setNumeroOrTraductor] = useState('');
   const [estadoModal, setEstadoModal] = useState(false);
@@ -37,21 +37,17 @@ const Capitulos = () => {
   const [capitulo, setCapitulo] = useState({});
   const [capitulos, setCapitulos] = useState([]);
   //parametros para enviar por url
-  const [slug, setSlug] = useState('');
   const [idNovela, setIdNovel] = useState('');
   const [tituloNovela, setTituloNovela] = useState('');
 
   useEffect(() => {
     inputBusqueda.current.focus();
     cargarCapitulos();
-    setSlug(props.match.params.var);
-    setIdNovel(props.location.state.params.id);
-    setTituloNovela(props.location.state.params.titulo);
   }, []);
   //cargar capitulos
   const cargarCapitulos = async () => {
     setLoading(true);
-    const res = await axios.get('http://localhost:4000/api/capitulos/listar/' + props.location.state.params.id);
+    const res = await axios.get('http://localhost:4000/api/capitulos');
     setCapitulos(res.data);
     setLoading(false);
   };
@@ -101,8 +97,11 @@ const Capitulos = () => {
   //editar capitulo
   const editarCapitulo = async (e) => {
     setCapitulo(e);
+    setTituloNovela(e.id_novela.titulo);
+    setIdNovel(e.id_novela._id);
     abrirModal();
-    console.log("Modal Abierto compa")
+    console.log(e);
+    console.log("Modal Abierto compa");
   };
   //abrir modal
   const abrirModal = () => {
@@ -133,7 +132,6 @@ const Capitulos = () => {
         method: 'get',
         url: 'http://localhost:4000/api/capitulos/busqueda/',
         params: {
-          idNovela: idNovela,
           var: numeroOrTraductor
         }
       }).then((res) => {      
@@ -169,7 +167,7 @@ const Capitulos = () => {
         <Col sm={4} md={4} className="pt-2">
           <h4>Lista de Capitulos</h4>
         </Col>
-        <Col sm={8} md={8} lg={5}>
+        <Col sm={8} md={6} lg={4}>
           <Form className="my-2 my-lg-0" inline>
             <FormGroup>
               <Input 
@@ -182,29 +180,13 @@ const Capitulos = () => {
               <Button color="primary" onClick={busqueda}>
                 <i className="fas fa-search"></i>{` `}Buscar
               </Button>
-              <Button 
-                title="Agregar Capitulo" 
-                color="success" 
-                tag={Link} 
-                to={{
-                  pathname: '/capitulos/crear/' + slug, 
-                  state: { 
-                    params: { 
-                      id: idNovela,
-                      titulo: tituloNovela,
-                      tipo: "Crear"
-                    }
-                  }
-                }}
-              >
-                <i className="fas fa-plus-circle"></i>{` `}Nuevo
-              </Button>
             </FormGroup>
           </Form>
         </Col>
       </Row>
       <Row className="d-flex justify-content-center">
         <TablaCapitulos
+          primerCampo="Novelas"
           capitulos={currentCaps}
           loading={loading}
           borrar={borrarCapitulo}
@@ -216,7 +198,7 @@ const Capitulos = () => {
           paginacion={paginacion}
         />
       </Row>
-      <Modal isOpen={estadoModal} toggle={abrirModal} centered size="lg">
+      <Modal isOpen={estadoModal} toggle={abrirModal} centered size="xl">
         <ModalHeader toggle={abrirModal} className="text-truncate pr-1">
           <span className="d-inline-block text-truncate" style={{maxWidth: '400px'}}>
             Editar Capitlo

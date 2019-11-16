@@ -1,0 +1,2 @@
+dominio/leer/novela-nombre/_id-cap/capitulo-[numero-cap]
+http://www.esnovel.com/leer/release-the-witch/capitulo-458

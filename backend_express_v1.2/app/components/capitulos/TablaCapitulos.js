@@ -2,10 +2,43 @@ import React, {useState, useEffect} from 'react'
 import {
   Table, Badge, Button, CustomInput
 } from 'reactstrap'
+import axios from 'axios'
 import Moment from 'react-moment'
+import Swal from "sweetalert2"; 
+
+//configuracion del Toast
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
+})
 
 const TablaCapitulos = ({primerCampo, capitulos, editar, borrar, loading}) => {
-  const [estado, setEstado] = useState('')
+
+  const actualizarEstado = async (e, numero, idCap) => {
+    let estado = e.target.checked == true ? "Aprobado": "Pendiente"
+    await axios({
+      method: 'patch',
+      url: 'http://localhost:4000/api/capitulos/buscar/' + idCap,
+      data: {
+        estado: estado,
+      }
+    }).then((res) => {
+      if (res.data.status == "success") {
+        Toast.fire({
+          type: res.data.status,
+          title: `El Capítulo N° ${numero} fue actualizado a ${estado}.`,
+        })
+      } else {
+        Toast.fire({
+          type: res.data.status,
+          title: res.data.title,
+        })
+      }
+      
+    });
+  }
 
   if (loading) {
     return (
@@ -18,10 +51,10 @@ const TablaCapitulos = ({primerCampo, capitulos, editar, borrar, loading}) => {
   }
 
   return (
-    <Table hover >
+    <Table hover responsive>
       <thead>
         <tr className="table-light">
-          <th>{primerCampo}</th>
+          <th>{`Titulo ${primerCampo}`}</th>
           <th>N° Capitulo</th>
           <th>Traductor</th>
           <th>Actualizado</th>
@@ -33,7 +66,7 @@ const TablaCapitulos = ({primerCampo, capitulos, editar, borrar, loading}) => {
         {
           capitulos.map((capitulo, index) => (
             <tr className="table-light py-3" key={index}>
-              <td>{capitulo.titulo}</td>
+              <td>{primerCampo=="Capitulo" ? capitulo.titulo : capitulo.id_novela.titulo}</td>
               <td>
                 <Badge pill color="primary">
                   {capitulo.numero}
@@ -50,9 +83,9 @@ const TablaCapitulos = ({primerCampo, capitulos, editar, borrar, loading}) => {
                   type="switch" 
                   defaultChecked={capitulo.estado == "Aprobado" ? true: false}
                   id={index}
-                  name="estado" 
-                  label={capitulo.estado} 
-                  onChange={e => console.log(e)}
+                  name="estado"
+                  color="success"
+                  onChange={e => actualizarEstado(e, capitulo.numero, capitulo._id)}
                 />
               </td>
               <td>
