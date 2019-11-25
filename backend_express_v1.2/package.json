@@ -1,6 +1,6 @@
 {
   "name": "backend_express",
-  "version": "1.0.5",
+  "version": "1.7.5",
   "description": "Version de express en producción",
   "main": "index.js",
   "scripts": {
