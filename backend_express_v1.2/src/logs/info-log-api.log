@@ -1,0 +1,712 @@
+[2019-11-18T03:53:02.463Z] info - Servidor en el puerto 4000
+[2019-11-18T03:57:23.084Z] error - listen EADDRINUSE: address already in use :::4000
+[2019-11-18T03:57:32.985Z] error - listen EADDRINUSE: address already in use :::4000
+[2019-11-18T04:01:59.261Z] info - Servidor en el puerto 4000
+[2019-11-18T04:04:41.294Z] info - Servidor en el puerto 4000
+[2019-11-18T04:13:57.045Z] info - Servidor en el puerto 4000
+[2019-11-18T04:17:11.583Z] info - Servidor en el puerto 4000
+[2019-11-18T04:19:32.165Z] info - Servidor en el puerto 4000
+[2019-11-18T04:19:34.245Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "el-flechita" }
+[2019-11-18T04:20:50.851Z] info - Servidor en el puerto 4000
+[2019-11-18T04:23:19.901Z] info - Servidor en el puerto 4000
+[2019-11-18T04:23:24.302Z] error - () => {
+      console.log(),
+      logger.error(err),
+      res.send({title: '¡Error en el servidor!', 
+                message: errmsg, 
+                status: 'error'})
+    }
+[2019-11-18T04:24:16.503Z] info - Servidor en el puerto 4000
+[2019-11-18T04:24:18.586Z] error - () => {
+      logger.error(err),
+      res.send({title: '¡Error en el servidor!', 
+                message: err.errmsg, 
+                status: 'error'})
+    }
+[2019-11-18T04:24:20.954Z] error - () => {
+      logger.error(err),
+      res.send({title: '¡Error en el servidor!', 
+                message: err.errmsg, 
+                status: 'error'})
+    }
+[2019-11-18T04:25:14.332Z] info - Servidor en el puerto 4000
+[2019-11-18T04:25:18.556Z] info - Servidor en el puerto 4000
+[2019-11-18T04:25:22.937Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "el-flechita" }
+[2019-11-18T04:26:11.547Z] info - Servidor en el puerto 4000
+[2019-11-18T04:26:48.879Z] info - Servidor en el puerto 4000
+[2019-11-18T04:26:54.384Z] info - Servidor en el puerto 4000
+[2019-11-18T04:26:56.433Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "el-flechita" }
+[2019-11-18T04:27:14.597Z] info - Servidor en el puerto 4000
+[2019-11-18T04:27:21.907Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "el-flechita" }
+[2019-11-18T04:31:34.667Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "el-flechita" }
+[2019-11-18T04:36:02.313Z] info - Servidor en el puerto 4000
+[2019-11-18T04:36:06.400Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "el-flechita" }
+[2019-11-18T04:36:22.096Z] info - Servidor en el puerto 4000
+[2019-11-18T04:36:24.184Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "el-flechita" }
+[2019-11-18T04:36:25.441Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "el-flechita" }
+[2019-11-18T04:36:34.419Z] info - Servidor en el puerto 4000
+[2019-11-18T04:36:36.497Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "el-flechita" }
+[2019-11-18T04:37:17.158Z] info - Servidor en el puerto 4000
+[2019-11-18T04:37:52.336Z] info - Servidor en el puerto 4000
+[2019-11-18T04:38:18.747Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "el-flechita" }
+[2019-11-18T04:38:33.972Z] info - Servidor en el puerto 4000
+[2019-11-18T04:38:43.776Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "el-flechita" }
+[2019-11-18T04:49:25.084Z] info - Servidor en el puerto 4000
+[2019-11-18T05:03:07.174Z] info - Servidor en el puerto 4000
+[2019-11-18T05:05:40.151Z] info - Servidor en el puerto 4000
+[2019-11-18T05:07:01.143Z] info - Servidor en el puerto 4000
+[2019-11-18T05:09:23.860Z] info - Servidor en el puerto 4000
+[2019-11-18T05:12:23.061Z] info - Servidor en el puerto 4000
+[2019-11-18T05:17:58.226Z] info - Servidor en el puerto 4000
+[2019-11-18T05:21:09.398Z] info - Servidor en el puerto 4000
+[2019-11-18T05:50:10.765Z] info - Servidor en el puerto 4000
+[2019-11-18T05:50:46.744Z] info - Servidor en el puerto 4000
+[2019-11-18T05:54:30.600Z] info - Servidor en el puerto 4000
+[2019-11-18T05:55:01.854Z] info - Servidor en el puerto 4000
+[2019-11-18T05:56:39.845Z] info - Servidor en el puerto 4000
+[2019-11-18T05:59:45.620Z] info - Servidor en el puerto 4000
+[2019-11-18T06:01:16.386Z] info - Servidor en el puerto 4000
+[2019-11-18T06:03:20.902Z] info - Servidor en el puerto 4000
+[2019-11-18T06:06:12.862Z] info - Servidor en el puerto 4000
+[2019-11-18T06:08:53.897Z] info - Servidor en el puerto 4000
+[2019-11-18T06:10:11.592Z] info - Servidor en el puerto 4000
+[2019-11-18T06:14:07.086Z] info - Servidor en el puerto 4000
+[2019-11-18T06:15:50.006Z] info - Servidor en el puerto 4000
+[2019-11-18T06:19:47.584Z] info - Servidor en el puerto 4000
+[2019-11-18T06:22:48.783Z] info - Servidor en el puerto 4000
+[2019-11-18T06:33:07.280Z] info - Servidor en el puerto 4000
+[2019-11-18T06:38:07.920Z] info - Servidor en el puerto 4000
+[2019-11-18T06:45:08.074Z] info - Servidor en el puerto 4000
+[2019-11-18T07:53:47.499Z] info - Servidor en el puerto 4000
+[2019-11-18T07:58:23.379Z] info - Servidor en el puerto 4000
+[2019-11-18T07:59:02.315Z] info - Servidor en el puerto 4000
+[2019-11-18T08:27:55.584Z] info - Servidor en el puerto 4000
+[2019-11-18T08:44:51.889Z] info - Servidor en el puerto 4000
+[2019-11-18T17:46:40.368Z] info - Servidor en el puerto 4000
+[2019-11-18T18:01:18.136Z] info - Servidor en el puerto 4000
+[2019-11-18T18:02:52.964Z] info - Servidor en el puerto 4000
+[2019-11-18T18:04:25.208Z] info - Servidor en el puerto 4000
+[2019-11-18T18:06:38.805Z] info - Servidor en el puerto 4000
+[2019-11-18T18:07:00.466Z] info - Servidor en el puerto 4000
+[2019-11-18T18:07:04.904Z] info - Servidor en el puerto 4000
+[2019-11-18T18:07:19.163Z] info - Servidor en el puerto 4000
+[2019-11-18T18:07:38.143Z] info - Servidor en el puerto 4000
+[2019-11-18T18:08:36.480Z] info - Servidor en el puerto 4000
+[2019-11-18T19:03:45.901Z] info - Servidor en el puerto 4000
+[2019-11-18T19:05:36.744Z] info - Servidor en el puerto 4000
+[2019-11-18T19:08:45.177Z] info - Servidor en el puerto 4000
+[2019-11-18T19:09:36.088Z] info - Servidor en el puerto 4000
+[2019-11-18T19:12:03.004Z] info - Servidor en el puerto 4000
+[2019-11-18T19:13:38.745Z] info - Servidor en el puerto 4000
+[2019-11-18T19:15:32.427Z] info - Servidor en el puerto 4000
+[2019-11-18T19:17:43.691Z] info - Servidor en el puerto 4000
+[2019-11-18T19:19:38.572Z] info - Servidor en el puerto 4000
+[2019-11-18T19:21:47.471Z] info - Servidor en el puerto 4000
+[2019-11-18T19:25:05.323Z] info - Servidor en el puerto 4000
+[2019-11-18T20:25:49.186Z] info - Servidor en el puerto 4000
+[2019-11-18T20:26:06.603Z] info - Servidor en el puerto 4000
+[2019-11-18T20:26:51.494Z] info - Servidor en el puerto 4000
+[2019-11-18T20:30:08.905Z] info - Servidor en el puerto 4000
+[2019-11-18T20:32:06.425Z] info - Servidor en el puerto 4000
+[2019-11-18T20:33:42.730Z] info - Servidor en el puerto 4000
+[2019-11-18T20:34:39.489Z] info - Servidor en el puerto 4000
+[2019-11-18T22:59:47.583Z] info - Servidor en el puerto 4000
+[2019-11-18T23:02:12.323Z] info - Servidor en el puerto 4000
+[2019-11-18T23:02:30.536Z] info - Servidor en el puerto 4000
+[2019-11-18T23:04:51.509Z] info - Servidor en el puerto 4000
+[2019-11-18T23:11:34.822Z] info - Servidor en el puerto 4000
+[2019-11-18T23:11:51.764Z] info - Servidor en el puerto 4000
+[2019-11-18T23:12:35.900Z] info - Servidor en el puerto 4000
+[2019-11-18T23:13:34.759Z] info - Servidor en el puerto 4000
+[2019-11-18T23:13:40.802Z] info - Servidor en el puerto 4000
+[2019-11-18T23:15:27.639Z] info - Servidor en el puerto 4000
+[2019-11-18T23:15:39.616Z] info - Servidor en el puerto 4000
+[2019-11-18T23:21:39.357Z] info - Servidor en el puerto 4000
+[2019-11-18T23:23:06.989Z] info - Servidor en el puerto 4000
+[2019-11-18T23:23:26.986Z] info - Servidor en el puerto 4000
+[2019-11-18T23:24:17.326Z] info - Servidor en el puerto 4000
+[2019-11-18T23:25:35.694Z] info - Servidor en el puerto 4000
+[2019-11-18T23:26:45.046Z] info - Servidor en el puerto 4000
+[2019-11-18T23:39:08.019Z] info - Servidor en el puerto 4000
+[2019-11-19T00:02:09.906Z] info - Servidor en el puerto 4000
+[2019-11-19T00:03:14.725Z] info - Servidor en el puerto 4000
+[2019-11-19T00:04:49.012Z] info - Servidor en el puerto 4000
+[2019-11-19T00:07:02.729Z] info - Servidor en el puerto 4000
+[2019-11-19T00:07:47.346Z] info - Servidor en el puerto 4000
+[2019-11-19T00:08:10.405Z] info - Servidor en el puerto 4000
+[2019-11-19T00:08:46.496Z] info - Servidor en el puerto 4000
+[2019-11-19T00:09:22.175Z] info - Servidor en el puerto 4000
+[2019-11-19T00:10:14.847Z] info - Servidor en el puerto 4000
+[2019-11-19T00:13:16.291Z] info - Servidor en el puerto 4000
+[2019-11-19T00:14:40.475Z] info - Servidor en el puerto 4000
+[2019-11-19T00:14:56.733Z] info - Servidor en el puerto 4000
+[2019-11-19T00:17:15.591Z] info - Servidor en el puerto 4000
+[2019-11-19T00:19:05.394Z] info - Servidor en el puerto 4000
+[2019-11-19T00:20:35.934Z] info - Servidor en el puerto 4000
+[2019-11-19T00:25:43.211Z] info - Servidor en el puerto 4000
+[2019-11-19T00:26:45.474Z] info - Servidor en el puerto 4000
+[2019-11-19T00:27:43.454Z] info - Servidor en el puerto 4000
+[2019-11-19T00:31:45.879Z] info - Servidor en el puerto 4000
+[2019-11-19T00:34:21.417Z] info - Servidor en el puerto 4000
+[2019-11-19T00:34:52.349Z] info - Servidor en el puerto 4000
+[2019-11-19T00:36:14.583Z] info - Servidor en el puerto 4000
+[2019-11-19T00:37:53.210Z] info - Servidor en el puerto 4000
+[2019-11-19T00:40:48.543Z] info - Servidor en el puerto 4000
+[2019-11-19T00:42:08.149Z] info - Servidor en el puerto 4000
+[2019-11-19T00:43:49.309Z] info - Servidor en el puerto 4000
+[2019-11-19T00:44:40.006Z] info - Servidor en el puerto 4000
+[2019-11-19T00:45:19.915Z] info - Servidor en el puerto 4000
+[2019-11-19T00:45:30.331Z] info - Servidor en el puerto 4000
+[2019-11-19T00:45:38.028Z] info - Servidor en el puerto 4000
+[2019-11-19T00:51:05.857Z] info - Servidor en el puerto 4000
+[2019-11-19T00:57:40.355Z] info - Servidor en el puerto 4000
+[2019-11-19T00:58:12.193Z] info - Servidor en el puerto 4000
+[2019-11-19T00:58:15.726Z] info - Servidor en el puerto 4000
+[2019-11-19T00:59:39.798Z] info - Servidor en el puerto 4000
+[2019-11-19T00:59:47.213Z] info - Servidor en el puerto 4000
+[2019-11-19T01:03:18.009Z] info - Servidor en el puerto 4000
+[2019-11-19T01:09:04.664Z] info - Servidor en el puerto 4000
+[2019-11-19T01:10:18.864Z] info - Servidor en el puerto 4000
+[2019-11-19T01:11:03.333Z] info - Servidor en el puerto 4000
+[2019-11-19T01:12:23.577Z] info - Servidor en el puerto 4000
+[2019-11-19T01:16:41.772Z] info - Servidor en el puerto 4000
+[2019-11-19T01:18:19.968Z] info - Servidor en el puerto 4000
+[2019-11-19T01:19:22.959Z] info - Servidor en el puerto 4000
+[2019-11-19T01:22:35.685Z] info - Servidor en el puerto 4000
+[2019-11-19T01:24:35.746Z] info - Servidor en el puerto 4000
+[2019-11-19T01:31:17.070Z] info - Servidor en el puerto 4000
+[2019-11-19T01:32:03.049Z] info - Servidor en el puerto 4000
+[2019-11-19T01:32:12.406Z] info - Servidor en el puerto 4000
+[2019-11-19T01:32:20.088Z] info - Servidor en el puerto 4000
+[2019-11-19T01:51:56.537Z] info - Servidor en el puerto 4000
+[2019-11-19T01:53:19.764Z] info - Servidor en el puerto 4000
+[2019-11-19T01:53:27.125Z] info - Servidor en el puerto 4000
+[2019-11-19T01:54:40.874Z] info - Servidor en el puerto 4000
+[2019-11-19T01:55:42.147Z] info - Servidor en el puerto 4000
+[2019-11-19T01:55:49.938Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "flash" }
+[2019-11-19T01:57:03.974Z] info - Servidor en el puerto 4000
+[2019-11-19T01:57:54.519Z] info - Servidor en el puerto 4000
+[2019-11-19T01:57:59.782Z] info - Servidor en el puerto 4000
+[2019-11-19T01:58:04.571Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "flash" }
+[2019-11-19T01:59:38.450Z] info - Servidor en el puerto 4000
+[2019-11-19T01:59:45.322Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "flash" }
+[2019-11-19T02:05:45.723Z] info - Servidor en el puerto 4000
+[2019-11-19T02:05:51.873Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "flash" }
+[2019-11-19T02:06:06.070Z] info - Servidor en el puerto 4000
+[2019-11-19T02:06:11.457Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "flash" }
+[2019-11-19T02:06:23.342Z] info - Servidor en el puerto 4000
+[2019-11-19T02:06:33.481Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "flash" }
+[2019-11-19T02:07:59.748Z] info - Servidor en el puerto 4000
+[2019-11-19T02:08:10.171Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "flash" }
+[2019-11-19T02:09:34.589Z] info - Servidor en el puerto 4000
+[2019-11-19T02:09:43.543Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "flash" }
+[2019-11-19T02:09:52.085Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "flash" }
+[2019-11-19T02:13:15.840Z] info - Servidor en el puerto 4000
+[2019-11-19T02:13:46.612Z] info - Servidor en el puerto 4000
+[2019-11-19T02:13:54.094Z] error - {
+  _id: 5dced4d4edf07b1c14a0bf3d,
+  titulo: 'Flash',
+  tipo: 'Novela Coreana',
+  estado: 'Finalizado',
+  createdBy: 'Panfilo',
+  updatedAt: 2019-11-18T04:17:24.944Z,
+  slug: 'flash'
+},{
+  _id: 5dcece96b6aa8319f8c09fcd,
+  titulo: 'El Flechita',
+  tipo: 'Novela Original',
+  estado: 'Finalizado',
+  createdBy: 'Panfilo',
+  updatedAt: 2019-11-15T16:13:10.454Z,
+  slug: 'el-flechita'
+},{
+  _id: 5dab59da0738830fbc8294dd,
+  slug: 'dota-2',
+  titulo: 'Dota 2',
+  tipo: 'Novela China',
+  estado: 'Finalizado',
+  createdBy: 'Panfilo',
+  updatedAt: 2019-11-11T20:26:41.283Z
+},{
+  _id: 5daa92a988a54c109c4b8de5,
+  slug: 'titans',
+  titulo: 'Titans',
+  tipo: 'Novela Japonesa',
+  estado: 'Finalizado',
+  createdBy: 'Panfilo',
+  updatedAt: 2019-10-23T07:36:01.652Z
+},{
+  _id: 5da5477fc0b5df1b5402debd,
+  slug: 'pokemon',
+  titulo: 'Pokemon',
+  tipo: 'Novela Original',
+  estado: 'Emision',
+  updatedAt: 2019-10-15T04:13:51.039Z
+},{
+  _id: 5da5256cb9208b09f8eed7cd,
+  slug: 'legends-of-tomorrow',
+  titulo: 'Legends Of Tomorrow',
+  tipo: 'Novela Japonesa',
+  estado: 'Emision',
+  updatedAt: 2019-10-15T01:48:28.366Z
+},{
+  _id: 5da5189f400c8e09b85a7a9c,
+  slug: 'la-ciudad-y-los-perros',
+  titulo: 'La Ciudad y los Perros',
+  tipo: 'Novela Original',
+  estado: 'Cancelado',
+  updatedAt: 2019-10-15T00:53:51.147Z
+},{
+  _id: 5da51851400c8e09b85a7a9b,
+  slug: 'el-caballero-carmelo',
+  titulo: 'El Caballero Carmelo',
+  tipo: 'Novela Original',
+  estado: 'Finalizado',
+  updatedAt: 2019-10-15T00:52:33.683Z
+},{
+  _id: 5da517b1400c8e09b85a7a9a,
+  slug: 'los-padrinos-magicos',
+  titulo: 'Los Padrinos Mágicos',
+  tipo: 'Novela Original',
+  estado: 'Emision',
+  updatedAt: 2019-10-15T00:49:53.993Z
+}
+[2019-11-19T02:14:51.721Z] info - Servidor en el puerto 4000
+[2019-11-19T02:24:08.666Z] info - Servidor en el puerto 4000
+[2019-11-19T02:25:26.127Z] info - Servidor en el puerto 4000
+[2019-11-19T02:26:34.190Z] info - Servidor en el puerto 4000
+[2019-11-19T02:26:52.229Z] info - Servidor en el puerto 4000
+[2019-11-19T02:28:55.165Z] info - Servidor en el puerto 4000
+[2019-11-19T02:29:30.283Z] info - Servidor en el puerto 4000
+[2019-11-19T02:29:53.208Z] info - Servidor en el puerto 4000
+[2019-11-19T02:31:10.712Z] info - Servidor en el puerto 4000
+[2019-11-19T02:31:24.203Z] info - Servidor en el puerto 4000
+[2019-11-19T02:34:10.297Z] info - Servidor en el puerto 4000
+[2019-11-19T02:34:17.456Z] info - Servidor en el puerto 4000
+[2019-11-19T02:36:13.096Z] info - Servidor en el puerto 4000
+[2019-11-19T02:36:23.488Z] info - Servidor en el puerto 4000
+[2019-11-19T02:36:42.100Z] info - Servidor en el puerto 4000
+[2019-11-19T03:03:50.183Z] info - Servidor en el puerto 4000
+[2019-11-19T03:04:59.193Z] info - Servidor en el puerto 4000
+[2019-11-19T03:06:41.900Z] info - Servidor en el puerto 4000
+[2019-11-19T03:07:44.656Z] info - Servidor en el puerto 4000
+[2019-11-19T03:15:23.691Z] info - Servidor en el puerto 4000
+[2019-11-19T03:55:02.697Z] info - Servidor en el puerto 4000
+[2019-11-19T03:55:42.279Z] info - Servidor en el puerto 4000
+[2019-11-19T03:55:58.195Z] info - Servidor en el puerto 4000
+[2019-11-19T03:56:18.439Z] info - Servidor en el puerto 4000
+[2019-11-19T03:56:33.019Z] info - Servidor en el puerto 4000
+[2019-11-19T03:56:55.650Z] info - Servidor en el puerto 4000
+[2019-11-19T03:58:10.676Z] info - Servidor en el puerto 4000
+[2019-11-19T03:58:10.783Z] error - Cast to number failed for value "panfilo" at path "numero" for model "Capitulo"
+[2019-11-19T03:59:21.775Z] error - err is not defined
+[2019-11-19T03:59:53.467Z] info - Servidor en el puerto 4000
+[2019-11-19T04:00:06.678Z] error - Cast to number failed for value "panfilo" at path "numero" for model "Capitulo"
+[2019-11-19T04:00:22.922Z] info - Servidor en el puerto 4000
+[2019-11-19T04:00:34.762Z] error - Cast to number failed for value "panfilo" at path "numero" for model "Capitulo"
+[2019-11-19T04:02:33.305Z] info - Servidor en el puerto 4000
+[2019-11-19T04:02:40.942Z] error - Cast to number failed for value "panfilo" at path "numero" for model "Capitulo"
+[2019-11-19T04:04:53.662Z] info - Servidor en el puerto 4000
+[2019-11-19T04:05:48.581Z] info - Servidor en el puerto 4000
+[2019-11-19T04:06:34.708Z] info - Servidor en el puerto 4000
+[2019-11-19T04:07:01.436Z] info - Servidor en el puerto 4000
+[2019-11-19T04:07:07.309Z] error - Cast to number failed for value "das" at path "numero" for model "Capitulo"
+[2019-11-19T04:08:00.609Z] info - Servidor en el puerto 4000
+[2019-11-19T04:08:05.645Z] error - Cast to number failed for value "panfilo" at path "numero" for model "Capitulo"
+[2019-11-19T04:08:22.698Z] info - Servidor en el puerto 4000
+[2019-11-19T04:08:27.130Z] error - Cast to number failed for value "panfilo" at path "numero" for model "Capitulo"
+[2019-11-19T04:08:42.322Z] info - Servidor en el puerto 4000
+[2019-11-19T04:10:39.348Z] info - Servidor en el puerto 4000
+[2019-11-19T04:10:50.064Z] error - Cast to number failed for value "das" at path "numero" for model "Capitulo"
+[2019-11-19T04:11:03.272Z] info - Servidor en el puerto 4000
+[2019-11-19T04:11:10.543Z] info - Servidor en el puerto 4000
+[2019-11-19T04:23:48.003Z] info - Servidor en el puerto 4000
+[2019-11-19T04:26:03.690Z] info - Servidor en el puerto 4000
+[2019-11-19T04:26:59.474Z] info - Servidor en el puerto 4000
+[2019-11-19T04:27:18.298Z] info - Servidor en el puerto 4000
+[2019-11-19T04:27:39.133Z] info - Servidor en el puerto 4000
+[2019-11-19T04:29:01.706Z] info - Servidor en el puerto 4000
+[2019-11-19T04:30:51.711Z] info - Servidor en el puerto 4000
+[2019-11-19T04:30:56.284Z] info - Servidor en el puerto 4000
+[2019-11-19T04:31:02.649Z] info - Servidor en el puerto 4000
+[2019-11-19T04:31:58.665Z] info - Servidor en el puerto 4000
+[2019-11-19T04:32:13.824Z] info - Servidor en el puerto 4000
+[2019-11-19T04:33:27.710Z] info - Servidor en el puerto 4000
+[2019-11-19T04:33:47.155Z] info - Servidor en el puerto 4000
+[2019-11-19T04:35:10.386Z] info - Servidor en el puerto 4000
+[2019-11-19T04:35:17.219Z] info - Servidor en el puerto 4000
+[2019-11-19T04:37:16.119Z] info - Servidor en el puerto 4000
+[2019-11-19T04:37:23.193Z] info - Servidor en el puerto 4000
+[2019-11-19T04:52:41.960Z] info - Servidor en el puerto 4000
+[2019-11-19T04:54:39.925Z] info - Servidor en el puerto 4000
+[2019-11-19T04:54:44.712Z] info - Servidor en el puerto 4000
+[2019-11-19T04:56:25.358Z] info - Servidor en el puerto 4000
+[2019-11-19T04:58:11.479Z] info - Servidor en el puerto 4000
+[2019-11-19T04:58:17.905Z] info - Servidor en el puerto 4000
+[2019-11-19T04:59:05.054Z] info - Servidor en el puerto 4000
+[2019-11-19T04:59:32.867Z] info - Servidor en el puerto 4000
+[2019-11-19T04:59:40.355Z] info - Servidor en el puerto 4000
+[2019-11-19T05:00:02.488Z] info - Servidor en el puerto 4000
+[2019-11-19T05:01:04.587Z] info - Servidor en el puerto 4000
+[2019-11-19T05:02:31.373Z] info - Servidor en el puerto 4000
+[2019-11-19T05:03:20.441Z] info - Servidor en el puerto 4000
+[2019-11-19T05:03:51.766Z] info - Servidor en el puerto 4000
+[2019-11-19T05:04:51.416Z] info - Servidor en el puerto 4000
+[2019-11-19T05:05:07.314Z] info - Servidor en el puerto 4000
+[2019-11-19T05:06:17.771Z] info - Servidor en el puerto 4000
+[2019-11-19T05:08:06.743Z] info - Servidor en el puerto 4000
+[2019-11-19T05:08:48.357Z] info - Servidor en el puerto 4000
+[2019-11-19T05:11:05.897Z] info - Servidor en el puerto 4000
+[2019-11-19T05:11:40.657Z] info - Servidor en el puerto 4000
+[2019-11-19T05:13:46.678Z] info - Servidor en el puerto 4000
+[2019-11-19T05:15:45.498Z] info - Servidor en el puerto 4000
+[2019-11-19T05:16:59.709Z] info - Servidor en el puerto 4000
+[2019-11-19T05:17:02.976Z] error - Capitulo validation failed: titulo: Path `titulo` is required., contenido: Path `contenido` is required.
+[2019-11-19T05:19:34.423Z] info - Servidor en el puerto 4000
+[2019-11-19T05:19:42.633Z] info - Servidor en el puerto 4000
+[2019-11-19T05:19:45.044Z] error - Capitulo validation failed: titulo: Path `titulo` is required., contenido: Path `contenido` is required.
+[2019-11-19T05:19:55.556Z] info - Servidor en el puerto 4000
+[2019-11-19T05:19:58.051Z] error - Capitulo validation failed: titulo: Path `titulo` is required., contenido: Path `contenido` is required.
+[2019-11-19T05:20:28.731Z] info - Servidor en el puerto 4000
+[2019-11-19T05:20:45.662Z] error - Capitulo validation failed: titulo: Path `titulo` is required., contenido: Path `contenido` is required.
+[2019-11-19T05:20:52.250Z] info - Servidor en el puerto 4000
+[2019-11-19T05:20:53.865Z] error - Capitulo validation failed: titulo: Path `titulo` is required., contenido: Path `contenido` is required.
+[2019-11-19T05:21:23.613Z] info - Servidor en el puerto 4000
+[2019-11-19T05:21:26.027Z] error - Capitulo validation failed: titulo: Path `titulo` is required., contenido: Path `contenido` is required.
+[2019-11-19T05:21:50.369Z] info - Servidor en el puerto 4000
+[2019-11-19T05:21:53.292Z] error - Capitulo validation failed: titulo: Path `titulo` is required., contenido: Path `contenido` is required.
+[2019-11-19T16:59:50.615Z] info - Servidor en el puerto 4000
+[2019-11-19T21:12:00.813Z] info - Servidor en el puerto 4000
+[2019-11-19T21:20:03.703Z] error - dataMessage is not defined
+[2019-11-19T21:20:23.705Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "goku" }
+[2019-11-19T21:21:38.582Z] info - Servidor en el puerto 4000
+[2019-11-19T21:33:44.825Z] info - Servidor en el puerto 4000
+[2019-11-19T21:34:14.711Z] info - Servidor en el puerto 4000
+[2019-11-19T22:07:10.197Z] info - Servidor en el puerto 4000
+[2019-11-19T22:10:02.039Z] info - Servidor en el puerto 4000
+[2019-11-19T22:12:54.063Z] info - Servidor en el puerto 4000
+[2019-11-19T23:48:13.782Z] info - Servidor en el puerto 4000
+[2019-11-19T23:49:16.169Z] info - Servidor en el puerto 4000
+[2019-11-20T00:07:17.035Z] info - Servidor en el puerto 4000
+[2019-11-20T00:08:49.070Z] info - Servidor en el puerto 4000
+[2019-11-20T00:10:28.662Z] info - Servidor en el puerto 4000
+[2019-11-20T00:10:32.752Z] info - Servidor en el puerto 4000
+[2019-11-20T00:12:33.187Z] info - Servidor en el puerto 4000
+[2019-11-20T00:14:22.077Z] info - Servidor en el puerto 4000
+[2019-11-20T00:15:08.850Z] info - Servidor en el puerto 4000
+[2019-11-20T00:17:00.983Z] info - Servidor en el puerto 4000
+[2019-11-20T00:17:32.041Z] info - Servidor en el puerto 4000
+[2019-11-20T00:18:19.001Z] info - Servidor en el puerto 4000
+[2019-11-20T00:19:15.927Z] info - Servidor en el puerto 4000
+[2019-11-20T00:19:58.738Z] info - Servidor en el puerto 4000
+[2019-11-20T00:20:40.826Z] info - Servidor en el puerto 4000
+[2019-11-20T00:25:04.412Z] info - Servidor en el puerto 4000
+[2019-11-20T00:49:54.497Z] info - Servidor en el puerto 4000
+[2019-11-20T01:10:06.054Z] info - Servidor en el puerto 4000
+[2019-11-20T01:14:54.545Z] info - Servidor en el puerto 4000
+[2019-11-20T01:18:14.548Z] info - Servidor en el puerto 4000
+[2019-11-20T01:19:44.750Z] info - Servidor en el puerto 4000
+[2019-11-20T01:36:53.681Z] info - Servidor en el puerto 4000
+[2019-11-20T01:37:27.223Z] info - Servidor en el puerto 4000
+[2019-11-20T01:37:48.156Z] info - Servidor en el puerto 4000
+[2019-11-20T01:41:11.023Z] info - Servidor en el puerto 4000
+[2019-11-20T01:52:28.139Z] info - Servidor en el puerto 4000
+[2019-11-20T01:54:11.010Z] info - Servidor en el puerto 4000
+[2019-11-20T01:54:11.090Z] error - There were 3 validation errors:
+* UnexpectedParameter: Unexpected key 'ACL' found in params
+* UnexpectedParameter: Unexpected key 'Body' found in params
+* UnexpectedParameter: Unexpected key 'ContentType' found in params
+[2019-11-20T01:54:11.102Z] error - There were 3 validation errors:
+* UnexpectedParameter: Unexpected key 'ACL' found in params
+* UnexpectedParameter: Unexpected key 'Body' found in params
+* UnexpectedParameter: Unexpected key 'ContentType' found in params
+[2019-11-20T01:55:23.816Z] info - Servidor en el puerto 4000
+[2019-11-20T01:56:32.623Z] info - Servidor en el puerto 4000
+[2019-11-20T01:57:19.331Z] info - Servidor en el puerto 4000
+[2019-11-20T01:58:08.420Z] info - Servidor en el puerto 4000
+[2019-11-20T01:58:59.971Z] info - Servidor en el puerto 4000
+[2019-11-20T02:00:40.217Z] info - Servidor en el puerto 4000
+[2019-11-20T02:00:54.923Z] info - Servidor en el puerto 4000
+[2019-11-20T02:04:35.542Z] info - Servidor en el puerto 4000
+[2019-11-20T02:08:44.507Z] info - Servidor en el puerto 4000
+[2019-11-20T02:10:08.511Z] info - Servidor en el puerto 4000
+[2019-11-20T02:10:44.409Z] error - NotFound: null
+[2019-11-20T02:12:10.162Z] error - NotFound: null
+[2019-11-20T02:14:09.293Z] info - Servidor en el puerto 4000
+[2019-11-20T02:14:13.262Z] info - Servidor en el puerto 4000
+[2019-11-20T02:31:47.375Z] info - Servidor en el puerto 4000
+[2019-11-20T02:32:53.411Z] info - Servidor en el puerto 4000
+[2019-11-20T02:32:59.583Z] info - Servidor en el puerto 4000
+[2019-11-20T02:33:48.543Z] info - Servidor en el puerto 4000
+[2019-11-20T02:34:32.137Z] info - Servidor en el puerto 4000
+[2019-11-20T02:36:05.364Z] info - Servidor en el puerto 4000
+[2019-11-20T02:37:29.730Z] info - Servidor en el puerto 4000
+[2019-11-20T02:37:35.093Z] info - Servidor en el puerto 4000
+[2019-11-20T02:38:15.190Z] error - NotFound: null
+[2019-11-20T02:38:56.501Z] info - Servidor en el puerto 4000
+[2019-11-20T02:38:57.110Z] error - NotFound: null
+[2019-11-20T02:39:13.081Z] info - Servidor en el puerto 4000
+[2019-11-20T02:39:19.917Z] error - NotFound: null
+[2019-11-20T02:39:59.654Z] info - Servidor en el puerto 4000
+[2019-11-20T02:40:20.249Z] error - NotFound: null
+[2019-11-20T02:40:52.331Z] info - Servidor en el puerto 4000
+[2019-11-20T02:40:52.876Z] error - NotFound: null
+[2019-11-20T02:41:49.056Z] info - Servidor en el puerto 4000
+[2019-11-20T02:42:02.511Z] info - Servidor en el puerto 4000
+[2019-11-20T02:42:30.773Z] error - NotFound: null
+[2019-11-20T02:44:30.783Z] error - NotFound: null
+[2019-11-20T03:12:10.489Z] info - Servidor en el puerto 4000
+[2019-11-20T03:12:15.561Z] error - NotFound: null
+[2019-11-20T03:12:27.071Z] info - Servidor en el puerto 4000
+[2019-11-20T03:12:27.606Z] error - NotFound: null
+[2019-11-20T03:12:45.754Z] info - Servidor en el puerto 4000
+[2019-11-20T03:12:59.710Z] error - NotFound: null
+[2019-11-20T03:13:13.070Z] info - Servidor en el puerto 4000
+[2019-11-20T03:13:13.609Z] error - NotFound: null
+[2019-11-20T03:15:14.021Z] info - Servidor en el puerto 4000
+[2019-11-20T03:17:07.583Z] info - Servidor en el puerto 4000
+[2019-11-20T03:29:48.459Z] info - Servidor en el puerto 4000
+[2019-11-20T03:30:07.119Z] info - Servidor en el puerto 4000
+[2019-11-20T03:32:12.174Z] info - Servidor en el puerto 4000
+[2019-11-20T03:32:39.060Z] info - Servidor en el puerto 4000
+[2019-11-20T03:33:20.070Z] info - Servidor en el puerto 4000
+[2019-11-20T03:35:07.338Z] info - Servidor en el puerto 4000
+[2019-11-20T03:37:08.405Z] info - Servidor en el puerto 4000
+[2019-11-20T03:41:33.342Z] info - Servidor en el puerto 4000
+[2019-11-20T03:43:50.761Z] info - Servidor en el puerto 4000
+[2019-11-20T03:45:01.126Z] info - Servidor en el puerto 4000
+[2019-11-20T03:48:36.154Z] info - Servidor en el puerto 4000
+[2019-11-20T03:50:11.683Z] info - Servidor en el puerto 4000
+[2019-11-20T03:54:34.484Z] info - Servidor en el puerto 4000
+[2019-11-20T03:55:29.092Z] info - Servidor en el puerto 4000
+[2019-11-20T03:59:14.979Z] info - Servidor en el puerto 4000
+[2019-11-20T03:59:49.293Z] info - Servidor en el puerto 4000
+[2019-11-20T04:04:53.077Z] info - Servidor en el puerto 4000
+[2019-11-20T04:05:06.023Z] info - Servidor en el puerto 4000
+[2019-11-20T04:07:01.606Z] info - Servidor en el puerto 4000
+[2019-11-20T04:09:21.085Z] info - Servidor en el puerto 4000
+[2019-11-20T04:10:16.581Z] info - Servidor en el puerto 4000
+[2019-11-20T04:10:47.700Z] info - Servidor en el puerto 4000
+[2019-11-20T04:11:35.021Z] info - Servidor en el puerto 4000
+[2019-11-20T04:11:55.274Z] info - Servidor en el puerto 4000
+[2019-11-20T04:58:21.029Z] info - Servidor en el puerto 4000
+[2019-11-20T04:58:41.591Z] info - Servidor en el puerto 4000
+[2019-11-20T05:01:04.838Z] info - Servidor en el puerto 4000
+[2019-11-20T05:01:58.658Z] info - Servidor en el puerto 4000
+[2019-11-20T05:03:24.384Z] info - Servidor en el puerto 4000
+[2019-11-20T05:05:23.541Z] info - Servidor en el puerto 4000
+[2019-11-20T05:06:04.012Z] info - Servidor en el puerto 4000
+[2019-11-20T05:07:56.802Z] info - Servidor en el puerto 4000
+[2019-11-20T05:09:09.905Z] info - Servidor en el puerto 4000
+[2019-11-20T05:10:24.975Z] info - Servidor en el puerto 4000
+[2019-11-20T05:11:26.417Z] info - Servidor en el puerto 4000
+[2019-11-20T05:11:37.345Z] info - Servidor en el puerto 4000
+[2019-11-20T05:11:44.762Z] info - Servidor en el puerto 4000
+[2019-11-20T05:11:54.045Z] info - Servidor en el puerto 4000
+[2019-11-20T05:12:03.335Z] info - Servidor en el puerto 4000
+[2019-11-20T05:12:47.548Z] info - Servidor en el puerto 4000
+[2019-11-20T05:16:00.164Z] info - Servidor en el puerto 4000
+[2019-11-20T05:28:31.074Z] info - Servidor en el puerto 4000
+[2019-11-20T05:29:41.864Z] info - Servidor en el puerto 4000
+[2019-11-20T06:19:18.889Z] info - Servidor en el puerto 4000
+[2019-11-20T19:24:18.671Z] info - Servidor en el puerto 4000
+[2019-11-20T22:25:15.100Z] info - Servidor en el puerto 4000
+[2019-11-20T22:25:45.116Z] info - Servidor en el puerto 4000
+[2019-11-20T22:26:43.376Z] info - Servidor en el puerto 4000
+[2019-11-20T22:29:59.018Z] info - Servidor en el puerto 4000
+[2019-11-20T22:30:57.417Z] info - Servidor en el puerto 4000
+[2019-11-21T03:21:06.110Z] info - Servidor en el puerto 4000
+[2019-11-21T03:24:35.136Z] info - Servidor en el puerto 4000
+[2019-11-21T03:24:42.612Z] info - Servidor en el puerto 4000
+[2019-11-21T03:25:10.347Z] info - Servidor en el puerto 4000
+[2019-11-21T03:25:53.042Z] info - Servidor en el puerto 4000
+[2019-11-21T03:26:24.338Z] info - Servidor en el puerto 4000
+[2019-11-21T03:26:26.463Z] info - Servidor en el puerto 4000
+[2019-11-21T03:29:16.461Z] info - Servidor en el puerto 4000
+[2019-11-21T03:31:10.363Z] info - Servidor en el puerto 4000
+[2019-11-21T03:32:17.148Z] info - Servidor en el puerto 4000
+[2019-11-21T03:32:45.913Z] info - Servidor en el puerto 4000
+[2019-11-21T03:33:12.387Z] info - Servidor en el puerto 4000
+[2019-11-21T03:37:37.457Z] info - Servidor en el puerto 4000
+[2019-11-21T03:38:31.843Z] info - Servidor en el puerto 4000
+[2019-11-21T03:38:56.946Z] info - Servidor en el puerto 4000
+[2019-11-21T03:39:07.129Z] info - Servidor en el puerto 4000
+[2019-11-21T03:40:35.951Z] info - Servidor en el puerto 4000
+[2019-11-21T03:41:44.018Z] info - Servidor en el puerto 4000
+[2019-11-21T03:42:26.071Z] info - Servidor en el puerto 4000
+[2019-11-21T03:44:09.893Z] info - Servidor en el puerto 4000
+[2019-11-21T03:44:33.817Z] info - Servidor en el puerto 4000
+[2019-11-21T03:45:02.031Z] info - Servidor en el puerto 4000
+[2019-11-21T03:45:20.470Z] info - Servidor en el puerto 4000
+[2019-11-21T03:46:38.789Z] info - Servidor en el puerto 4000
+[2019-11-21T03:47:49.836Z] info - Servidor en el puerto 4000
+[2019-11-21T03:48:19.132Z] info - Servidor en el puerto 4000
+[2019-11-21T03:51:23.216Z] info - Servidor en el puerto 4000
+[2019-11-21T03:51:29.447Z] info - Servidor en el puerto 4000
+[2019-11-21T03:52:14.032Z] info - Servidor en el puerto 4000
+[2019-11-21T03:52:48.754Z] info - Servidor en el puerto 4000
+[2019-11-21T03:52:52.668Z] info - Servidor en el puerto 4000
+[2019-11-21T03:53:03.095Z] info - Servidor en el puerto 4000
+[2019-11-21T03:55:09.316Z] info - Servidor en el puerto 4000
+[2019-11-21T03:55:54.944Z] info - Servidor en el puerto 4000
+[2019-11-21T03:56:02.321Z] info - Servidor en el puerto 4000
+[2019-11-21T03:56:13.182Z] info - Servidor en el puerto 4000
+[2019-11-21T03:56:28.663Z] info - Servidor en el puerto 4000
+[2019-11-21T03:58:53.139Z] info - Servidor en el puerto 4000
+[2019-11-21T03:59:52.752Z] info - Servidor en el puerto 4000
+[2019-11-21T04:00:19.275Z] info - Servidor en el puerto 4000
+[2019-11-21T04:00:56.263Z] info - Servidor en el puerto 4000
+[2019-11-21T04:01:41.895Z] info - Servidor en el puerto 4000
+[2019-11-21T07:27:44.678Z] info - Servidor en el puerto 4000
+[2019-11-21T17:56:34.676Z] info - Servidor en el puerto 4000
+[2019-11-22T07:23:24.326Z] info - Servidor en el puerto 4000
+[2019-11-22T07:23:58.287Z] info - Servidor en el puerto 4000
+[2019-11-22T07:25:04.862Z] info - Servidor en el puerto 4000
+[2019-11-22T07:31:41.280Z] info - Servidor en el puerto 4000
+[2019-11-22T07:35:39.580Z] info - Servidor en el puerto 4000
+[2019-11-22T07:40:27.234Z] info - Servidor en el puerto 4000
+[2019-11-22T07:41:00.807Z] info - Servidor en el puerto 4000
+[2019-11-22T07:47:31.303Z] info - Servidor en el puerto 4000
+[2019-11-22T07:49:53.542Z] info - Servidor en el puerto 4000
+[2019-11-22T07:56:12.596Z] info - Servidor en el puerto 4000
+[2019-11-22T08:00:42.015Z] info - Servidor en el puerto 4000
+[2019-11-22T08:05:53.767Z] info - Servidor en el puerto 4000
+[2019-11-22T08:09:27.961Z] info - Servidor en el puerto 4000
+[2019-11-22T08:12:47.565Z] info - Servidor en el puerto 4000
+[2019-11-22T08:15:06.525Z] info - Servidor en el puerto 4000
+[2019-11-22T08:15:29.355Z] error - The specified bucket does not exist
+[2019-11-22T08:20:02.981Z] info - Servidor en el puerto 4000
+[2019-11-22T08:21:34.009Z] info - Servidor en el puerto 4000
+[2019-11-22T08:23:40.375Z] error - The specified key does not exist.
+[2019-11-22T08:24:07.325Z] info - Servidor en el puerto 4000
+[2019-11-22T08:24:26.225Z] info - Servidor en el puerto 4000
+[2019-11-22T08:27:13.382Z] info - Servidor en el puerto 4000
+[2019-11-22T08:28:30.682Z] error - The specified key does not exist.
+[2019-11-22T08:35:22.797Z] info - Servidor en el puerto 4000
+[2019-11-22T08:37:04.575Z] info - Servidor en el puerto 4000
+[2019-11-22T08:38:41.879Z] info - Servidor en el puerto 4000
+[2019-11-22T08:38:55.107Z] info - Servidor en el puerto 4000
+[2019-11-22T08:39:38.982Z] info - Servidor en el puerto 4000
+[2019-11-22T08:52:22.143Z] info - Servidor en el puerto 4000
+[2019-11-22T08:52:34.993Z] error - Cannot read property 'Location' of undefined
+[2019-11-22T08:53:17.304Z] error - The specified key does not exist.
+[2019-11-22T08:56:26.606Z] info - Servidor en el puerto 4000
+[2019-11-22T08:56:35.213Z] error - This copy request is illegal because it is trying to copy an object to itself without changing the object's metadata, storage class, website redirect location or encryption attributes.
+[2019-11-22T08:57:19.259Z] error - Cannot read property 'Location' of undefined
+[2019-11-22T08:57:41.824Z] info - Servidor en el puerto 4000
+[2019-11-22T08:58:00.039Z] info - Servidor en el puerto 4000
+[2019-11-22T08:58:30.572Z] error - This copy request is illegal because it is trying to copy an object to itself without changing the object's metadata, storage class, website redirect location or encryption attributes.
+[2019-11-22T09:02:15.494Z] info - Servidor en el puerto 4000
+[2019-11-22T09:02:21.378Z] info - Servidor en el puerto 4000
+[2019-11-22T09:02:31.714Z] error - fileValidator is not defined
+[2019-11-22T09:02:38.424Z] error - The specified key does not exist.
+[2019-11-22T09:03:47.600Z] info - Servidor en el puerto 4000
+[2019-11-22T09:03:59.733Z] error - This copy request is illegal because it is trying to copy an object to itself without changing the object's metadata, storage class, website redirect location or encryption attributes.
+[2019-11-22T09:05:09.810Z] error - The specified key does not exist.
+[2019-11-22T09:05:53.323Z] info - Servidor en el puerto 4000
+[2019-11-22T09:10:08.775Z] info - Servidor en el puerto 4000
+[2019-11-22T09:11:13.540Z] info - Servidor en el puerto 4000
+[2019-11-22T09:11:33.034Z] info - Servidor en el puerto 4000
+[2019-11-22T09:13:58.571Z] info - Servidor en el puerto 4000
+[2019-11-22T09:14:09.771Z] error - s3.getUrl is not a function
+[2019-11-22T09:21:18.797Z] info - Servidor en el puerto 4000
+[2019-11-22T09:21:24.982Z] error - The specified key does not exist.
+[2019-11-22T09:21:36.846Z] error - The specified key does not exist.
+[2019-11-22T09:21:47.440Z] error - The specified key does not exist.
+[2019-11-22T09:22:20.840Z] info - Servidor en el puerto 4000
+[2019-11-22T18:06:53.787Z] info - Servidor en el puerto 4000
+[2019-11-22T19:46:31.686Z] error - The specified key does not exist.
+[2019-11-22T19:47:08.291Z] info - Servidor en el puerto 4000
+[2019-11-22T19:57:41.025Z] error - Missing required key 'Bucket' in params
+[2019-11-22T19:58:21.623Z] info - Servidor en el puerto 4000
+[2019-11-22T19:58:26.092Z] error - The specified key does not exist.
+[2019-11-22T19:58:43.616Z] error - The specified key does not exist.
+[2019-11-22T20:00:23.669Z] error - Access Denied
+[2019-11-22T20:02:02.807Z] error - The specified key does not exist.
+[2019-11-22T20:02:23.452Z] info - Servidor en el puerto 4000
+[2019-11-22T20:02:26.291Z] error - The specified key does not exist.
+[2019-11-22T20:03:08.025Z] error - Access Denied
+[2019-11-22T20:05:06.053Z] info - Servidor en el puerto 4000
+[2019-11-22T20:06:05.542Z] error - Access Denied
+[2019-11-22T20:08:56.719Z] info - Servidor en el puerto 4000
+[2019-11-22T20:09:09.416Z] info - Servidor en el puerto 4000
+[2019-11-22T20:09:37.664Z] info - Servidor en el puerto 4000
+[2019-11-22T20:09:38.549Z] error - The specified key does not exist.
+[2019-11-22T20:10:57.926Z] info - Servidor en el puerto 4000
+[2019-11-22T20:11:16.551Z] error - This copy request is illegal because it is trying to copy an object to itself without changing the object's metadata, storage class, website redirect location or encryption attributes.
+[2019-11-22T20:26:02.353Z] info - Servidor en el puerto 4000
+[2019-11-22T20:26:33.657Z] info - Servidor en el puerto 4000
+[2019-11-22T20:28:39.068Z] info - Servidor en el puerto 4000
+[2019-11-22T20:28:39.698Z] info - [object Object]
+[2019-11-22T20:28:48.506Z] info - [object Object]
+[2019-11-22T20:28:55.253Z] info - [object Object]
+[2019-11-22T20:29:25.249Z] info - [object Object]
+[2019-11-22T20:30:49.973Z] info - Servidor en el puerto 4000
+[2019-11-22T20:31:00.540Z] info - Servidor en el puerto 4000
+[2019-11-22T20:31:49.346Z] info - Servidor en el puerto 4000
+[2019-11-22T20:31:54.340Z] info - [object Object]
+[2019-11-22T20:39:22.993Z] info - Servidor en el puerto 4000
+[2019-11-22T20:41:25.334Z] info - Servidor en el puerto 4000
+[2019-11-22T20:41:36.961Z] info - Servidor en el puerto 4000
+[2019-11-22T20:42:05.845Z] info - Servidor en el puerto 4000
+[2019-11-22T20:42:59.568Z] info - Servidor en el puerto 4000
+[2019-11-22T20:43:16.526Z] info - Servidor en el puerto 4000
+[2019-11-22T20:47:38.579Z] info - Servidor en el puerto 4000
+[2019-11-22T20:48:24.927Z] info - [object Object]
+[2019-11-22T20:48:51.823Z] info - Servidor en el puerto 4000
+[2019-11-22T20:49:16.001Z] info - [object Object]
+[2019-11-22T20:50:31.738Z] info - Servidor en el puerto 4000
+[2019-11-22T20:50:46.079Z] info - [object Object]
+[2019-11-22T21:00:37.900Z] info - Servidor en el puerto 4000
+[2019-11-22T21:01:18.331Z] info - Servidor en el puerto 4000
+[2019-11-22T21:02:19.328Z] info - Servidor en el puerto 4000
+[2019-11-22T21:03:25.512Z] info - Servidor en el puerto 4000
+[2019-11-22T21:04:19.778Z] info - Servidor en el puerto 4000
+[2019-11-22T21:04:47.277Z] info - [object Object]
+[2019-11-22T21:06:04.468Z] info - Servidor en el puerto 4000
+[2019-11-22T21:06:05.180Z] info - [object Object]
+[2019-11-22T21:06:47.795Z] info - Servidor en el puerto 4000
+[2019-11-22T21:08:39.771Z] info - Servidor en el puerto 4000
+[2019-11-22T21:08:47.295Z] info - [object Object]
+[2019-11-22T21:11:27.990Z] info - [object Object]
+[2019-11-22T21:11:55.662Z] info - Servidor en el puerto 4000
+[2019-11-22T22:36:35.755Z] info - Servidor en el puerto 4000
+[2019-11-23T04:04:21.573Z] info - Servidor en el puerto 4000
+[2019-11-23T04:07:52.861Z] info - Servidor en el puerto 4000
+[2019-11-23T04:08:15.791Z] info - Servidor en el puerto 4000
+[2019-11-23T04:08:50.324Z] info - Servidor en el puerto 4000
+[2019-11-23T04:09:34.655Z] info - Servidor en el puerto 4000
+[2019-11-23T04:10:22.423Z] info - Servidor en el puerto 4000
+[2019-11-23T04:10:40.524Z] info - Servidor en el puerto 4000
+[2019-11-23T04:11:19.071Z] info - Servidor en el puerto 4000
+[2019-11-23T04:11:24.081Z] info - Servidor en el puerto 4000
+[2019-11-23T04:13:24.276Z] info - Servidor en el puerto 4000
+[2019-11-23T04:14:28.239Z] info - Servidor en el puerto 4000
+[2019-11-23T04:15:29.504Z] info - Servidor en el puerto 4000
+[2019-11-24T20:36:28.217Z] info - Servidor en el puerto 4000
+[2019-11-24T20:39:57.474Z] info - Servidor en el puerto 4000
+[2019-11-24T20:40:01.323Z] info - Servidor en el puerto 4000
+[2019-11-24T20:44:06.039Z] info - Servidor en el puerto 4000
+[2019-11-24T20:45:41.914Z] info - Servidor en el puerto 4000
+[2019-11-24T20:45:49.062Z] info - Servidor en el puerto 4000
+[2019-11-24T20:46:21.169Z] info - Servidor en el puerto 4000
+[2019-11-24T20:46:44.875Z] info - Servidor en el puerto 4000
+[2019-11-24T20:47:41.950Z] info - Servidor en el puerto 4000
+[2019-11-24T20:48:18.767Z] info - Servidor en el puerto 4000
+[2019-11-24T20:48:23.840Z] info - Servidor en el puerto 4000
+[2019-11-24T20:50:50.765Z] info - Servidor en el puerto 4000
+[2019-11-24T20:51:08.641Z] info - Servidor en el puerto 4000
+[2019-11-24T20:52:17.356Z] info - Servidor en el puerto 4000
+[2019-11-25T03:37:23.747Z] info - Servidor en el puerto 4000
+[2019-11-25T03:40:42.877Z] info - Servidor en el puerto 4000
+[2019-11-25T03:44:01.511Z] info - Servidor en el puerto 4000
+[2019-11-25T03:47:42.794Z] info - Servidor en el puerto 4000
+[2019-11-25T03:48:34.419Z] info - [object Object]
+[2019-11-25T03:48:37.676Z] info - [object Object]
+[2019-11-25T03:49:03.977Z] info - [object Object]
+[2019-11-25T03:50:56.007Z] info - [object Object]
+[2019-11-25T03:51:24.917Z] info - Servidor en el puerto 4000
+[2019-11-25T03:51:51.240Z] info - [object Object]
+[2019-11-25T03:52:10.344Z] info - Servidor en el puerto 4000
+[2019-11-25T03:52:14.667Z] info - Servidor en el puerto 4000
+[2019-11-25T03:52:27.786Z] info - [object Object]

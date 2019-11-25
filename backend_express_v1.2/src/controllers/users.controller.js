@@ -112,12 +112,11 @@ usersCtrl.getUsers = (req, res, next) => {
 }
 
 usersCtrl.actualizarUser = (req, res) => {
-  if (req.body.op == "updateState") {
-    let path = req.body.path;
-    let value = req.body.value;
-    const users = User.updateOne({_id: req.params.id}, { $set: {path: value} });
-
-    users.exec(function(err) {
+  let value = Boolean;
+  if (req.body.op === "updateState") {
+    value = req.body.value;
+    const users = User.updateOne({_id: req.params.id}, { $set: {state: value} });
+    users.exec(function(err, user) {
       if (err) {
         console.log(err);
         res.send({
@@ -126,9 +125,10 @@ usersCtrl.actualizarUser = (req, res) => {
           status: 'error'
         });
       } else {
+        console.log(user);
         res.send({
           title: '¡Actualizado con éxito!', 
-          message: 'Usuario actualizado correctamente compa.', 
+          message: "todo bien", 
           status: 'success'
         });
       }
@@ -160,23 +160,32 @@ usersCtrl.actualizarUser = (req, res) => {
 }
 
 usersCtrl.borrarUser = (req, res) => {
-  const users = User.findByIdAndDelete(req.params.id);
-
-  users.exec(function (err, user) {
-    if (err) {
-      res.send({
-        title: '¡Error al borrar!', 
-        message: err.errors, 
-        status: 'error'
-      });
-    } else {
-      res.send({
-        title: 'Borrado con éxito!', 
-        message: 'Usuario borrado correctamente compa.', 
-        status: 'success'
-      });
-    }
-  });
+  if (req.body.op === 'deleteUser') {
+    const users = User.findByIdAndDelete(req.params.id);
+    users.exec(function (err, user) {
+      if (err) {
+        console.log(err)
+        res.send({
+          title: '¡Error al borrar!', 
+          message: err.errors, 
+          status: 'error'
+        });
+      } else {
+        console.log(user)
+        res.send({
+          title: 'Borrado con éxito!', 
+          message: 'Usuario borrado correctamente compa.', 
+          status: 'success'
+        });
+      }
+    });
+  } else {
+    res.send({
+      title: 'Nel papu', 
+      message: 'Intentas acceder por medios no oficiales.', 
+      status: 'success'
+    });
+  }
 }
 
 module.exports = usersCtrl;

@@ -4,7 +4,9 @@ const router = Router();
 
 const { 
   getImagenes,
+  getImagen,
   subirImagen,
+  actualizarImagen,
   getImagensXNovelas,
   borrarImagen
  } = require('../controllers/imagenes.controller');
@@ -15,6 +17,10 @@ router.route('/')
 
 router.route('/listar/:id')
       .get(getImagensXNovelas)
+      .put(actualizarImagen)
       .delete(borrarImagen);
+
+router.route('/buscar/:id')
+      .get(getImagen);
 
 module.exports = router

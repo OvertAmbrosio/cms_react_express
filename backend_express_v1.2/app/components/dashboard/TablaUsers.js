@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import {
   Table, Button, CustomInput,
   Modal, ModalHeader, ModalBody, ModalFooter,
@@ -7,8 +7,10 @@ import {
 import axios from 'axios'
 import Moment from 'react-moment'
 import Swal from "sweetalert2"; 
+//variables de la api
+import ReactApi from '../../global';
 //personalizar estilo del sweetalert
-const swalWithBootstrapButtons = Swal.mixin({
+const SWBB = Swal.mixin({
   customClass: {
     confirmButton: 'btn btn-primary',
     cancelButton: 'btn btn-danger'
@@ -36,7 +38,7 @@ const TablaUsers = ({users, loading, cargarUsers}) => {
     console.log(userObject);    
     await axios({
       method: 'patch',
-      url: 'http://localhost:4000/api/users/' + userId,
+      url: ReactApi.url_api + '/api/users/' + userId,
       data: {
         op: "updateUser",
         value: userObject
@@ -67,13 +69,13 @@ const TablaUsers = ({users, loading, cargarUsers}) => {
   }
 
   const actualizarEstado = async (e, idUser, name) => {
-    let state = e.target.checked
+    let state = Boolean;
+    state = e.target.checked;
     await axios({
       method: 'patch',
-      url: 'http://localhost:4000/api/users/' + idUser,
+      url: ReactApi.url_api + '/api/users/' + idUser,
       data: {
         op: "updateState",
-        path: "state",
         value: state,
       }
     }).then((res) => {
@@ -94,7 +96,7 @@ const TablaUsers = ({users, loading, cargarUsers}) => {
   }
 
   const borrarUser = async (idUser, name) => {
-    swalWithBootstrapButtons.fire({
+    SWBB.fire({
       title: '¿Eliminar Usuario?',
       text: `Estas borrando el usuario "${name}"`,
       type: 'warning',
@@ -108,10 +110,13 @@ const TablaUsers = ({users, loading, cargarUsers}) => {
             Swal.showLoading()
             await axios({
               method: 'delete',
-              url: ('http://localhost:4000/api/users/' + idUser)
+              url: (ReactApi.url_api + '/api/users/' + idUser),
+              data: {
+                op: "deleteUser",
+              }
             }).then((res) => {
               Swal.hideLoading()
-              Swal.fire({
+              SWBB.fire({
                 title: res.data.title,
                 text: res.data.message,
                 type: res.data.status
@@ -127,7 +132,7 @@ const TablaUsers = ({users, loading, cargarUsers}) => {
       /* Read more about handling dismissals below */
       result.dismiss === Swal.DismissReason.cancel
       ){
-        swalWithBootstrapButtons.fire(
+        SWBB.fire(
           'Cancelado',
           'Tu usuario esta seguro compa',
           'error',

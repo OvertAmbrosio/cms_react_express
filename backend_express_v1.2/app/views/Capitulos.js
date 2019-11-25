@@ -7,6 +7,8 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter
 } from 'reactstrap'
 import Swal from "sweetalert2"; 
+//variables de la api
+import ReactApi from '../global';
 //componentes adicionales
 import TablaCapitulos from '../components/capitulos/TablaCapitulos';
 import Paginacion from '../components/common/Paginacion';
@@ -27,7 +29,7 @@ const Toast = Swal.mixin({
   timer: 3000
 })
 
-const Capitulos = (props) => {
+const Capitulos = () => {
   const inputBusqueda = useRef(null);
   const [numeroOrTraductor, setNumeroOrTraductor] = useState('');
   const [estadoModal, setEstadoModal] = useState(false);
@@ -47,7 +49,7 @@ const Capitulos = (props) => {
   //cargar capitulos
   const cargarCapitulos = async () => {
     setLoading(true);
-    const res = await axios.get('http://localhost:4000/api/capitulos');
+    const res = await axios.get(ReactApi.url_api + '/api/capitulos');
     setCapitulos(res.data);
     setLoading(false);
   };
@@ -63,11 +65,12 @@ const Capitulos = (props) => {
     }).then((result) => {
       if (result.value) {
         Swal.fire({
-          onBeforeOpen: async e => {
+          onBeforeOpen: async () => {
             Swal.showLoading()
             await axios({
               method: 'delete',
-              url: ('http://localhost:4000/api/capitulos/buscar/' + capituloId)
+              url: (ReactApi.url_api + '/api/capitulos/buscar/' + capituloId),
+              data: {method : "borrarCapitulo"}
             }).then((res) => {
               Swal.hideLoading()
               Swal.fire({
@@ -100,7 +103,6 @@ const Capitulos = (props) => {
     setTituloNovela(e.id_novela.titulo);
     setIdNovel(e.id_novela._id);
     abrirModal();
-    console.log(e);
     console.log("Modal Abierto compa");
   };
   //abrir modal
@@ -130,18 +132,20 @@ const Capitulos = (props) => {
       setLoading(true);
       await axios({
         method: 'get',
-        url: 'http://localhost:4000/api/capitulos/busqueda/',
+        url: ReactApi.url_api + '/api/capitulos/busqueda/',
         params: {
           var: numeroOrTraductor
         }
-      }).then((res) => {      
-        if (res.data.length == 0) {
+      }).then((res) => { 
+        if (res.data.message) {
+          console.log(res.data.message)
           Toast.fire({
             type: 'error',
             title: 'No se encontraron datos'
           })
           inputBusqueda.current.value = '';//limpiar input
           setNumeroOrTraductor('');//limpiar estado
+          cargarCapitulos();
         } else {
           Toast.fire({
             type: 'success',

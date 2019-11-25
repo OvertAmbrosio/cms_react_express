@@ -6,6 +6,8 @@ import {
 } from 'reactstrap';
 import Swal from 'sweetalert2'
 import axios from 'axios';
+//variables de la api
+import ReactApi from '../global';
 
 import TablaImagenes from '../components/novelas/imagenes/TablaImagenes';
 import Error404 from '../components/layout/404';
@@ -48,7 +50,7 @@ const Imagenes = (props) => {
   //cargar array de imagenes
   const cargarImagenes = async () => {
     setLoading(true);
-    const res = await axios.get('http://localhost:4000/api/imagenes/listar/' + props.location.state.params.id);    
+    const res = await axios.get(ReactApi.url_api + '/api/imagenes/listar/' + props.location.state.params.id);    
     if (Object.entries(res).length) {
       setImagenes(res.data);
     } else {
@@ -76,7 +78,7 @@ const Imagenes = (props) => {
             Swal.showLoading()
             await axios({
               method: 'delete',
-              url: ('http://localhost:4000/api/imagenes/listar/' + id),
+              url: (ReactApi.url_api + '/api/imagenes/listar/' + id),
               data: { 
                 method: "borrarImagen", 
                 key: key}
@@ -89,7 +91,8 @@ const Imagenes = (props) => {
               }).then((result) => {
                 if(result.value && res.data.status == "error"){
                   console.log(res.data.errorData);
-                } else if (result.value){
+                } else if (result.value && res.data.status == "success"){
+                  console.log(res.data.messageData)
                   cargarImagenes();
                 }
               });
@@ -139,6 +142,7 @@ const Imagenes = (props) => {
           imagen={imagenes}
           loading={loading}
           borrar={borrarImagen}
+          tituloNovela={props.location.state.params.titulo}
         />
       </Row>
     </Container>

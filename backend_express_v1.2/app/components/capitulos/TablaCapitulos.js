@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import {
   Table, Badge, Button, CustomInput
 } from 'reactstrap'
 import axios from 'axios'
 import Moment from 'react-moment'
 import Swal from "sweetalert2"; 
+//variables de la api
+import ReactApi from '../../global';
 
 //configuracion del Toast
 const Toast = Swal.mixin({
@@ -20,9 +22,10 @@ const TablaCapitulos = ({primerCampo, capitulos, editar, borrar, loading}) => {
     let estado = e.target.checked == true ? "Aprobado": "Pendiente"
     await axios({
       method: 'patch',
-      url: 'http://localhost:4000/api/capitulos/buscar/' + idCap,
+      url: ReactApi.url_api + '/api/capitulos/buscar/' + idCap,
       data: {
-        estado: estado,
+        method: "actualizarEstado",
+        set: {estado: estado},
       }
     }).then((res) => {
       if (res.data.status == "success") {
@@ -66,7 +69,7 @@ const TablaCapitulos = ({primerCampo, capitulos, editar, borrar, loading}) => {
         {
           capitulos.map((capitulo, index) => (
             <tr className="table-light py-3" key={index}>
-              <td>{primerCampo=="Capitulo" ? capitulo.titulo : capitulo.id_novela.titulo}</td>
+              <td>{primerCampo=="Capitulo" ? capitulo.titulo:capitulo.id_novela == null ? "Novela No Encontrada": capitulo.id_novela.titulo}</td>
               <td>
                 <Badge pill color="primary">
                   {capitulo.numero}
@@ -110,10 +113,6 @@ const TablaCapitulos = ({primerCampo, capitulos, editar, borrar, loading}) => {
       </tbody>
     </Table>
   )
-}
-
-TablaCapitulos.propTypes = {
-
 }
 
 export default TablaCapitulos

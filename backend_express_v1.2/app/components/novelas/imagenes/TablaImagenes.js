@@ -6,7 +6,7 @@ import {
 } from 'reactstrap'
 import Moment from 'react-moment'
 
-const TablaImagenes = ({imagen, borrar, loading}) => {
+const TablaImagenes = ({imagen, borrar, loading, tituloNovela}) => {
   
   if (loading) {
     return (
@@ -19,12 +19,12 @@ const TablaImagenes = ({imagen, borrar, loading}) => {
   }
 
   return (
-    <Table hover >
+    <Table hover responsive>
       <thead>
         <tr className="table-light">
           <th>#</th>
           <th>Titulo</th>
-          <th>Nombre</th>
+          <th>Nombre de archivo</th>
           <th>Tipo</th>
           <th>Actualizado</th>
           <th>Accion</th>
@@ -36,7 +36,7 @@ const TablaImagenes = ({imagen, borrar, loading}) => {
             <tr className="table-light py-3" key={index}>
               <th scope="row">{index + 1}</th>
               <td>{imagen.titulo}</td>
-              <td>{imagen.key}</td>
+              <td>{imagen.contentType?(imagen.key).substring(8) + '.' + (imagen.contentType).split('/')[1]:imagen.key}</td>
               <td>
                 <Badge pill color="blue-accent">
                   {imagen.tipo}
@@ -53,10 +53,11 @@ const TablaImagenes = ({imagen, borrar, loading}) => {
                   color="warning"
                   tag={Link} 
                   to={{
-                    pathname: '/cms/imagens/editar/' + imagen.key, 
+                    pathname: '/cms/imagenes/editar/' + (imagen.key).substring(8), 
                     state: { 
                       params: { 
                         id: imagen._id,
+                        tituloNovela: tituloNovela
                       }
                     }
                   }}

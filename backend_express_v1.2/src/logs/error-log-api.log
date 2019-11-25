@@ -1,0 +1,66 @@
+[2019-11-19T03:58:10.783Z] error - Cast to number failed for value "panfilo" at path "numero" for model "Capitulo"
+[2019-11-19T03:59:21.775Z] error - err is not defined
+[2019-11-19T04:00:06.678Z] error - Cast to number failed for value "panfilo" at path "numero" for model "Capitulo"
+[2019-11-19T04:00:34.762Z] error - Cast to number failed for value "panfilo" at path "numero" for model "Capitulo"
+[2019-11-19T04:02:40.942Z] error - Cast to number failed for value "panfilo" at path "numero" for model "Capitulo"
+[2019-11-19T04:07:07.309Z] error - Cast to number failed for value "das" at path "numero" for model "Capitulo"
+[2019-11-19T04:08:05.645Z] error - Cast to number failed for value "panfilo" at path "numero" for model "Capitulo"
+[2019-11-19T04:08:27.130Z] error - Cast to number failed for value "panfilo" at path "numero" for model "Capitulo"
+[2019-11-19T04:10:50.064Z] error - Cast to number failed for value "das" at path "numero" for model "Capitulo"
+[2019-11-19T05:17:02.976Z] error - Capitulo validation failed: titulo: Path `titulo` is required., contenido: Path `contenido` is required.
+[2019-11-19T05:19:45.044Z] error - Capitulo validation failed: titulo: Path `titulo` is required., contenido: Path `contenido` is required.
+[2019-11-19T05:19:58.051Z] error - Capitulo validation failed: titulo: Path `titulo` is required., contenido: Path `contenido` is required.
+[2019-11-19T05:20:45.662Z] error - Capitulo validation failed: titulo: Path `titulo` is required., contenido: Path `contenido` is required.
+[2019-11-19T05:20:53.865Z] error - Capitulo validation failed: titulo: Path `titulo` is required., contenido: Path `contenido` is required.
+[2019-11-19T05:21:26.027Z] error - Capitulo validation failed: titulo: Path `titulo` is required., contenido: Path `contenido` is required.
+[2019-11-19T05:21:53.292Z] error - Capitulo validation failed: titulo: Path `titulo` is required., contenido: Path `contenido` is required.
+[2019-11-19T21:20:03.703Z] error - dataMessage is not defined
+[2019-11-19T21:20:23.705Z] error - E11000 duplicate key error collection: esnovel-db-v1.novelas index: slug_1 dup key: { : "goku" }
+[2019-11-20T01:54:11.090Z] error - There were 3 validation errors:
+* UnexpectedParameter: Unexpected key 'ACL' found in params
+* UnexpectedParameter: Unexpected key 'Body' found in params
+* UnexpectedParameter: Unexpected key 'ContentType' found in params
+[2019-11-20T01:54:11.102Z] error - There were 3 validation errors:
+* UnexpectedParameter: Unexpected key 'ACL' found in params
+* UnexpectedParameter: Unexpected key 'Body' found in params
+* UnexpectedParameter: Unexpected key 'ContentType' found in params
+[2019-11-20T02:10:44.409Z] error - NotFound: null
+[2019-11-20T02:12:10.162Z] error - NotFound: null
+[2019-11-20T02:38:15.190Z] error - NotFound: null
+[2019-11-20T02:38:57.110Z] error - NotFound: null
+[2019-11-20T02:39:19.917Z] error - NotFound: null
+[2019-11-20T02:40:20.249Z] error - NotFound: null
+[2019-11-20T02:40:52.876Z] error - NotFound: null
+[2019-11-20T02:42:30.773Z] error - NotFound: null
+[2019-11-20T02:44:30.783Z] error - NotFound: null
+[2019-11-20T03:12:15.561Z] error - NotFound: null
+[2019-11-20T03:12:27.606Z] error - NotFound: null
+[2019-11-20T03:12:59.710Z] error - NotFound: null
+[2019-11-20T03:13:13.609Z] error - NotFound: null
+[2019-11-22T08:15:29.355Z] error - The specified bucket does not exist
+[2019-11-22T08:23:40.375Z] error - The specified key does not exist.
+[2019-11-22T08:28:30.682Z] error - The specified key does not exist.
+[2019-11-22T08:52:34.993Z] error - Cannot read property 'Location' of undefined
+[2019-11-22T08:53:17.304Z] error - The specified key does not exist.
+[2019-11-22T08:56:35.213Z] error - This copy request is illegal because it is trying to copy an object to itself without changing the object's metadata, storage class, website redirect location or encryption attributes.
+[2019-11-22T08:57:19.259Z] error - Cannot read property 'Location' of undefined
+[2019-11-22T08:58:30.572Z] error - This copy request is illegal because it is trying to copy an object to itself without changing the object's metadata, storage class, website redirect location or encryption attributes.
+[2019-11-22T09:02:31.714Z] error - fileValidator is not defined
+[2019-11-22T09:02:38.424Z] error - The specified key does not exist.
+[2019-11-22T09:03:59.733Z] error - This copy request is illegal because it is trying to copy an object to itself without changing the object's metadata, storage class, website redirect location or encryption attributes.
+[2019-11-22T09:05:09.810Z] error - The specified key does not exist.
+[2019-11-22T09:14:09.771Z] error - s3.getUrl is not a function
+[2019-11-22T09:21:24.982Z] error - The specified key does not exist.
+[2019-11-22T09:21:36.846Z] error - The specified key does not exist.
+[2019-11-22T09:21:47.440Z] error - The specified key does not exist.
+[2019-11-22T19:46:31.686Z] error - The specified key does not exist.
+[2019-11-22T19:57:41.025Z] error - Missing required key 'Bucket' in params
+[2019-11-22T19:58:26.092Z] error - The specified key does not exist.
+[2019-11-22T19:58:43.616Z] error - The specified key does not exist.
+[2019-11-22T20:00:23.669Z] error - Access Denied
+[2019-11-22T20:02:02.807Z] error - The specified key does not exist.
+[2019-11-22T20:02:26.291Z] error - The specified key does not exist.
+[2019-11-22T20:03:08.025Z] error - Access Denied
+[2019-11-22T20:06:05.542Z] error - Access Denied
+[2019-11-22T20:09:38.549Z] error - The specified key does not exist.
+[2019-11-22T20:11:16.551Z] error - This copy request is illegal because it is trying to copy an object to itself without changing the object's metadata, storage class, website redirect location or encryption attributes.

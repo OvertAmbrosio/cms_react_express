@@ -6,6 +6,8 @@ import {
   CardTitle, Button, Table
 } from 'reactstrap'
 import axios from 'axios';
+//variables de la api
+import ReactApi from '../global';
 
 import TablaUsers from '../components/dashboard/TablaUsers';
 
@@ -27,7 +29,7 @@ const Dashboard = () => {
   }, [users])
 
   const cargarResumenNovelas = async () => {
-    const res = await axios.get('http://localhost:4000/api/novelas');
+    const res = await axios.get(ReactApi.url_api + '/api/novelas');
     let resumenN = new Object;
     resumenN.emision = (res.data.filter((novela) => 
         novela.estado == "Emision")).length;
@@ -41,7 +43,7 @@ const Dashboard = () => {
   };
 
   const cargarResumenCapitulos = async () => {
-    const res = await axios.get('http://localhost:4000/api/capitulos');
+    const res = await axios.get(ReactApi.url_api + '/api/capitulos');
     let resumenC = new Object;
     resumenC.aprobado = (res.data.filter((capitulo) =>
       capitulo.estado == "Aprobado")).length;
@@ -53,7 +55,7 @@ const Dashboard = () => {
   };
 
   const cargarResumenUsers = async () => {
-    const res = await axios.get('http://localhost:4000/api/users');
+    const res = await axios.get(ReactApi.url_api + '/api/users');
       
     let resumenU = new Object;
     resumenU.activo = (res.data.filter((user) => 

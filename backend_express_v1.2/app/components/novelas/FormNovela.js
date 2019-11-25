@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   Row, Col, Button,
@@ -8,6 +8,8 @@ import {
 import { WithContext as ReactTags } from 'react-tag-input';
 import axios from 'axios';
 import Swal from 'sweetalert2';  
+//variables de la api
+import ReactApi from '../../global';
 //imagen base del thumbnail
 const imagenBase = "https://s3.amazonaws.com/imagenes.tunovelaonline/tunovelaonline_base.png";
 const imagenLoading = "https://s3.amazonaws.com/imagenes.tunovelaonline/loading.gif"
@@ -48,25 +50,26 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
     )
   }
 
-  const [titulo, setTitulo] = useState(novela?novela.titulo:'');//usados
-  const [acron, setAcron] = useState(novela?novela.acron:'');//usados
-  const [titulo_alt, setTitulo_alt] = useState(novela?novela.titulo_alt:'');//usados
-  const [autor, setAutor] = useState(novela?novela.autor:'');//usados
-  const [sinopsis, setSinopsis] = useState(novela?novela.sinopsis:'');//usados
-  const [estado, setEstado] = useState(novela?novela.estado:'Emision');//usados
-  const [tipo, setTipo] = useState(novela?novela.tipo:'');//usados
-  const [imagenObj, setImagenObj] = useState({Portada: '', Miniatura: ''})//usados
-  const [categorias, setCategorias] = useState(novela?novela.categorias:[]);//usadas
-  const [tags, setTags] = useState(novela?novela.etiquetas:[]);//usadas
-  const [novelaObj, setNovelaObj] = useState('');//usado
+  const [titulo, setTitulo] = useState(novela?novela.titulo:'');
+  const [acron, setAcron] = useState(novela?novela.acron:'');
+  const [titulo_alt, setTitulo_alt] = useState(novela?novela.titulo_alt:'');
+  const [autor, setAutor] = useState(novela?novela.autor:'');
+  const [sinopsis, setSinopsis] = useState(novela?novela.sinopsis:'');
+  const [estado, setEstado] = useState(novela?novela.estado:'Emision');
+  const [tipo, setTipo] = useState(novela?novela.tipo:'');
+  const [imagenObj, setImagenObj] = useState({Portada: '', Miniatura: ''})
+  const [categorias, setCategorias] = useState(novela?novela.categorias:[]);
+  const [tags, setTags] = useState(novela?novela.etiquetas:[]);
+  const [novelaObj, setNovelaObj] = useState('');
+  const inputTitulo = useRef(null); 
   //constantes de cate/tipo/etiquetas
-  const [tipoNovela, setTipoNovela] = useState([]);//usados
-  const [categoriaNovela, setCategoriaNovela] = useState([]);//usados
-  const [suggestions, setSuggestions] = useState([]);//usados
+  const [tipoNovela, setTipoNovela] = useState([]);
+  const [categoriaNovela, setCategoriaNovela] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
   //imagenes staticas
   const [imagenSRC, setImagenSRC] = useState({
     Portada: novela?imagenLoading:imagenBase, 
-    Miniatura: novela?imagenLoading:imagenBase})//usados
+    Miniatura: novela?imagenLoading:imagenBase})
   
   useEffect(() => {
     llenarSuggestions();
@@ -83,7 +86,7 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
   },[novela])
   //funcion para llenar categorias/ tipos/ etiquetas
   const llenarSuggestions = async () => {
-    const tags = await axios.get('http://localhost:4000/api/novelas/etiquetas');
+    const tags = await axios.get(ReactApi.url_api + '/api/novelas/etiquetas');
     if (Object.entries(tags).length) {
       setSuggestions(tags.data); 
     } else {
@@ -95,7 +98,7 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
     }  
   }
   const llenarTipoNovela = async () => {
-    const tipo = await axios.get('http://localhost:4000/api/novelas/tipo');
+    const tipo = await axios.get(ReactApi.url_api + '/api/novelas/tipo');
     if (Object.entries(tipo).length) {
       setTipoNovela(tipo.data);
     } else {
@@ -107,7 +110,7 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
     }
   }
   const llenarCategoriasNovela = async () => {
-    const categ = await axios.get('http://localhost:4000/api/novelas/categoria');
+    const categ = await axios.get(ReactApi.url_api + '/api/novelas/categoria');
     if (Object.entries(categ).length) {
       setCategoriaNovela(categ.data);
     } else {
@@ -120,7 +123,7 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
   }
   //llenar imagenes en editar novela
   const llenarImagenes = async () => {
-    let images = (await axios.get('http://localhost:4000/api/imagenes/listar/' + novela._id)).data;
+    let images = (await axios.get(ReactApi.url_api + '/api/imagenes/listar/' + novela._id)).data;
     let ip = images.filter((image) => image.tipo == "Portada" );
     let im = images.filter((image) => image.tipo == "Miniatura" );
     if (ip.length>0) {
@@ -146,7 +149,7 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
 
   //funcion para agregar el atributo "valor" a las categorias que fueron marcadas (check)
   const novelaChecbox = async (b) => {
-    const cate = await axios.get('http://localhost:4000/api/novelas/categoria');
+    const cate = await axios.get(ReactApi.url_api + '/api/novelas/categoria');
     if (Object.entries(cate).length) {
       let a = cate.data
       let aux = cate.data;
@@ -213,8 +216,61 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
   },[novelaObj]);
   //crear novela
   const crearNovela = () => {
+    if (novelaObj.portada && novelaObj.miniatura) {
+      SWBB.fire({
+          title: '¿Guardar Novela?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si, ¡Subelo compa!',
+          cancelButtonText: 'Cancelar',
+        }).then((result) => {
+          if (result.value) {
+            Swal.fire({
+              onBeforeOpen: async e => {
+                Swal.showLoading()
+                await axios({
+                  method: 'post',
+                  url: ReactApi.url_api + '/api/novelas',
+                  data: novelaObj
+                }).then((res) => {
+                  Swal.hideLoading()
+                  console.log(res.data.dataMessages);
+                  SWBB.fire({
+                    title: res.data.title,
+                    text: res.data.message,
+                    type: res.data.status
+                  }).then((result) => {
+                    if(result.value && res.data.status != "error"){
+                      window.location.href = '/cms/novelas';
+                    } else {
+                      console.log(res.data.dataError);
+                    }
+                  });
+                });
+              }
+            })
+          } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+          ) {
+            SWBB.fire(
+              'Cancelado',
+              'Capitulo no guardado',
+              'error',
+            )
+          }
+        })
+    } else {
+      Toast.fire({
+        type: "error",
+        title: "Porfavor agrega una foto de portada y miniatura.",
+      }) 
+    }
+  };
+  //editar novela
+  const editarNovela = () => {
     SWBB.fire({
-      title: '¿Guardar Novela?',
+      title: '¿Actualizar Novela?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Si, ¡Subelo compa!',
@@ -225,8 +281,8 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
           onBeforeOpen: async e => {
             Swal.showLoading()
             await axios({
-              method: 'post',
-              url: 'http://localhost:4000/api/novelas',
+              method: 'put',
+              url: ReactApi.url_api + '/api/novelas/buscar/' + novela._id,
               data: novelaObj
             }).then((res) => {
               Swal.hideLoading()
@@ -249,51 +305,6 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
       result.dismiss === Swal.DismissReason.cancel
       ) {
         SWBB.fire(
-          'Cancelado',
-          'Capitulo no guardado',
-          'error',
-        )
-      }
-    })
-  }
-  //editar novela
-  const editarNovela = () => {
-    SWBB.fire({
-      title: '¿Actualizar Novela?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Si, ¡Subelo compa!',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
-      if (result.value) {
-        Swal.fire({
-          onBeforeOpen: async e => {
-            Swal.showLoading()
-            await axios({
-              method: 'put',
-              url: 'http://localhost:4000/api/novelas/buscar/' + novela._id,
-              data: novelaObj
-            }).then((res) => {
-              Swal.hideLoading()
-              SWBB.fire({
-                title: res.data.title,
-                text: res.data.message,
-                type: res.data.status
-              }).then((result) => {
-                if(result.value && res.data.status != "error"){
-                  window.location.href = '/cms/novelas';
-                } else {
-                  console.log(res.data.errorData);
-                }
-              });
-            });
-          }
-        })
-      } else if (
-      /* Read more about handling dismissals below */
-      result.dismiss === Swal.DismissReason.cancel
-      ) {
-        swalWithBootstrapButtons.fire(
           'Cancelado',
           'Novela no guardada',
           'error',
@@ -321,10 +332,11 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
     setNovelaObj(nObjecto);
   }
   //subir imagenes al aws S3 y traer respuesta
-  const subirImagen = async (e) => {
-    if (accion == "Crear") {
+  const subirImagen = async(e) => {
+    if (accion == "Crear" && e.target.files[0] != undefined) {
+      let type = e.target.files[0].type
       let name = e.target.id
-      let key = (slugify(titulo, { replacement: '-', lower: true })) + "-" + name + "." + ((e.target.files[0].name).split('.').pop());
+      let key = "Novelas/" + (slugify(titulo, { replacement: '-', lower: true })) + "-" + name;
       if (titulo == '') {
         SWBB.fire({
           type: 'error',
@@ -339,10 +351,11 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
         formData.append('imagen', file);
         formData.append('tipo', name);
         formData.append('Key', key);
+        formData.append('type', type);
         formData.append('method', "subirImagen");
         await axios({
           method: 'post',
-          url: 'http://localhost:4000/api/imagenes',
+          url: ReactApi.url_api + '/api/imagenes',
           data: formData,
           processData : false,
           headers: {
@@ -350,12 +363,13 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
           }
         }).then((res) => {
           setImagenSRC(prevState => ({ ...prevState, [name]: res.data.data.Location }));
-          setImagenObj(prevState => ({ ...prevState, [name]: res.data.data}))
+          setImagenObj(prevState => ({ ...prevState, [name]: {data: res.data.data, type: type}}));
           Toast.fire({
             type: res.data.status,
             title: res.data.message,
-          })    
-        });
+          });
+          inputTitulo.current.disabled = true;
+        }).catch((err) => console.log(err));
       }
     } else if (accion == "Editar"){
       SWBB.fire({
@@ -366,6 +380,78 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
       e.target.value = null;
     }
   }
+  //abortar operacion novela
+  const abortarNovela = async() => {
+    if (imagenObj.Portada || imagenObj.Miniatura) {
+      SWBB.fire({
+        title: '¿Deseas Cancelar la operacion?',
+        text: "Se eliminaran las imagenes y se redireccionará a la pagina de inicio.",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si, ¡Vamonos de aqui!',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.value) {
+          Swal.fire({
+            html: '<b></b>',
+            onBeforeOpen: async () => {
+              Swal.showLoading()
+              Swal.getContent().querySelector('b')
+              .textContent = "Borrando novela...";
+              if (imagenObj.Portada) {
+                await axios({
+                  method: 'delete',
+                  url: (ReactApi.url_api + '/api/imagenes/listar/' + imagenObj.Portada.data.Etag),
+                  data: { 
+                    method: "borrarImagenS3",
+                    key: imagenObj.Portada.data.key}
+                }).then((res) => {
+                  console.log(res)
+                  if(res.data.status == "error"){
+                    console.log(res.data.errorData);
+                  } else {
+                    Swal.getContent().querySelector('b')
+                        .textContent = "Eliminando imagen de Portada...";
+                  }
+                });
+              };
+              if(imagenObj.Miniatura) {
+                await axios({
+                  method: 'delete',
+                  url: (ReactApi.url_api + '/api/imagenes/listar/' + imagenObj.Miniatura.data.Etag),
+                  data: { 
+                    method: "borrarImagenS3",
+                    key: imagenObj.Miniatura.data.key}
+                }).then((res) => {
+                  console.log(res)
+                  if(res.data.status == "error"){
+                    console.log(res.data.errorData);
+                  } else {
+                    Swal.getContent().querySelector('b')
+                        .textContent = "Eliminando imagen miniatura...";
+                  }
+                });
+              };
+              Swal.getContent().querySelector('b').textContent = "¡VAMONOS RODOLFO!";
+              window.location.href = '/cms/novelas';
+            }
+          })
+        }else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+        ){
+          SWBB.fire(
+            'Cancelado',
+            'Tu Novela esta segura compa',
+            'error',
+          )
+        }
+      })    
+    } else {
+      console.log("no hay imagenes que borrar");
+      window.location.href = '/cms/novelas';
+    }
+  }
 
   return (
     <Card className="justify-content-center">
@@ -373,12 +459,14 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
         {accion} novela
       </CardHeader>
       <CardBody>
+        <p className="text-muted">*Recuerda: Si ya subiste una imagen asegurate de darle al boton de cancelar para borrarlas del servidor de lo contrario se perderá en el limbo. Nunca uses F5 o retroceder*</p>
         <Form>
           <Row>
             <Col md={6}>
               <FormGroup>
                 <Label for="novelaTitulo">Titulo</Label>
                 <Input 
+                  innerRef={inputTitulo}
                   required
                   plaintext 
                   type="text" 
@@ -544,6 +632,7 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
             </Col>
           </Row> 
           <Button onClick={guardarNovela} color="primary">Actualizar</Button>
+          <Button onClick={abortarNovela} color="danger">Cancelar</Button>
         </Form>
       </CardBody>
     </Card>

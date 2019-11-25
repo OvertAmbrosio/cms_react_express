@@ -5,6 +5,8 @@ import axios from 'axios';
 
 import FormNovela from '../components/novelas/FormNovela';
 import Error404 from '../components/layout/404';
+//variables de la api
+import ReactApi from '../global';
 
 const EditarNovela = (props) => {
   if (props.location.state === undefined) {
@@ -22,7 +24,7 @@ const EditarNovela = (props) => {
 
   const buscarNovela = async () => {
     setLoading(true)
-    const n = await axios.get('http://localhost:4000/api/novelas/buscar/' + props.location.state.params.id);
+    const n = await axios.get(ReactApi.url_api + '/api/novelas/buscar/' + props.location.state.params.id);
     setNovela(n.data) 
     setLoading(false)    
   }

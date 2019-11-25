@@ -1,4 +1,5 @@
 const capituloCtrl = {};
+const logger = require('../utils/logger');
 
 const Capitulo = require('../models/Capitulo');
 
@@ -21,158 +22,153 @@ capituloCtrl.crearCapitulo = async (req, res) => {
           estado,
           contenido,
           traductor,
-          slug } = req.body;
-  const nuevoCapitulo = new Capitulo({
-    id_novela,
-    titulo,
-    nota,
-    numero,
-    estado,
-    contenido,
-    traductor,
-    slug 
-  });
-  console.log("Esto Guarda");
-  console.log(nuevoCapitulo);
-  try {
-    await nuevoCapitulo.save();
-    res.send({
-      title: '¡Guardado con éxito!', 
-      message: 'Capitulo guardado correctamente compa.', 
-      status: 'success'
-    });
-  } catch (error) {
-    res.send({
-      title: '¡Error al guardar!', 
-      message: error.errors[Object.keys(error.errors)[0]].message, 
-      status: 'error'
-    });
+          slug } = req.body.data;
+
+  const nuevoCapitulo = new Capitulo({id_novela,titulo,nota,numero,estado,contenido,traductor,slug});
+
+  if (req.body.method == 'crearCapitulo') {
+    await nuevoCapitulo.save()
+                       .then(() => {
+                          res.send({
+                            title: '¡Guardado con éxito!', 
+                            message: 'Capitulo guardado correctamente compa.', 
+                            status: 'success'
+                          });
+                      }).catch((err) => {
+                        logger.error(err);
+                        res.send({
+                          title: '¡Error al guardar!', 
+                          message: err._message, 
+                          status: 'error'
+                        });
+                      });
+  } else {
+    res.send('Por aqui no se hace eso papu')
   }
 }
 
 capituloCtrl.getCapitulo = async (req, res) => {
-  const capitulo = await Capitulo.findById(req.params.id);
-  res.json(capitulo)
+  await Capitulo.findById(req.params.id)
+                .then((capitulo) => {
+                  res.send(capitulo);
+                }).catch((err) => {
+                  logger.error(err);
+                  res.send("Error en el servidor")
+                });
 }
 
 capituloCtrl.actualizarCapitulo = async (req, res) => {
-  const { id_novela,
-          titulo,
-          nota,
-          numero,
-          estado,
-          contenido,
-          traductor,
-          slug } = req.body;
-  try {
-    let r = await Capitulo.findByIdAndUpdate( req.params.id,{ 
-                  id_novela,
-                  titulo,
-                  nota,
-                  numero,
-                  estado,
-                  contenido,
-                  traductor,
-                  slug});
-    console.log(r);
-    res.send({
-      title: '¡Actualizado con éxito!', 
-      message: 'Capitulo actualizado correctamente compa.', 
-      status: 'success'
-    });
-  } catch (error) {
-    console.log(error);
-    res.send({
-      title: '¡Error al actualizar!', 
-      message: error.errors[Object.keys(error.errors)[0]].message, 
-      status: 'error'
-    });
-  };
-
+  const { id_novela, titulo, nota, numero, estado, contenido, traductor, slug } = req.body.data;
+  if (req.body.method == "actualizarCapitulo") {
+    await Capitulo.findByIdAndUpdate(req.params.id,
+                                      { id_novela, titulo, nota, numero, estado, contenido,traductor, slug })
+                  .then(() => {
+                    res.send({
+                      title: '¡Actualizado con éxito!', 
+                      message: 'Capitulo actualizado correctamente compa.', 
+                      status: 'success'
+                    });
+                  }).catch((err) => {
+                    logger.error(err)
+                    res.send({
+                      title: '¡Error al actualizar!', 
+                      message: err.code, 
+                      status: 'error'
+                    });
+                  });
+  } else {
+    res.send("por aqui no se actualiza papu")
+  }
+  
 }
 
 capituloCtrl.borrarCapitulo = async (req, res) => {
-  try {
-    await Capitulo.findByIdAndDelete(req.params.id);
-    res.send({
-      title: 'Borrado con éxito!', 
-      message: 'Capitulo borrado correctamente compa.', 
-      status: 'success'
-    });
-  } catch (error) {
-    console.log(error);
-    res.send({
-      title: '¡Error al borrar!', 
-      message: error.errors.estado.message, 
-      status: 'error'
-    });
+  if (req.body.method == 'borrarCapitulo') {
+    await Capitulo.findByIdAndDelete(req.params.id)
+                .then(() => {
+                  res.send({
+                    title: 'Borrado con éxito!', 
+                    message: 'Capitulo borrado correctamente compa.', 
+                    status: 'success'
+                  });
+              }).catch((err) => {
+                logger.log(err)
+                res.send({
+                  title: '¡Error al borrar!', 
+                  message: err.code, 
+                  status: 'error'
+                });
+              });
+  } else {
+    res.send("Estas intentando borrar por medios sospechosos papu")
   }
 }
 
 capituloCtrl.getCapitulosXNovelas = async (req, res) => {
-  const capitulos = await Capitulo.find({id_novela: req.params.id}).sort({numero:-1});
-  res.json(capitulos)
+  await Capitulo.find({id_novela: req.params.id})
+                .sort({numero:-1})
+                .then((data) => {
+                  res.send(data);
+              }).catch((err) => {
+                logger.error(err);
+                res.send('No se encontraron datos');
+              });
 }
 
 capituloCtrl.BusquedaXNumero = async (req, res) => {
   if (req.query.idNovela) {
-    try {
-      await Capitulo.find( {id_novela: req.query.idNovela , numero: req.query.var},
-        function(err, docs) {
-          if(!err) res.send(docs)
-      });
-    } catch (error) {
-      await Capitulo.find( {id_novela: req.query.idNovela, traductor: new RegExp(req.params.var, "i")},
-      function(err, docs) {
-        if(!err) {
-          res.send(docs)
-        } else {
-          res.send("404");
-          console.log(err);
-        };
-      }).sort({numero:-1});
-    }
+    await Capitulo.find( {id_novela: req.query.idNovela, 
+                            $or:[{traductor: new RegExp(req.query.var, "i")},
+                                {numero: isNaN(req.query.var)?'':req.query.var}]
+                }).sort({numero:-1})
+                  .then((capitulo) => {
+                  if (capitulo.length > 0) {
+                    res.send(capitulo);
+                  } else {
+                    res.send({message: "Sin Resultados"})
+                  }
+                }).catch((err) => {
+                  logger.error(err);
+                  res.send({message: err.message})
+                });    
   } else {
-    try {
-      await Capitulo.find( {numero: req.query.var},
-        function(err, docs) {
-          if(!err) res.send(docs)
-      }).populate('id_novela', 'titulo').sort({updatedAt:-1});
-    } catch (error) {
-      await Capitulo.find( {traductor: new RegExp(req.params.var, "i")},
-      function(err, docs) {
-        if(!err) {
-          res.send(docs)
-        } else {
-          res.send("404");
-          console.log(err);
-        };
-      }).populate('id_novela', 'titulo').sort({updatedAt:-1});
-    }
+    await Capitulo.find({ $or:[ {traductor: new RegExp(req.query.var, "i")},
+                                {numero: isNaN(req.query.var)?'':req.query.var}]
+                }).populate('id_novela', 'titulo')
+                  .sort({updatedAt:-1})
+                  .then((capitulo) => {
+                    if (capitulo.length > 0) {
+                    res.send(capitulo);
+                    } else {
+                    res.send({message: "Sin Resultados"})
+                    }
+                  }).catch((err) => {
+                    logger.error(err);
+                    res.send({message: err.message})
+                  });
   }
 }
 
 capituloCtrl.ActualizarEstado = async (req, res) => {
-  const { estado } = req.body;
-  console.log(req.body);
-  console.log(estado);
-  try {
-    const r = await Capitulo.updateOne({_id: req.params.id}, { $set: req.body })
-    console.log(r);
-    res.send({
-      title: '¡Actualizado con éxito!', 
-      message: 'Capitulo actualizado correctamente compa.', 
-      status: 'success'
-    });
-  } catch (error) {
-    console.log(error);
-    res.send({
-      title: '¡Hubo un error en el servidor!', 
-      message: error.errors, 
-      status: 'error'
-    });
+  if (req.body.method == "actualizarEstado") {
+    await Capitulo.updateOne({_id: req.params.id}, { $set: req.body.set })
+                  .then(() => {
+                    res.send({
+                      title: '¡Actualizado con éxito!', 
+                      message: 'Capitulo actualizado correctamente compa.', 
+                      status: 'success'
+                    });
+                  }).catch((err) => {
+                    logger.error(err);
+                    res.send({
+                      title: '¡Hubo un error en el servidor!', 
+                      message: err.code, 
+                      status: 'error'
+                    });
+                  })
+  } else {
+    res.send("Error papu, por aqui no se actualiza")
   }
-  
 }
 
 module.exports = capituloCtrl;

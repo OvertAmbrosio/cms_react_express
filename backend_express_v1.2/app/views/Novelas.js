@@ -7,6 +7,8 @@ import {
 import axios from 'axios';
 import "regenerator-runtime/runtime";
 import Swal from "sweetalert2";  
+//variables de la api
+import ReactApi from '../global';
 
 import TablaNovelas from '../components/novelas/TablaNovelas';
 import Paginacion from '../components/common/Paginacion';
@@ -41,7 +43,7 @@ const Novelas = () => {
   //listar novela
   const cargarNovelas = async () => {
     setLoading(true);
-    const res = await axios.get('http://localhost:4000/api/novelas');
+    const res = await axios.get(ReactApi.url_api + '/api/novelas');
     setNovelas(res.data);
     setLoading(false);
   };
@@ -61,10 +63,11 @@ const Novelas = () => {
             Swal.showLoading()
             await axios({
               method: 'delete',
-              url: ('http://localhost:4000/api/novelas/buscar/' + novelaId),
+              url: (ReactApi.url_api + '/api/novelas/buscar/' + novelaId),
               data: { method: "borrarNovela"}
             }).then((res) => {
               Swal.hideLoading()
+              console.log(res.data.dataMessages)
               SWBB.fire({
                 title: res.data.title,
                 text: res.data.message,
@@ -102,28 +105,28 @@ const Novelas = () => {
   const busqueda = async (e) => {
     e.preventDefault();
     if (tituloOrUser == '') {
-      swalWithBootstrapButtons.fire({
+      SWBB.fire({
         title: 'Ingresar dato de busqueda',
         text: 'Buscar por Titulo o Usuario',
         type: 'warning',
         cancelButtonText: 'Cancelar',
       }).then(() => {
-        listarNovelas();
+        cargarNovelas();
       });
     } else {
       setLoading(true);
       await axios({
         method: 'get',
-        url: 'http://localhost:4000/api/novelas/busqueda/' + tituloOrUser
+        url: ReactApi.url_api + '/api/novelas/busqueda/' + tituloOrUser
       }).then((res) => {
           if (res.data.message) {
             Toast.fire({
               type: 'error',
               title: 'No se encontraron datos'
             })
+            cargarNovelas();
             inputBusqueda.current.value = '';//limpiar input
             setTituloOrUser('');//limpiar estado
-            console.log(res);
           } else {
             Toast.fire({
               type: 'success',

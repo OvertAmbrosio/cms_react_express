@@ -8,11 +8,18 @@ const imagenSchema = new Schema({
   },
   titulo: {
     type: String,
-    trim: true
+    trim: true,
+    unique: true
   },
   tipo: {
     type: String,
-    trim: true
+    trim: true,
+    required: true
+  },
+  contentType:{
+    type: String,
+    trim: true,
+    required: true
   },
   url: {
     type: String,

@@ -7,13 +7,15 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter
 } from 'reactstrap'
 import Swal from "sweetalert2"; 
+//variables de la api
+import ReactApi from '../global';
 //componentes adicionales
 import TablaCapitulos from '../components/capitulos/TablaCapitulos';
 import Paginacion from '../components/common/Paginacion';
 import FormCapitulos from '../components/capitulos/FormCapitulos'
 import Error404 from '../components/layout/404'
 //personalizar estilo del sweetalert
-const swalWithBootstrapButtons = Swal.mixin({
+const SWBB = Swal.mixin({
   customClass: {
     confirmButton: 'btn btn-primary',
     cancelButton: 'btn btn-danger'
@@ -29,6 +31,12 @@ const Toast = Swal.mixin({
 })
 
 const ListarCapitulos = (props) => {
+  if (props.location.state === undefined) {
+    return(
+      <Error404/>
+    )
+  }
+
   const inputBusqueda = useRef(null);
   const [numeroOrTraductor, setNumeroOrTraductor] = useState('');
   const [estadoModal, setEstadoModal] = useState(false);
@@ -38,33 +46,24 @@ const ListarCapitulos = (props) => {
   const [capitulo, setCapitulo] = useState({});
   const [capitulos, setCapitulos] = useState([]);
   //parametros para enviar por url
-  const [slug, setSlug] = useState('');
-  const [idNovela, setIdNovel] = useState('');
-  const [tituloNovela, setTituloNovela] = useState('');
-
-  if (props.location.state === undefined) {
-    return(
-      <Error404/>
-    )
-  }
-
+  const [slug, setSlug] = useState(props.match.params.var);
+  const [idNovela, setIdNovel] = useState(props.location.state.params.id);
+  const [tituloNovela, setTituloNovela] = useState(props.location.state.params.titulo);
+  
   useEffect(() => {
     inputBusqueda.current.focus();
     cargarCapitulos();
-    setSlug(props.match.params.var);
-    setIdNovel(props.location.state.params.id);
-    setTituloNovela(props.location.state.params.titulo);
   }, []);
   //cargar capitulos
   const cargarCapitulos = async () => {
     setLoading(true);
-    const res = await axios.get('http://localhost:4000/api/capitulos/listar/' + props.location.state.params.id);
+    const res = await axios.get(ReactApi.url_api + '/api/capitulos/listar/' + props.location.state.params.id);
     setCapitulos(res.data);
     setLoading(false);
   };
   //borrar capitulos
   const borrarCapitulo = async (capituloId, numero) => {
-    swalWithBootstrapButtons.fire({
+    SWBB.fire({
       title: '¿Eliminar Capitulo?',
       text: `Estas borrando el capitulo N° ${numero}`,
       type: 'warning',
@@ -78,10 +77,11 @@ const ListarCapitulos = (props) => {
             Swal.showLoading()
             await axios({
               method: 'delete',
-              url: ('http://localhost:4000/api/capitulos/buscar/' + capituloId)
+              url: (ReactApi.url_api + '/api/capitulos/buscar/' + capituloId),
+              data: {method: 'borrarCapitulo'}
             }).then((res) => {
               Swal.hideLoading()
-              Swal.fire({
+              SWBB.fire({
                 title: res.data.title,
                 text: res.data.message,
                 type: res.data.status
@@ -97,7 +97,7 @@ const ListarCapitulos = (props) => {
       /* Read more about handling dismissals below */
       result.dismiss === Swal.DismissReason.cancel
       ){
-        swalWithBootstrapButtons.fire(
+        SWBB.fire(
           'Cancelado',
           'Tu capitulo esta seguro compa',
           'error',
@@ -126,7 +126,7 @@ const ListarCapitulos = (props) => {
   const busqueda = async (e) => {
     e.preventDefault();
     if (numeroOrTraductor == '') {
-      swalWithBootstrapButtons.fire({
+      SWBB.fire({
         title: 'Ingresar dato de busqueda',
         text: 'Buscar por N° de Capitulo o Usuario',
         type: 'warning',
@@ -138,19 +138,21 @@ const ListarCapitulos = (props) => {
       setLoading(true);
       await axios({
         method: 'get',
-        url: 'http://localhost:4000/api/capitulos/busqueda/',
+        url: ReactApi.url_api + '/api/capitulos/busqueda/',
         params: {
           idNovela: idNovela,
           var: numeroOrTraductor
         }
-      }).then((res) => {      
-        if (res.data.length == 0) {
+      }).then((res) => { 
+        if (res.data.message) {
+          console.log(res.data.message)
           Toast.fire({
             type: 'error',
             title: 'No se encontraron datos'
           })
           inputBusqueda.current.value = '';//limpiar input
           setNumeroOrTraductor('');//limpiar estado
+          cargarCapitulos();
         } else {
           Toast.fire({
             type: 'success',
@@ -222,6 +224,8 @@ const ListarCapitulos = (props) => {
           objetosPorPagina={capitulosPorPagina}
           totalObjetos={capitulos.length}
           paginacion={paginacion}
+          idNovela={idNovela}
+          tituloNovela={tituloNovela}
         />
       </Row>
       <Modal isOpen={estadoModal} toggle={abrirModal} centered size="lg">

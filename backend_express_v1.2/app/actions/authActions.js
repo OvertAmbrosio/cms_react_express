@@ -6,10 +6,12 @@ import {
   SET_CURRENT_USER,
   USER_LOADING
 } from "./types";
+//variables de la api
+import ReactApi from '../global';
 // Register User
 export const registerUser = (userData, history) => dispatch => {
   axios
-    .post("http://localhost:4000/api/users/register", userData)
+    .post(ReactApi.url_api + "/api/users/register", userData)
     .then(res => history.push("/cms/")) // re-direct to login on successful register
     .catch(err =>
       dispatch({
@@ -21,7 +23,7 @@ export const registerUser = (userData, history) => dispatch => {
 // Login - get user token
 export const loginUser = userData => dispatch => {
   axios
-    .post("http://localhost:4000/api/users/login", userData)
+    .post(ReactApi.url_api + "/api/users/login", userData)
     .then(res => {
       // Save to localStorage
 // Set token to localStorage

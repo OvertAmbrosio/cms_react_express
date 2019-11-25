@@ -2,15 +2,15 @@ import React, { useState, useEffect, useRef } from 'react'
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios'
-
 import Swal from "sweetalert2";  
-
 import {
   Form, FormGroup, Label, Input, 
   Button, Col
 } from 'reactstrap'
+//variables de la api
+import ReactApi from '../../global';
 
-const swalWithBootstrapButtons = Swal.mixin({
+const SWBB = Swal.mixin({
   customClass: {
     confirmButton: 'btn btn-primary',
     cancelButton: 'btn btn-danger'
@@ -70,8 +70,7 @@ const FormCapitulos = ({accion, idNovela, usuario, tituloNovela, capitulo, modal
   }
 
   const guardarCapitulo = () => {
-    console.log(capObject);
-    swalWithBootstrapButtons.fire({
+    SWBB.fire({
       title: '¿Guardar Capitulo?',
       type: 'warning',
       showCancelButton: true,
@@ -80,12 +79,15 @@ const FormCapitulos = ({accion, idNovela, usuario, tituloNovela, capitulo, modal
     }).then((result) => {
       if (result.value) {
         Swal.fire({
-          onBeforeOpen: async e => {
+          onBeforeOpen: async () => {
             Swal.showLoading()
             await axios({
               method: 'post',
-              url: 'http://localhost:4000/api/capitulos',
-              data: capObject
+              url: ReactApi.url_api + '/api/capitulos',
+              data: {
+                method: 'crearCapitulo',
+                data:capObject
+              }
             }).then((res) => {
               Swal.hideLoading()
               Swal.fire({
@@ -104,7 +106,7 @@ const FormCapitulos = ({accion, idNovela, usuario, tituloNovela, capitulo, modal
       /* Read more about handling dismissals below */
       result.dismiss === Swal.DismissReason.cancel
       ) {
-        swalWithBootstrapButtons.fire(
+        SWBB.fire(
           'Cancelado',
           'Capitulo no guardado',
           'error',
@@ -114,8 +116,7 @@ const FormCapitulos = ({accion, idNovela, usuario, tituloNovela, capitulo, modal
   }
 
   const editarCapitulo = () => {
-    console.log(capObject);
-    swalWithBootstrapButtons.fire({
+    SWBB.fire({
       title: '¿Actualizar Capitulo?',
       type: 'warning',
       showCancelButton: true,
@@ -128,8 +129,11 @@ const FormCapitulos = ({accion, idNovela, usuario, tituloNovela, capitulo, modal
             Swal.showLoading()
             await axios({
               method: 'put',
-              url: 'http://localhost:4000/api/capitulos/buscar/' + capitulo._id,
-              data: capObject
+              url: ReactApi.url_api + '/api/capitulos/buscar/' + capitulo._id,
+              data: {
+                method: 'actualizarCapitulo',
+                data: capObject
+              }
             }).then((res) => {
               Swal.hideLoading()
               Swal.fire({
@@ -149,7 +153,7 @@ const FormCapitulos = ({accion, idNovela, usuario, tituloNovela, capitulo, modal
       /* Read more about handling dismissals below */
       result.dismiss === Swal.DismissReason.cancel
       ) {
-        swalWithBootstrapButtons.fire(
+        SWBB.fire(
           'Cancelado',
           'Capitulo no guardado',
           'error',

@@ -1,10 +1,14 @@
 const express = require('express');
 const morgan = require('morgan');
+const compression = require('compression');
 const passport = require('passport');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const cors = require('cors');
 const multer = require('multer');
+
+const serveStatic = require('serve-static')
 
 const path = require('path');
 
@@ -16,27 +20,20 @@ const imagenes = require("./src/routes/imagenes");
 
 //inicializaciones
 const app = express();
+//definir PATHS staticas:
+const url_base = path.join(__dirname, 'public');
+const cmsTNO = path.join(__dirname, 'public/TNO');
 
 // //settings
-app.use(express.static(__dirname + '/public'));
 app.set('port', process.env.PORT || 4000);
-
-app.get('/',function(req, res) {
-  res.sendFile('error.html' , {root: __dirname + '/public/'});
-})
-
-app.route('/cms/*').get(function(req, res) {
-  res.sendFile(path.join(__dirname, '/public/TNO/index.html'), function(err) {
-    if (err) {
-      res.status(500).send(err)
-    }
-  })
-})
-
+app.use(compression());
+// //inicializar paths
+app.use('/', serveStatic(url_base));
+app.use('/cms/*', serveStatic(cmsTNO));
 //Middlewares
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
 const storage = multer.diskStorage({
     destination: path.join(__dirname, '/public/img/uploads'),
     filename: (req, file, cb) =>{
@@ -48,7 +45,8 @@ app.use(cors());
 app.use(session({
     secret: 'mysecretsession',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true,
+    store: new MongoStore({url: process.env.MONGODB_URI}),
 }));
 app.use(flash());
 app.use(passport.initialize());

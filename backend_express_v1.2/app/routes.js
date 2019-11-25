@@ -14,6 +14,7 @@ import ListarCapitulos from "./views/ListarCapitulos";
 import CrearCapitulo from "./views/CrearCapitulo";
 import Imagenes from "./views/Imagenes";
 import SubirImagen from "./views/SubirImagen";
+import EditarImagen from "./views/EditarImagen";
 
 export default [
   {
@@ -69,6 +70,12 @@ export default [
     exact: true,
     layout: Layout,
     component: SubirImagen
+  },
+  {
+    path: "/cms/imagenes/editar/:var",
+    exact: true,
+    layout: Layout,
+    component: EditarImagen
   },
   {
     path: "/cms/*",

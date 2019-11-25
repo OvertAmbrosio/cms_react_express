@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
 import { connect } from "react-redux";
 import PropTypes from 'prop-types'
@@ -10,11 +9,6 @@ const CrearNovela = (props) => {
   return (
     <Row className="my-3">
       <Col m="10" sm="12">
-        <div className="mb-2">
-          <Link to="/cms/novelas" className="text-decoration-none">
-            <i className="fas fa-arrow-left text-primary"></i>{` `}Lista
-          </Link>
-        </div>
         <FormNovela
           accion="Crear"
           usuario={props.name}

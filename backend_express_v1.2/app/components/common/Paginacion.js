@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import {
   Pagination, PaginationItem, PaginationLink,
 } from 'reactstrap';
 
-const Paginacion = ({objetosPorPagina, totalObjetos, paginacion}) => {
+const Paginacion = ({objetosPorPagina, totalObjetos, paginacion, idNovela, tituloNovela}) => {
 
   const pageNumbers = [];
 
@@ -15,7 +16,7 @@ const Paginacion = ({objetosPorPagina, totalObjetos, paginacion}) => {
     <Pagination>
       {pageNumbers.map(number => (
         <PaginationItem key={number}>
-          <PaginationLink onClick={() => paginacion(number)} href='#'>
+          <PaginationLink onClick={() => paginacion(number)} tag={Link} to={{pathname:'#', state: {params: {id: idNovela, titulo: tituloNovela}}}}>
             {number}
           </PaginationLink>
         </PaginationItem>

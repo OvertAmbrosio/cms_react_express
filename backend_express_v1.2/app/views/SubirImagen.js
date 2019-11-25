@@ -1,5 +1,4 @@
 import React, {useState,useEffect} from 'react'
-import { Link } from "react-router-dom";
 import {
   Row, Col,
   Card, CardHeader, CardBody
@@ -30,21 +29,6 @@ const SubirImagen = (props) => {
   return (
     <Row className="my-3">
       <Col m="10" sm="12">
-        <div className="mb-2">
-          <Link 
-            to={{
-              pathname: '/cms/imagenes/listar/' + slug, 
-              state: { 
-                params: { 
-                  id: idNovela,
-                  titulo: tituloNovela,
-                }
-              }
-            }}
-            className="text-decoration-none">
-            <i className="fas fa-arrow-left text-primary"></i>{` `}Lista
-          </Link>
-        </div>
         <Card>
           <CardHeader tag="h4">
             Subir Imagen
@@ -54,6 +38,7 @@ const SubirImagen = (props) => {
               idNovela={props.location.state.params.id}
               tituloNovela={props.location.state.params.titulo}
               accion="crear"
+              cancelar={props.history.goBack}
             />
           </CardBody>
         </Card>
