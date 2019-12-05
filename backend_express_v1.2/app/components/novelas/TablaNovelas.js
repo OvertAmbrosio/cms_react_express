@@ -19,7 +19,7 @@ const TablaNovelas = ({novela, borrar, loading}) => {
   }
 
   return (
-    <Table hover >
+    <Table hover responsive>
       <thead>
         <tr className="table-light">
           <th>#</th>
