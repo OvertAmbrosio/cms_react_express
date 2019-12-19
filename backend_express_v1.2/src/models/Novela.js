@@ -2,6 +2,10 @@ const { Schema, model, plugin } = require('mongoose');
 var slug = require('mongoose-slug-updater');
 plugin(slug);
 
+//importar sub documentos
+const Capitulo = require('./Capitulo');
+const Imagen = require('./Imagen');
+
 const novelaSchema = new Schema({
   titulo: {
     required: true,
@@ -29,12 +33,12 @@ const novelaSchema = new Schema({
     trim: true
   },
   sinopsis: String,
-  tipo: {
+  estado: {
     required: true,
     type: String,
     trim: true
   },
-  estado: {
+  tipo: {
     required: true,
     type: String,
     trim: true
@@ -47,10 +51,10 @@ const novelaSchema = new Schema({
   etiquetas: {
     type: Array,
     trim: true,
-    lowercase: true,
     default: []
   },
   clasificacion: {
+    type: Array,
     puntaje: {
       type: Number,
       min: 1,
@@ -61,10 +65,14 @@ const novelaSchema = new Schema({
       ref: 'Usuario'
     }
   },
-  createdBy: {
+  uploadedBy: {
     required: true,
-    type: String
-  }
+    type: Object,
+    nombre: String,
+    url: String
+  },
+  capitulos: [Capitulo],
+  imagenes: [Imagen]
 }, 
 {
   timestamps: true

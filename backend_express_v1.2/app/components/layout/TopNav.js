@@ -47,7 +47,7 @@ const TopNav = ({logoutUser, auth}) => {
                   Crear
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>
+                <DropdownItem to="/cms/novelas/configuraciones" tag={Link}>
                   Configuraciones
                 </DropdownItem>
               </DropdownMenu>

@@ -206,6 +206,18 @@ const FormCapitulos = ({accion, idNovela, usuario, tituloNovela, capitulo, modal
         />
       </FormGroup>
       <FormGroup>
+        <Label for="contenido">Contenido del Capitulo:</Label>
+        <CKEditor
+          data={contenido}
+          id="contenido"
+          editor={ ClassicEditor }
+          onChange={ ( event, editor ) => {
+              const data = editor.getData();
+              setContenido(data);
+          } }
+        />
+      </FormGroup>
+      <FormGroup>
         <Label for="estado">Estado:</Label>
         <Input 
           type="select" 
@@ -228,18 +240,6 @@ const FormCapitulos = ({accion, idNovela, usuario, tituloNovela, capitulo, modal
           size="3"
           defaultValue={notaTraductor}
           onChange={e => setNotaTraductor(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="contenido">Contenido del Capitulo:</Label>
-        <CKEditor
-          data={contenido}
-          id="contenido"
-          editor={ ClassicEditor }
-          onChange={ ( event, editor ) => {
-              const data = editor.getData();
-              setContenido(data);
-          } }
         />
       </FormGroup>
       <Button onClick={crearCapitulo} color="primary">Guardar</Button>

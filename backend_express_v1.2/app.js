@@ -46,7 +46,7 @@ app.use(session({
     secret: 'mysecretsession',
     resave: false,
     saveUninitialized: true,
-    store: new MongoStore({url: process.env.MONGODB_URI}),
+    store: new MongoStore({url: process.env.MONGODB_URI, ttl: 2 * 24 * 60 * 60}),
 }));
 app.use(flash());
 app.use(passport.initialize());

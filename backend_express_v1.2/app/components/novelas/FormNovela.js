@@ -216,56 +216,7 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
   },[novelaObj]);
   //crear novela
   const crearNovela = () => {
-    if (novelaObj.portada && novelaObj.miniatura) {
-      SWBB.fire({
-          title: '¿Guardar Novela?',
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Si, ¡Subelo compa!',
-          cancelButtonText: 'Cancelar',
-        }).then((result) => {
-          if (result.value) {
-            Swal.fire({
-              onBeforeOpen: async e => {
-                Swal.showLoading()
-                await axios({
-                  method: 'post',
-                  url: ReactApi.url_api + '/api/novelas',
-                  data: novelaObj
-                }).then((res) => {
-                  Swal.hideLoading()
-                  console.log(res.data.dataMessages);
-                  SWBB.fire({
-                    title: res.data.title,
-                    text: res.data.message,
-                    type: res.data.status
-                  }).then((result) => {
-                    if(result.value && res.data.status != "error"){
-                      window.location.href = '/cms/novelas';
-                    } else {
-                      console.log(res.data.dataError);
-                    }
-                  });
-                });
-              }
-            })
-          } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
-          ) {
-            SWBB.fire(
-              'Cancelado',
-              'Capitulo no guardado',
-              'error',
-            )
-          }
-        })
-    } else {
-      Toast.fire({
-        type: "error",
-        title: "Porfavor agrega una foto de portada y miniatura.",
-      }) 
-    }
+    console.log(novelaObj)
   };
   //editar novela
   const editarNovela = () => {
@@ -325,8 +276,7 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
     nObjecto.tipo = tipo;
     nObjecto.categorias = categorias;
     nObjecto.etiquetas = tags;
-    nObjecto.portada = imagenObj.Portada;
-    nObjecto.miniatura = imagenObj.Miniatura;
+    nObjecto.imagenes = [imagenObj.Portada.data, imagenObj.Miniatura.data];
     nObjecto.createdBy = usuario;
 
     setNovelaObj(nObjecto);

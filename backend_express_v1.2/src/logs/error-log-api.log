@@ -64,3 +64,43 @@
 [2019-11-22T20:06:05.542Z] error - Access Denied
 [2019-11-22T20:09:38.549Z] error - The specified key does not exist.
 [2019-11-22T20:11:16.551Z] error - This copy request is illegal because it is trying to copy an object to itself without changing the object's metadata, storage class, website redirect location or encryption attributes.
+[2019-12-11T02:40:32.458Z] error - Capitulo validation failed: contenido: Path `contenido` is required.
+[2019-12-14T07:51:00.542Z] error - Novela validation failed: titulo: Path `titulo` is required., acron: Path `acron` is required., titulo_alt: Path `titulo_alt` is required., autor: Path `autor` is required., tipo: Path `tipo` is required., estado: Path `estado` is required., uploadBy: Path `uploadBy` is required.
+[2019-12-14T08:07:43.868Z] error - Novela validation failed: titulo: Path `titulo` is required., acron: Path `acron` is required., titulo_alt: Path `titulo_alt` is required., autor: Path `autor` is required., tipo: Path `tipo` is required., estado: Path `estado` is required., uploadBy: Path `uploadBy` is required.
+[2019-12-14T08:10:01.272Z] error - Novela validation failed: uploadBy: Path `uploadBy` is required., imagenes.0.id_novela: Path `id_novela` is required.
+[2019-12-14T08:11:37.968Z] error - Novela validation failed: uploadBy: Cast to String failed for value "{ nombre: 'TuNovelaOnline', url: 'www.tunovelaonline.com' }" at path "uploadBy", capitulos.1.traductor: Cast to String failed for value "{ nombre: 'TuNovelaOnline', url: 'www.tunovelaonline.com' }" at path "traductor", capitulos.0.traductor: Cast to String failed for value "{ nombre: 'TuNovelaOnline', url: 'www.tunovelaonline.com' }" at path "traductor", imagenes.0.id_novela: Path `id_novela` is required.
+[2019-12-14T08:12:15.469Z] error - Novela validation failed: imagenes.0.id_novela: Path `id_novela` is required.
+[2019-12-14T14:41:12.565Z] error - Novela validation failed: uploadBy: Path `uploadBy` is required., imagenes.0.contentType: Path `contentType` is required., imagenes.1.contentType: Path `contentType` is required.
+[2019-12-14T14:43:12.290Z] error - Novela validation failed: imagenes.0.contentType: Path `contentType` is required., imagenes.1.contentType: Path `contentType` is required.
+[2019-12-14T15:59:32.607Z] error - listen EADDRINUSE: address already in use :::4000
+[2019-12-14T18:08:48.141Z] error - The argument to $each in $push must be an array but it was of type: object
+[2019-12-14T21:31:28.917Z] error - E11000 duplicate key error collection: tunovelaonline-db-v1.novelautils index: categorias.slug_1 dup key: { : null }
+[2019-12-15T22:33:45.230Z] error - The positional operator did not find the match needed from the query.
+[2019-12-15T22:37:02.670Z] error - The positional operator did not find the match needed from the query.
+[2019-12-15T22:38:12.936Z] error - The positional operator did not find the match needed from the query.
+[2019-12-15T22:45:43.510Z] error - Unsupported projection option: $set: { categorias.$: { nombre: "Aventura", descripcion: "Novelas con tématica de aventura", slug: "aventura" } }
+[2019-12-15T22:46:52.808Z] error - >1 field in obj: { categorias.$.nombre: { nombre: "Aventura" }, categorias.$.descripcion: { descripcion: "Novelas con tématica de aventura" }, categorias.$.slug: { slug: "aventura" } }
+[2019-12-15T22:47:33.796Z] error - Unsupported projection option: $set: { categorias.$.nombre: { nombre: "Aventura" } }
+[2019-12-15T22:48:51.733Z] error - Unsupported projection option: $set: { categorias.$.nombre: { nombre: "Aventura" } }
+[2019-12-15T22:49:48.798Z] error - Cast to string failed for value "{ nombre: 'Aventura' }" at path "nombre"
+[2019-12-15T22:50:38.550Z] error - Cast to string failed for value "{ nombre: 'Aventura' }" at path "nombre"
+[2019-12-15T22:53:13.718Z] error - The positional operator did not find the match needed from the query.
+[2019-12-15T22:54:39.429Z] error - The positional operator did not find the match needed from the query.
+[2019-12-15T22:56:30.679Z] error - Cast to string failed for value "{ nombre: 'Aventura' }" at path "nombre"
+[2019-12-15T22:57:05.440Z] error - The positional operator did not find the match needed from the query.
+[2019-12-15T22:57:38.493Z] error - The positional operator did not find the match needed from the query.
+[2019-12-15T22:59:50.642Z] error - The positional operator did not find the match needed from the query.
+[2019-12-15T23:01:36.817Z] error - The positional operator did not find the match needed from the query.
+[2019-12-15T23:06:51.541Z] error - The positional operator did not find the match needed from the query.
+[2019-12-15T23:09:54.773Z] error - The positional operator did not find the match needed from the query.
+[2019-12-15T23:34:21.165Z] error - Cast to ObjectId failed for value "{ 'categorias._id': '5df560988c33692554bc21ec' }" at path "_id" for model "NovelaUtil"
+[2019-12-15T23:36:05.820Z] error - Cast to ObjectId failed for value "{ 'categorias._id': '5df560988c33692554bc21ec' }" at path "_id" for model "NovelaUtil"
+[2019-12-15T23:40:55.147Z] error - Cast to string failed for value "{
+  nombre: 'Acción',
+  slug: 'aventura',
+  descripcion: 'Novelas con tématica de accion'
+}" at path "descripcion"
+[2019-12-16T00:21:01.859Z] error - Invalid atomic update value for $pull. Expected an object, received string
+[2019-12-16T03:19:54.399Z] error - Cast to ObjectId failed for value "{ _id: undefined }" at path "_id" for model "NovelaUtil"
+[2019-12-16T03:22:14.604Z] error - Cast to ObjectId failed for value "{ _id: undefined }" at path "_id" for model "NovelaUtil"
+[2019-12-16T03:23:17.022Z] error - Cast to ObjectId failed for value "{ _id: undefined }" at path "_id" for model "NovelaUtil"

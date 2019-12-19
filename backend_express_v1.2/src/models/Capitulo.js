@@ -1,12 +1,9 @@
-const { Schema, model } = require('mongoose');
+const { Schema } = require('mongoose');
+
+//importar sub documentos
+const CapituloContenido = require('./CapituloContenido');
 
 const capituloSchema = new Schema({
-  id_novela: {
-    type: Schema.Types.ObjectId, 
-    ref: 'Novela',
-    required: true
-  },
-
   titulo: {
     type: String,
     trim: true,
@@ -23,17 +20,7 @@ const capituloSchema = new Schema({
     required: true
   },
 
-  nota:{
-    type: String,
-    trim: true,
-  },
-
-  contenido: {
-    type: String,
-    required: true
-  },
-
-  traductor: String,
+  contenido: [CapituloContenido],
 
   slug:{
     type: String,
@@ -45,4 +32,4 @@ const capituloSchema = new Schema({
   timestamps: true
 });
 
-module.exports = model('Capitulo', capituloSchema);
+module.exports = ('Capitulo', capituloSchema);

@@ -9,6 +9,7 @@ import Dashboard from "./views/Dashboard";
 import Novelas from "./views/Novelas";
 import CrearNovela from "./views/CrearNovela";
 import EditarNovela from "./views/EditarNovela";
+import ConfigurarNovela from "./views/ConfigurarNovela";
 import Capitulos from "./views/Capitulos";
 import ListarCapitulos from "./views/ListarCapitulos";
 import CrearCapitulo from "./views/CrearCapitulo";
@@ -40,6 +41,12 @@ export default [
     exact: true,
     layout: Layout,
     component: EditarNovela
+  },
+  {
+    path: "/cms/novelas/configuraciones",
+    exact: true,
+    layout: Layout,
+    component: ConfigurarNovela
   },
   {
     path: "/cms/capitulos",

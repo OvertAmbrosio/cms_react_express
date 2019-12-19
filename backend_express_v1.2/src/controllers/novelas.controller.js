@@ -11,8 +11,26 @@ const s3 = new AWS.S3({
 const novelasCtrl = {};
 
 const Novela = require('../models/Novela');
-const Imagen = require('../models/Imagen');
 const Capitulo = require('../models/Capitulo');
+
+novelasCtrl.getNovelasEmision = async (req, res) => {
+   await Capitulo.find({estado: 'Aprobado'}, { id_novela: { $slice: 1 } })
+                .populate({
+                  path:'id_novela', 
+                  select: 'titulo acron estado',
+                  match: {"estado": "Emision"},
+                  options: { limit: 2 }
+                })
+                .sort({numero:-1})
+                .then((novelas, err) => {
+                  if (err) {
+                    logger.error(err);
+                    res.send({message: "Error en el servidor", err: err.code})
+                  } else {
+                    res.json(novelas)
+                  }
+                });
+} 
 
 novelasCtrl.buscarNovelas = async (req, res) => {
     await Novela.find({$or: [ {"titulo": new RegExp(req.params.var, "i")}, 
@@ -44,67 +62,18 @@ novelasCtrl.getNovelas = async (req, res) => {
 }
 
 novelasCtrl.crearNovela = async (req, res) => {
-  if (req.body.method == "crearNovela") {
+  if (req.body.method === "crearNovela") {
     //declarar variables
     let dataMessages = new Object();
     let dataError = new Object();
     //obtener datos del request
-    const { titulo, 
-            acron,
-            titulo_alt,
-            autor,
-            sinopsis,
-            estado,
-            tipo,
-            categorias,
-            etiquetas,
-            portada,
-            miniatura,
-            createdBy  } = req.body;
+    const { 
+      titulo, titulo_alt, acron, autor, sinopsis, estado, tipo, categorias, etiquetas, uploadedBy, imagenes 
+    } = req.body;
     //objetos a guardar
-    let nuevaNovela = new Novela({ titulo,
-                      acron,
-                      titulo_alt,
-                      autor,
-                      sinopsis,
-                      tipo,
-                      estado,
-                      categorias,
-                      etiquetas,
-                      createdBy});
-
-    let portadaObj = new Imagen({ id_novela: nuevaNovela._id,
-                                  titulo: nuevaNovela.titulo + " Portada",
-                                  tipo: "Portada",
-                                  contentType: portada.type,
-                                  url: portada.data.Location,
-                                  key: portada.data.Key});
-
-    let miniaturaObj = new Imagen({ id_novela: nuevaNovela._id,
-                                    titulo: nuevaNovela.titulo + " Miniatura",
-                                    tipo: "Miniatura",
-                                    contentType: portada.type,
-                                    url: miniatura.data.Location,
-                                    key: miniatura.data.Key});
-    //guardar en la base de datos gg
-    await portadaObj.save(function(err) {
-                      if (err) {
-                        logger.error(err);
-                        dataError.portada = err.code;
-                      } else {
-                        dataMessages.portada = "Portada guardada Correctamente"
-                      }
-                    })
-                    
-    await miniaturaObj.save(function(err) {
-                        if (err) {
-                          logger.error(err);
-                          dataError.miniatura = err.code;
-                        } else {
-                          dataMessages.miniatura = "Miniatura guardada Correctamente"
-                        }
-                      })
-
+    let nuevaNovela = new Novela({ 
+      titulo, titulo_alt, acron, autor, sinopsis, tipo, estado, categorias, etiquetas, uploadedBy, imagenes});
+    //guardando novela              
     await nuevaNovela.save()
                      .then(() => {
                         dataMessages.novela = "Novela Guardada";

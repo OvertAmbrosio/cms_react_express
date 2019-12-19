@@ -1,11 +1,6 @@
-const { Schema, model } = require('mongoose');
+const { Schema } = require('mongoose');
 
 const imagenSchema = new Schema({
-  id_novela: {
-    type: Schema.Types.ObjectId, 
-    ref: 'Novela',
-    required: true
-  },
   titulo: {
     type: String,
     trim: true,
@@ -36,4 +31,4 @@ const imagenSchema = new Schema({
   timestamps: true
 });
 
-module.exports = model('Imagen', imagenSchema);
+module.exports = ('Imagen', imagenSchema);
