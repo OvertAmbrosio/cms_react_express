@@ -63,64 +63,43 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
   const [novelaObj, setNovelaObj] = useState('');
   const inputTitulo = useRef(null); 
   //constantes de cate/tipo/etiquetas
+  const [utilsNovela, setUtilsNovela] = useState([]);
   const [tipoNovela, setTipoNovela] = useState([]);
   const [categoriaNovela, setCategoriaNovela] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   //imagenes staticas
   const [imagenSRC, setImagenSRC] = useState({
-    Portada: novela?imagenLoading:imagenBase, 
-    Miniatura: novela?imagenLoading:imagenBase})
+    Portada: novela?novela.imagenes[0].url:imagenBase, 
+    Miniatura: novela?novela.imagenes[1].url:imagenBase})
   
   useEffect(() => {
-    llenarSuggestions();
-    llenarTipoNovela();
+    llenarUtils();
   }, []);
 
   useEffect(() => {
-    if (novela != undefined) {
+    if (novela != undefined && utilsNovela.categorias != undefined) {
       novelaChecbox(novela.categorias);
-      llenarImagenes();
-    } else {
-      llenarCategoriasNovela();
+    } else if (utilsNovela.categorias != undefined){
+      setCategoriaNovela(utilsNovela.categorias)
     }
-  },[novela])
+  },[utilsNovela])
   //funcion para llenar categorias/ tipos/ etiquetas
-  const llenarSuggestions = async () => {
-    const tags = await axios.get(ReactApi.url_api + '/api/novelas/etiquetas');
-    if (Object.entries(tags).length) {
-      setSuggestions(tags.data); 
-    } else {
-      Toast.fire({
-        type: 'error',
-        title: 'No hay etiquetas de novelas papu'
-      });
-      console.log("Error en el servidor, no hay etiquetas de novelas")
-    }  
+  const llenarUtils = async () => {
+    axios.get(ReactApi.url_api + '/api/novelas/utils' , {
+      params: {
+        method: 'getAll'
+      }
+    })
+    .then(function (res) {
+      setUtilsNovela(res.data[0]);
+      setSuggestions(res.data[0].etiquetas);
+      setTipoNovela(res.data[0].tipos);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
   }
-  const llenarTipoNovela = async () => {
-    const tipo = await axios.get(ReactApi.url_api + '/api/novelas/tipo');
-    if (Object.entries(tipo).length) {
-      setTipoNovela(tipo.data);
-    } else {
-      Toast.fire({
-        type: 'error',
-        title: 'No hay tipos de novelas papu'
-      });
-      console.log("Error en el servidor, no hay tipos de novelas")
-    }
-  }
-  const llenarCategoriasNovela = async () => {
-    const categ = await axios.get(ReactApi.url_api + '/api/novelas/categoria');
-    if (Object.entries(categ).length) {
-      setCategoriaNovela(categ.data);
-    } else {
-      Toast.fire({
-        type: 'error',
-        title: 'No hay categorias papu'
-      });
-      console.log("Error en el servidor, no hay categorias")
-    }    
-  }
+
   //llenar imagenes en editar novela
   const llenarImagenes = async () => {
     let images = (await axios.get(ReactApi.url_api + '/api/imagenes/listar/' + novela._id)).data;
@@ -149,10 +128,10 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
 
   //funcion para agregar el atributo "valor" a las categorias que fueron marcadas (check)
   const novelaChecbox = async (b) => {
-    const cate = await axios.get(ReactApi.url_api + '/api/novelas/categoria');
+    const cate = await utilsNovela.categorias;
     if (Object.entries(cate).length) {
-      let a = cate.data
-      let aux = cate.data;
+      let a = cate
+      let aux = cate;
       await a.map((a, i) => {
         for (let x = 0; x < b.length; x++) {
           if (a.nombre == b[x].nombre) {
@@ -216,7 +195,57 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
   },[novelaObj]);
   //crear novela
   const crearNovela = () => {
-    console.log(novelaObj)
+    if (novelaObj.imagenes[0] && novelaObj.imagenes[1]) {
+      SWBB.fire({
+          title: '¿Guardar Novela?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si, ¡Subelo compa!',
+          cancelButtonText: 'Cancelar',
+        }).then((result) => {
+          if (result.value) {
+            Swal.fire({
+              onBeforeOpen: async e => {
+                Swal.showLoading()
+                await axios({
+                  method: 'post',
+                  url: ReactApi.url_api + '/api/novelas',
+                  data: novelaObj
+                }).then((res) => {
+                  Swal.hideLoading()
+                  console.log(res.data.dataMessages);
+                  SWBB.fire({
+                    title: res.data.title,
+                    text: res.data.message,
+                    type: res.data.status
+                  }).then((result) => {
+                    if(result.value && res.data.status != "error"){
+                      window.location.href = '/cms/novelas';
+                    } else {
+                      console.log(res.data.dataError);
+                    }
+                  });
+                });
+              }
+            })
+          } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+          ) {
+            SWBB.fire(
+              'Cancelado',
+              'Capitulo no guardado',
+              'error',
+            )
+          }
+        })
+    } else {
+      console.log(novelaObj)
+      Toast.fire({
+        type: "error",
+        title: "Porfavor agrega una foto de portada y miniatura.",
+      }) 
+    }
   };
   //editar novela
   const editarNovela = () => {
@@ -276,8 +305,8 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
     nObjecto.tipo = tipo;
     nObjecto.categorias = categorias;
     nObjecto.etiquetas = tags;
-    nObjecto.imagenes = [imagenObj.Portada.data, imagenObj.Miniatura.data];
-    nObjecto.createdBy = usuario;
+    nObjecto.imagenes = [imagenObj.Portada, imagenObj.Miniatura];
+    nObjecto.uploadedBy = {nombre:usuario, url:'www.tunovelaonline.com'};
 
     setNovelaObj(nObjecto);
   }
@@ -313,7 +342,14 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
           }
         }).then((res) => {
           setImagenSRC(prevState => ({ ...prevState, [name]: res.data.data.Location }));
-          setImagenObj(prevState => ({ ...prevState, [name]: {data: res.data.data, type: type}}));
+          let imgAux = {
+            titulo: titulo + ' ' + name,
+            tipo: name,
+            url: res.data.data.Location,
+            key: res.data.data.Key,
+            contentType: type
+          }
+          setImagenObj(prevState => ({ ...prevState, [imgAux.tipo]: imgAux}));
           Toast.fire({
             type: res.data.status,
             title: res.data.message,

@@ -68,11 +68,11 @@ novelaUtilsCtrl.crearNovelaUtil = async (req, res) => {
                                   status: 'error'})
                         });
   } else if (req.body.method === 'crearEtiqueta') {
-    const { text, slug } = req.body.etiquetas;
+    const { text, id } = req.body.etiquetas;
     await NovelaUtil.findByIdAndUpdate({
                       _id: req.body.id_mapa}, {
                       $push: {
-                        etiquetas: {text, slug}
+                        etiquetas: {text, id}
                       }
                   }).then(() => {
                       res.send({title: 'Guardado Con éxito Compa.!', 
@@ -137,7 +137,7 @@ novelaUtilsCtrl.actualizarNovelaUtil = async (req, res) => {
                     { 
                       $set: {
                         'etiquetas.$.text': data.text,
-                        'etiquetas.$.slug': data.slug
+                        'etiquetas.$.id': data.id
                       }
                     },{ 
                       new: true
@@ -188,7 +188,7 @@ novelaUtilsCtrl.borrarNovelaUtil = async (req, res) => {
                                 status: 'error'})
                     });
     }
-  } else if (req.body.method === 'borrarEtiquetas' ) {
+  } else if (req.body.method === 'borrarEtiqueta' ) {
     await NovelaUtil.update({},
                       { $pull: { etiquetas: { _id: req.params.id } } },
                       { multi: false 
@@ -216,6 +216,7 @@ novelaUtilsCtrl.borrarNovelaUtil = async (req, res) => {
                                   message: 'Aun sigue ahi compa.'});
                     });
   } else {
+    logger.info(JSON.stringify(req.body));
     res.send({title: '¡Error!', message: 'Metodo incorrecto papu, ¿Por dónde tratas de entrar?', status: 'error'})
   }
 }

@@ -23,10 +23,15 @@ const EditarNovela = (props) => {
   },[]);
 
   const buscarNovela = async () => {
-    setLoading(true)
-    const n = await axios.get(ReactApi.url_api + '/api/novelas/buscar/' + props.location.state.params.id);
-    setNovela(n.data) 
-    setLoading(false)    
+    setLoading(true);
+    await axios.get(ReactApi.url_api + '/api/novelas/buscar/' + props.location.state.params.id)
+    .then(function (res) {
+      setNovela(res.data) 
+      setLoading(false)  
+    })
+    .catch(function (error) {
+      console.log(error);
+    })  
   }
 
   return (

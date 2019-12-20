@@ -49,6 +49,46 @@ const ConfigurarNovela = () => {
 
     return respuesta;
   }
+  //actualizar objeto 
+  async function actualizarObjeto (metodo, tipo, data, id) {
+    let respuesta = ''
+    await axios.put(ReactApi.url_api + '/api/novelas/utils/buscar/' + id , {
+                id_mapa: utilsNovela[0]._id,
+                method: metodo,
+                tipo: tipo,
+                data: data
+              })
+              .then((res) => {
+                respuesta = res
+                cargarUtils()
+              })
+              .catch((error) => {
+                respuesta = 'error'
+                console.log(error);
+              })
+
+    return respuesta;
+  }
+  //borrar objeto
+  async function borrarObjeto (metodo, id){
+    let respuesta = ''
+    await axios.delete(ReactApi.url_api + '/api/novelas/utils/buscar/' + id , {
+                data: {
+                  id_mapa: utilsNovela[0]._id,
+                  method: metodo
+                }
+              })
+              .then((res) => {
+                respuesta = res
+                cargarUtils()
+              })
+              .catch((error) => {
+                respuesta = 'error'
+                console.log(error);
+              })
+
+    return respuesta;
+  }
   
   if (loading) {
     return (
@@ -66,7 +106,9 @@ const ConfigurarNovela = () => {
     return (
       <Configuraciones 
         utilsNovela={utilsNovela}
-        agregarObjeto={agregarObjeto}  
+        agregarObjeto={agregarObjeto}
+        actualizarObjeto={actualizarObjeto}
+        borrarObjeto={borrarObjeto}
       />
     )
   }

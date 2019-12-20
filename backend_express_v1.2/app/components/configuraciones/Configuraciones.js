@@ -7,7 +7,25 @@ import classnames from 'classnames';
 //componentes
 import TablaUtils from './TablaUtils';
 
-const Configuraciones = ({utilsNovela, agregarObjeto}) => {
+const metodoCategoria = {
+  agregar:'crearCategoria',
+  editar:'actualizarCategoria',
+  borrar: 'borrarCategoria'
+};
+
+const metodoTipo = {
+  agregar:'crearTipo',
+  editar:'actualizarTipo',
+  borrar: 'borrarTipo'
+};
+
+const metodoEtiqueta = {
+  agregar:'crearEtiqueta',
+  editar:'actualizarEtiquetas',
+  borrar: 'borrarEtiqueta'
+};
+
+const Configuraciones = ({utilsNovela, agregarObjeto, actualizarObjeto, borrarObjeto}) => {
 
   const [activeTab, setActiveTab] = useState('1');
   const [componente, setComponente] = useState('');
@@ -17,25 +35,31 @@ const Configuraciones = ({utilsNovela, agregarObjeto}) => {
       setComponente(
         <TablaUtils 
           tipo='categorias' 
-          metodo='crearCategoria'
+          metodo={metodoCategoria}
           objetos={utilsNovela[0].categorias} 
-          agregar={agregarObjeto}/>
+          agregar={agregarObjeto}
+          editar={actualizarObjeto}
+          borrar={borrarObjeto}/>
       ) 
     } else if (activeTab == 2) {
       setComponente(
         <TablaUtils 
           tipo='tipos'
-          metodo='crearTipo'
+          metodo={metodoTipo}
           objetos={utilsNovela[0].tipos} 
-          agregar={agregarObjeto}/>
+          agregar={agregarObjeto}
+          editar={actualizarObjeto}
+          borrar={borrarObjeto}/>
       )
     } else if (activeTab == 3) {
       setComponente(
         <TablaUtils 
           tipo='etiquetas'
-          metodo='crearEtiqueta'
+          metodo={metodoEtiqueta}
           objetos={utilsNovela[0].etiquetas} 
-          agregar={agregarObjeto}/>
+          agregar={agregarObjeto}
+          editar={actualizarObjeto}
+          borrar={borrarObjeto}/>
       )
     }
   },[activeTab])
@@ -51,7 +75,7 @@ const Configuraciones = ({utilsNovela, agregarObjeto}) => {
           <h4>Lista de configuraciones</h4>
         </Col>
         <Col sm={2} md={2} lg={2}>
-          <Button color="danger" >
+          <Button color="danger" onClick={e => console.log('no lo haga compa')}>
               <i className="fas fa-trash-alt"></i>{` `}Eliminar
           </Button>
         </Col>

@@ -14,7 +14,7 @@ const nCateSchema = new Schema({
 
 const etiquetasSchema = new Schema({
   text: String,
-  slug: {
+  id: {
     type: String,
     trim: true
   },
