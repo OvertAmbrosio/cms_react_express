@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useRef} from 'react'
-import { Link } from "react-router-dom";
 import axios from 'axios'
 import {
   Container, Row, Col, Button,
-  Form, FormGroup, Input,
-  Modal, ModalHeader, ModalBody, ModalFooter
+  Form, FormGroup, Input
 } from 'reactstrap'
 import Swal from "sweetalert2"; 
 //variables de la api
-import ReactApi from '../global';
+import ReactApi from '../../global';
 //componentes adicionales
-import TablaCapitulos from '../components/capitulos/TablaCapitulos';
-import Paginacion from '../components/common/Paginacion';
-import FormCapitulos from '../components/capitulos/FormCapitulos'
+import TablaCapitulos from '../../components/capitulos/TablaCapitulos';
+import Paginacion from '../../components/common/Paginacion';
 //personalizar estilo del sweetalert
 const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
@@ -32,15 +29,11 @@ const Toast = Swal.mixin({
 const Capitulos = () => {
   const inputBusqueda = useRef(null);
   const [numeroOrTraductor, setNumeroOrTraductor] = useState('');
-  const [estadoModal, setEstadoModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [capitulosPorPagina] = useState(50);
-  const [capitulo, setCapitulo] = useState({});
   const [capitulos, setCapitulos] = useState([]);
-  //parametros para enviar por url
-  const [idNovela, setIdNovel] = useState('');
-  const [tituloNovela, setTituloNovela] = useState('');
+  const [capitulosAux, setCapitulosAux] = useState([]);
 
   useEffect(() => {
     inputBusqueda.current.focus();
@@ -49,12 +42,37 @@ const Capitulos = () => {
   //cargar capitulos
   const cargarCapitulos = async () => {
     setLoading(true);
-    const res = await axios.get(ReactApi.url_api + '/api/capitulos');
-    setCapitulos(res.data);
+    let data = [];
+    await axios.get(ReactApi.url_api + '/api/capitulos')
+      .then(function (res) {
+        var promises = (res.data).map(function(capitulos){
+          return (capitulos.capitulos).map((c) => (
+            data.push({
+              id_novela: capitulos._id,
+              id_cap: c._id,
+              id_contenido: c.contenido[0]._id,
+              titulo_novela : capitulos.titulo,
+              titulo: c.titulo,
+              numero : c.numero,
+              slug: c.slug,
+              traductor : c.contenido[0].traductor.nombre,
+              updatedAt : c.updatedAt,
+              estado : c.estado
+            })
+          ))
+        })
+        Promise.all(promises).then(function() {
+          setCapitulos(data);
+          setCapitulosAux(data);
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      })      
     setLoading(false);
   };
   //borrar capitulos
-  const borrarCapitulo = async (capituloId, numero) => {
+  const borrarCapitulo = async (capituloId, numero, contenidoId) => {
     swalWithBootstrapButtons.fire({
       title: '¿Eliminar Capitulo?',
       text: `Estas borrando el capitulo N° ${numero}`,
@@ -70,7 +88,10 @@ const Capitulos = () => {
             await axios({
               method: 'delete',
               url: (ReactApi.url_api + '/api/capitulos/buscar/' + capituloId),
-              data: {method : "borrarCapitulo"}
+              data: {
+                method : "borrarCapitulo",
+                id_contenido: contenidoId
+              }
             }).then((res) => {
               Swal.hideLoading()
               Swal.fire({
@@ -97,18 +118,6 @@ const Capitulos = () => {
       }
     })
   };
-  //editar capitulo
-  const editarCapitulo = async (e) => {
-    setCapitulo(e);
-    setTituloNovela(e.id_novela.titulo);
-    setIdNovel(e.id_novela._id);
-    abrirModal();
-    console.log("Modal Abierto compa");
-  };
-  //abrir modal
-  const abrirModal = () => {
-    setEstadoModal(!estadoModal);
-  };
   //ejecutar funcion al presionar enter
   const enterPressed = (e) => {
     var code = e.keyCode || event.which;
@@ -120,7 +129,7 @@ const Capitulos = () => {
   const busqueda = async (e) => {
     e.preventDefault();
     if (numeroOrTraductor == '') {
-      swalWithBootstrapButtons.fire({
+      SWBB.fire({
         title: 'Ingresar dato de busqueda',
         text: 'Buscar por N° de Capitulo o Usuario',
         type: 'warning',
@@ -130,30 +139,42 @@ const Capitulos = () => {
       });
     } else {
       setLoading(true);
-      await axios({
-        method: 'get',
-        url: ReactApi.url_api + '/api/capitulos/busqueda/',
-        params: {
-          var: numeroOrTraductor
-        }
-      }).then((res) => { 
-        if (res.data.message) {
-          console.log(res.data.message)
-          Toast.fire({
-            type: 'error',
-            title: 'No se encontraron datos'
-          })
+      if (!isNaN(numeroOrTraductor)) {
+        let a = capitulosAux.filter( capitulo => capitulo.numero == numeroOrTraductor);
+        if (a.length == 0) {
+          Toast.fire({type: 'error',
+                      title: 'No se encontraron datos'});
           inputBusqueda.current.value = '';//limpiar input
           setNumeroOrTraductor('');//limpiar estado
-          cargarCapitulos();
+          setCapitulos(capitulosAux); //volver la lista original
         } else {
-          Toast.fire({
-            type: 'success',
-            title: `Se encontraron ${res.data.length} resultados. `
-          })
-          setCapitulos(res.data);
+          Toast.fire({type: 'success',
+                      title: `Se encontraron ${a.length} resultados. `})
+          setCapitulos(a);
         }
-      })
+      } else {
+        try {
+          let a = capitulosAux.filter( 
+            capitulo => 
+              capitulo.traductor == numeroOrTraductor
+          );
+          if (a.length == 0) {
+            Toast.fire({type: 'error',
+                        title: 'No se encontraron datos'});
+            inputBusqueda.current.value = '';//limpiar input
+            setNumeroOrTraductor('');//limpiar estado
+            setCapitulos(capitulosAux); //volver la lista original
+          } else {
+            Toast.fire({type: 'success',
+                        title: `Se encontraron ${a.length} resultados. `})
+            setCapitulos(a);
+          }
+        } catch (error) {
+          console.log(error)
+          Toast.fire({type: 'error',
+                      title: 'Error en la busqueda, archivos defectuosos'});
+        }
+      }
       setLoading(false);
     }
   };
@@ -194,34 +215,13 @@ const Capitulos = () => {
           capitulos={currentCaps}
           loading={loading}
           borrar={borrarCapitulo}
-          editar={editarCapitulo}
         />
         <Paginacion 
           objetosPorPagina={capitulosPorPagina}
           totalObjetos={capitulos.length}
           paginacion={paginacion}
         />
-      </Row>
-      <Modal isOpen={estadoModal} toggle={abrirModal} centered size="xl">
-        <ModalHeader toggle={abrirModal} className="text-truncate pr-1">
-          <span className="d-inline-block text-truncate" style={{maxWidth: '400px'}}>
-            Editar Capitlo
-          </span>
-        </ModalHeader>
-        <ModalBody>
-          <FormCapitulos
-            capitulo={capitulo}
-            idNovela={idNovela}
-            tituloNovela={tituloNovela}
-            accion="editar"
-            listar={cargarCapitulos}
-            modal={abrirModal}
-          />
-        </ModalBody>
-        <ModalFooter>
-          <Button color="danger" onClick={abrirModal}>Cerrar</Button>
-        </ModalFooter>
-      </Modal>       
+      </Row>   
     </Container>
   )
 };

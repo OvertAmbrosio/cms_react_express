@@ -4,8 +4,8 @@ import {
   Card, CardHeader, CardBody
 } from 'reactstrap'
 
-import FormImagen from '../components/novelas/imagenes/FormImagen';
-import Error404 from '../components/layout/404'
+import FormImagen from '../../components/novelas/imagenes/FormImagen';
+import Error404 from '../../components/layout/404'
 
 const SubirImagen = (props) => {
   //parametros para enviar en la url

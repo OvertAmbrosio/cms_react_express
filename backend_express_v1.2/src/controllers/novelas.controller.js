@@ -34,8 +34,12 @@ novelasCtrl.getNovelasEmision = async (req, res) => {
 
 novelasCtrl.buscarNovelas = async (req, res) => {
     await Novela.find({$or: [ {"titulo": new RegExp(req.params.var, "i")}, 
-                              {"createdBy": new RegExp(req.params.var, "i")} ]
-              }).then((novela, err) => {
+                              {"uploadedBy.nombre": new RegExp(req.params.var, "i")} ]
+              }).select(
+                {titulo:1, slug:1, tipo:1, uploadedBy:1, updatedAt: 1, estado:1, imagenes: 1}
+              ).sort(
+                {createdAt:-1}
+              ).then((novela, err) => {
                 if (err){
                   logger.error(err);
                   res.send({message: "Error en el servidor papu"})
@@ -49,7 +53,7 @@ novelasCtrl.buscarNovelas = async (req, res) => {
 
 novelasCtrl.getNovelas = async (req, res) => {
   await Novela.find()
-              .select({titulo:1, slug:1, tipo:1, createdBy:1, updatedAt: 1, estado:1})
+              .select({titulo:1, slug:1, tipo:1, uploadedBy:1, updatedAt: 1, estado:1, imagenes: 1, capitulos: 1})
               .sort({createdAt:-1})
               .then((novelas, err) => {
                 if (err) {
@@ -96,13 +100,14 @@ novelasCtrl.crearNovela = async (req, res) => {
 }
 
 novelasCtrl.getNovela = async (req, res) => {
-    await Novela.findById(req.params.id)
-                .then((data) => {
-                  res.send(data);
-                }).catch((err) => {
-                  logger.error(err);
-                  res.send('Error en el servidor');
-                });
+  await Novela.findById(req.params.id)
+              .select({capitulos:0, clasificacion: 0})
+              .then((data) => {
+                res.send(data);
+              }).catch((err) => {
+                logger.error(err);
+                res.send('Error en el servidor');
+              });
 }
 
 novelasCtrl.actualizarNovela = async (req, res) => {
@@ -115,8 +120,7 @@ novelasCtrl.actualizarNovela = async (req, res) => {
             estado,
             tipo,
             categorias,
-            etiquetas,
-            createdBy} = req.body;
+            etiquetas} = req.body;
     await Novela.findByIdAndUpdate(req.params.id,{ 
       titulo,
       acron,
@@ -126,8 +130,7 @@ novelasCtrl.actualizarNovela = async (req, res) => {
       tipo,
       estado,
       categorias,
-      etiquetas,
-      createdBy 
+      etiquetas
     }).then(function () {
       res.send({title: '¡Novela Actualizada!', 
                 message: 'Novela actualizada correctamente compa.', 
@@ -147,12 +150,12 @@ novelasCtrl.actualizarNovela = async (req, res) => {
 }
 
 novelasCtrl.borrarNovela = async (req, res) => {
-  let dataMessages = {imagenes_s3: [], imagenes_db: '', capitulos:'' };
-  let dataError = {imagenes_s3: [], imagenes_db: '', capitulos:'' };
+  let dataMessages = {imagenes_s3: [] };
+  let dataError = {imagenes_s3: [] };
   if (req.body.method == "borrarNovela") {
-    const imagenes = await Imagen.find({id_novela:req.params.id});
-    if (imagenes.length > 0) {
-      imagenes.map(async (imagen, index) => {
+    //Comprobar que haya imagenes
+    if ((req.body.imagenes).length > 0) {
+      (req.body.imagenes).map(async (imagen, index) => {
         let aux = index;
         await s3.deleteObject({Bucket: bucket, Key: imagen.key})
                 .promise()
@@ -162,42 +165,40 @@ novelasCtrl.borrarNovela = async (req, res) => {
                   dataError.imagenes_s3[aux] = `Error borrando imagen ${imagen.key}.`
                 });
       });
-      await Imagen.deleteMany({id_novela: req.params.id})
-                  .then(dataMessages.imagenes_db = `Se eliminó las imagenes correctamente de la base de datos.`)
-                  .catch((err) => {
-                    logger.error(err);
-                    dataError.imagenes_db = `Error borrando imagen.`
-                  });
-      
     } else {
       dataMessages.imagen = "No se encontraron imagenes";
     }
-    //borrar los capitulos de la novela
-    await Capitulo.deleteMany({id_novela: req.params.id})
-                  .then((rs) => {
-                    if (rs.deletedCount>0) {
-                      dataMessages.capitulos = `Se eliminó ${rs.deletedCount} capitulos correctamente de la base de datos.`
-                    } else {
-                      dataMessages.capitulos = "No se encontraron capitulos";
-                    }
-                }).catch((err) => {
-                  logger.error(err);
-                  dataError.capitulos = `Error eliminando capitulos.`
-                });
+    //comprobar que haya capitulos
+    if ((req.body.capitulos).length > 0) {
+      await Novela.findById(req.params.id)
+              .select({capitulos:1, _id:0})
+              .then((data) => {
+                data.map((d) => (
+                  (d.contenido).map((c) => (
+                    console.log(c)
+                  ))
+                ))
+              }).catch((err) => {
+                logger.error(err);
+                res.send('Error en el servidor');
+              });
+    } else {
+      dataMessages.imagen = "No se encontraron capitulos";
+    }
     //Borrar la novela
-    await Novela.findByIdAndDelete(req.params.id)
-                .then(() => {
-                  res.send({title: '¡Novela Eliminada!', 
-                            status: 'success', 
-                            message: 'Novela eliminada exitosamente',
-                            dataMessages: dataMessages});
-                }).catch((error) => {
-                    logger.error(error);
-                    res.send({title: '¡Error en el servidor!', 
-                              status: 'error',
-                              message: 'La novela no se eliminó, presiona F12/Console y envia la captura al administrador.', 
-                              errorData: dataError});
-                });
+    // await Novela.findByIdAndDelete(req.params.id)
+    //             .then(() => {
+    //               res.send({title: '¡Novela Eliminada!', 
+    //                         status: 'success', 
+    //                         message: 'Novela eliminada exitosamente',
+    //                         dataMessages: dataMessages});
+    //             }).catch((error) => {
+    //                 logger.error(error);
+    //                 res.send({title: '¡Error en el servidor!', 
+    //                           status: 'error',
+    //                           message: 'La novela no se eliminó, presiona F12/Console y envia la captura al administrador.', 
+    //                           errorData: dataError});
+    //             });
   } else {
     res.send({title: '¡Error!', 
               status: 'error',

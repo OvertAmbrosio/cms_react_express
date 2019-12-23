@@ -7,10 +7,10 @@ import {
 
 import axios from 'axios';
 
-import FormImagen from '../components/novelas/imagenes/FormImagen';
-import Error404 from '../components/layout/404';
+import FormImagen from '../../components/novelas/imagenes/FormImagen';
+import Error404 from '../../components/layout/404';
 //variables de la api
-import ReactApi from '../global';
+import ReactApi from '../../global';
 
 const EditarImagen = (props) => {
 

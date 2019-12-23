@@ -99,33 +99,6 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
       console.log(error);
     })
   }
-
-  //llenar imagenes en editar novela
-  const llenarImagenes = async () => {
-    let images = (await axios.get(ReactApi.url_api + '/api/imagenes/listar/' + novela._id)).data;
-    let ip = images.filter((image) => image.tipo == "Portada" );
-    let im = images.filter((image) => image.tipo == "Miniatura" );
-    if (ip.length>0) {
-      await setImagenSRC(prevState => ({ ...prevState, Portada: ip[0].url }));
-    } else {
-      Toast.fire({
-        type: 'error',
-        title: 'No se encontró imagen de Portada'
-      });
-      console.log("no hay imagen de portada");
-    }
-    if (im.length>0) {
-      await setImagenSRC(prevState => ({ ...prevState, Miniatura: im[0].url })); 
-    } else {
-      Toast.fire({
-        type: 'error',
-        title: 'No se encontró imagen Miniatura'
-      });
-      console.log("no hay imagen de miniatura")
-    }
-       
-  }
-
   //funcion para agregar el atributo "valor" a las categorias que fueron marcadas (check)
   const novelaChecbox = async (b) => {
     const cate = await utilsNovela.categorias;
@@ -387,12 +360,11 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
               if (imagenObj.Portada) {
                 await axios({
                   method: 'delete',
-                  url: (ReactApi.url_api + '/api/imagenes/listar/' + imagenObj.Portada.data.Etag),
+                  url: (ReactApi.url_api + '/api/imagenes/listar/' + 'imagen_de_' + imagenObj.Portada.tipo),
                   data: { 
                     method: "borrarImagenS3",
-                    key: imagenObj.Portada.data.key}
+                    key: imagenObj.Portada.key}
                 }).then((res) => {
-                  console.log(res)
                   if(res.data.status == "error"){
                     console.log(res.data.errorData);
                   } else {
@@ -404,10 +376,10 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
               if(imagenObj.Miniatura) {
                 await axios({
                   method: 'delete',
-                  url: (ReactApi.url_api + '/api/imagenes/listar/' + imagenObj.Miniatura.data.Etag),
+                  url: (ReactApi.url_api + '/api/imagenes/listar/' + 'imagen_de_' + imagenObj.Miniatura.tipo),
                   data: { 
                     method: "borrarImagenS3",
-                    key: imagenObj.Miniatura.data.key}
+                    key: imagenObj.Miniatura.key}
                 }).then((res) => {
                   console.log(res)
                   if(res.data.status == "error"){

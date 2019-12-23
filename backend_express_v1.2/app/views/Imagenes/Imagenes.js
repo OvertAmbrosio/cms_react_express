@@ -7,10 +7,10 @@ import {
 import Swal from 'sweetalert2'
 import axios from 'axios';
 //variables de la api
-import ReactApi from '../global';
+import ReactApi from '../../global';
 
-import TablaImagenes from '../components/novelas/imagenes/TablaImagenes';
-import Error404 from '../components/layout/404';
+import TablaImagenes from '../../components/novelas/imagenes/TablaImagenes';
+import Error404 from '../../components/layout/404';
 
 const SWBB = Swal.mixin({
   customClass: {
@@ -50,7 +50,7 @@ const Imagenes = (props) => {
   //cargar array de imagenes
   const cargarImagenes = async () => {
     setLoading(true);
-    const res = await axios.get(ReactApi.url_api + '/api/imagenes/listar/' + props.location.state.params.id);    
+    const res = await axios.get(ReactApi.url_api + '/api/imagenes/listar/' + props.location.state.params.id);
     if (Object.entries(res).length) {
       setImagenes(res.data);
     } else {
@@ -138,12 +138,12 @@ const Imagenes = (props) => {
         </Col>
       </Row>
       <Row className="d-flex justify-content-center">
-        <TablaImagenes
-          imagen={imagenes}
+        {<TablaImagenes
+          imagenes={imagenes}
           loading={loading}
           borrar={borrarImagen}
           tituloNovela={props.location.state.params.titulo}
-        />
+        />}
       </Row>
     </Container>
   )

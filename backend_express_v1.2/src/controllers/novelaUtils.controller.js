@@ -38,7 +38,6 @@ novelaUtilsCtrl.crearNovelaUtil = async (req, res) => {
                           categorias: {nombre, slug, descripcion}
                         }
                       }).then((r) => {
-                        console.log(r);
                           res.send({title: 'Guardado Con éxito Compa.!', 
                                     message: 'Categoria creada correctamente.', 
                                     status: 'success'});

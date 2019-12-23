@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 //componentes
-import MapaVacio from '../components/configuraciones/MapaVacio';
-import Configuraciones from '../components/configuraciones/Configuraciones';
-import ReactApi from '../global';
+import MapaVacio from '../../components/configuraciones/MapaVacio';
+import Configuraciones from '../../components/configuraciones/Configuraciones';
+import ReactApi from '../../global';
 
 const ConfigurarNovela = () => {
   const [ loading, setLoading ] = useState('');

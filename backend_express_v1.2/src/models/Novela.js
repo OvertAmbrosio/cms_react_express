@@ -13,6 +13,7 @@ const novelaSchema = new Schema({
     trim: true,
   },
   slug: {
+    unique: true,
     type: String,
     slug: "titulo"
   },

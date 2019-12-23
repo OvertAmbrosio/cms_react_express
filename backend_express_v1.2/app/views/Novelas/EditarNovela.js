@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import axios from 'axios';
 
-import FormNovela from '../components/novelas/FormNovela';
-import Error404 from '../components/layout/404';
+import FormNovela from '../../components/novelas/FormNovela';
+import Error404 from '../../components/layout/404';
 //variables de la api
-import ReactApi from '../global';
+import ReactApi from '../../global';
 
 const EditarNovela = (props) => {
   if (props.location.state === undefined) {
@@ -34,13 +33,17 @@ const EditarNovela = (props) => {
     })  
   }
 
+  const atras = () => {
+    window.history.back();
+  }
+
   return (
     <Row className="my-3">
       <Col m="10" sm="12">
         <div className="mb-2">
-          <Link to="/cms/novelas" className="text-decoration-none">
-            <i className="fas fa-arrow-left text-primary"></i>{` `}Lista
-          </Link>
+          <Button onClick={atras} color='blue-accent'>
+            <i className="fas fa-arrow-left text-white"></i>{` `}Lista
+          </Button>
         </div>
         <FormNovela
           accion="Editar"

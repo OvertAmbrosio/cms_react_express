@@ -41,7 +41,7 @@ const TablaNovelas = ({novela, borrar, loading}) => {
                   {novela.tipo}
                 </Badge>
               </td>
-              <td>{novela.createdBy}</td>
+              <td>{novela.uploadedBy.nombre}</td>
               <td>
                 <Moment format="YYYY/MM/DD"> 
                   {novela.updatedAt}
@@ -98,7 +98,7 @@ const TablaNovelas = ({novela, borrar, loading}) => {
                 <Button 
                   title="Borrar Novela"
                   color="danger" 
-                  onClick={() => borrar(novela._id, novela.titulo)}
+                  onClick={() => borrar(novela._id, novela.titulo, novela.imagenes, novela.capitulos)}
                 >
                   <i className="fas fa-trash-alt"></i>
                 </Button>

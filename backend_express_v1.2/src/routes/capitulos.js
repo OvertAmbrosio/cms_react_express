@@ -7,8 +7,7 @@ const { getCapitulos,
         actualizarCapitulo,
         ActualizarEstado, 
         borrarCapitulo, 
-        getCapitulosXNovelas, 
-        BusquedaXNumero } = require('../controllers/capitulos.controller');
+        getCapitulosXNovelas} = require('../controllers/capitulos.controller');
 
 router.route('/')
       .get(getCapitulos)
@@ -22,8 +21,5 @@ router.route('/buscar/:id')
 
 router.route('/listar/:id')
       .get(getCapitulosXNovelas);
-//buscar capitulo por numero de cap o usuario
-router.route('/busqueda')
-      .get(BusquedaXNumero);
 
 module.exports = router

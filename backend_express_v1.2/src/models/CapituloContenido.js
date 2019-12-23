@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const capituloSchema = new Schema({
+const contenidoSchema = new Schema({
   contenido: {
     required: true,
     type: String
@@ -21,11 +21,11 @@ const capituloSchema = new Schema({
   tipo: {
     type: String,
     required: true,
-    default: "Sugerencia"
+    default: "Secundario"
   }
 },
 {
   timestamps: true
 });
 
-module.exports = ('Capitulo', capituloSchema);
+module.exports = model('Contenido', contenidoSchema);

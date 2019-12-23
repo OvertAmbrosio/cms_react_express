@@ -20,13 +20,16 @@ const capituloSchema = new Schema({
     required: true
   },
 
-  contenido: [CapituloContenido],
-
   slug:{
     type: String,
     trim: true,
     lowercase: true
-  }
+  },
+
+  contenido: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Contenido'
+  }],
 },
 {
   timestamps: true

@@ -6,7 +6,7 @@ import {
 } from 'reactstrap'
 import Moment from 'react-moment'
 
-const TablaImagenes = ({imagen, borrar, loading, tituloNovela}) => {
+const TablaImagenes = ({imagenes, borrar, loading, tituloNovela}) => {
   
   if (loading) {
     return (
@@ -32,7 +32,7 @@ const TablaImagenes = ({imagen, borrar, loading, tituloNovela}) => {
       </thead>
       <tbody>
         {
-          imagen.map((imagen, index) => (
+          imagenes.map((imagen, index) => (
             <tr className="table-light py-3" key={index}>
               <th scope="row">{index + 1}</th>
               <td>{imagen.titulo}</td>

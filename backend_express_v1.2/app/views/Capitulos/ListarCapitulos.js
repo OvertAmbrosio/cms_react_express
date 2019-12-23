@@ -8,12 +8,12 @@ import {
 } from 'reactstrap'
 import Swal from "sweetalert2"; 
 //variables de la api
-import ReactApi from '../global';
+import ReactApi from '../../global';
 //componentes adicionales
-import TablaCapitulos from '../components/capitulos/TablaCapitulos';
-import Paginacion from '../components/common/Paginacion';
-import FormCapitulos from '../components/capitulos/FormCapitulos'
-import Error404 from '../components/layout/404'
+import TablaCapitulos from '../../components/capitulos/TablaCapitulos';
+import Paginacion from '../../components/common/Paginacion';
+import FormCapitulos from '../../components/capitulos/FormCapitulos'
+import Error404 from '../../components/layout/404'
 //personalizar estilo del sweetalert
 const SWBB = Swal.mixin({
   customClass: {
@@ -44,7 +44,8 @@ const ListarCapitulos = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [capitulosPorPagina] = useState(50);
   const [capitulo, setCapitulo] = useState({});
-  const [capitulos, setCapitulos] = useState([]);
+  const [capitulos, setCapitulos] = useState([]);//array de capitulos para manipular
+  const [capitulosAux, setCapitulosAux] = useState([]);//capitulos solo de lectura
   //parametros para enviar por url
   const [slug, setSlug] = useState(props.match.params.var);
   const [idNovela, setIdNovel] = useState(props.location.state.params.id);
@@ -57,12 +58,37 @@ const ListarCapitulos = (props) => {
   //cargar capitulos
   const cargarCapitulos = async () => {
     setLoading(true);
-    const res = await axios.get(ReactApi.url_api + '/api/capitulos/listar/' + props.location.state.params.id);
-    setCapitulos(res.data);
+    let data = [];
+    await axios.get(ReactApi.url_api + '/api/capitulos/listar/' + props.location.state.params.id)
+      .then(function (res) {
+        var promises = (res.data).map(function(capitulos){
+          return (capitulos.capitulos).map((c) => (
+            data.push({
+              id_novela: capitulos._id,
+              id_cap: c._id,
+              id_contenido: c.contenido[0]._id,
+              titulo_novela : capitulos.titulo,
+              titulo: c.titulo,
+              numero : c.numero,
+              slug: c.slug,
+              traductor : c.contenido[0].traductor.nombre,
+              updatedAt : c.updatedAt,
+              estado : c.estado
+            })
+          ))
+        })
+        Promise.all(promises).then(function() {
+          setCapitulos(data);
+          setCapitulosAux(data);
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      })      
     setLoading(false);
   };
   //borrar capitulos
-  const borrarCapitulo = async (capituloId, numero) => {
+  const borrarCapitulo = async (capituloId, numero, contenidoId) => {
     SWBB.fire({
       title: '¿Eliminar Capitulo?',
       text: `Estas borrando el capitulo N° ${numero}`,
@@ -78,7 +104,10 @@ const ListarCapitulos = (props) => {
             await axios({
               method: 'delete',
               url: (ReactApi.url_api + '/api/capitulos/buscar/' + capituloId),
-              data: {method: 'borrarCapitulo'}
+              data: {
+                method: 'borrarCapitulo',
+                id_contenido: contenidoId
+              }
             }).then((res) => {
               Swal.hideLoading()
               SWBB.fire({
@@ -136,31 +165,42 @@ const ListarCapitulos = (props) => {
       });
     } else {
       setLoading(true);
-      await axios({
-        method: 'get',
-        url: ReactApi.url_api + '/api/capitulos/busqueda/',
-        params: {
-          idNovela: idNovela,
-          var: numeroOrTraductor
-        }
-      }).then((res) => { 
-        if (res.data.message) {
-          console.log(res.data.message)
-          Toast.fire({
-            type: 'error',
-            title: 'No se encontraron datos'
-          })
+      if (!isNaN(numeroOrTraductor)) {
+        let a = capitulosAux.filter( capitulo => capitulo.numero == numeroOrTraductor);
+        if (a.length == 0) {
+          Toast.fire({type: 'error',
+                      title: 'No se encontraron datos'});
           inputBusqueda.current.value = '';//limpiar input
           setNumeroOrTraductor('');//limpiar estado
-          cargarCapitulos();
+          setCapitulos(capitulosAux); //volver la lista original
         } else {
-          Toast.fire({
-            type: 'success',
-            title: `Se encontraron ${res.data.length} resultados. `
-          })
-          setCapitulos(res.data);
+          Toast.fire({type: 'success',
+                      title: `Se encontraron ${a.length} resultados. `})
+          setCapitulos(a);
         }
-      })
+      } else {
+        try {
+          let a = capitulosAux.filter( 
+            capitulo => 
+              capitulo.contenido[0].traductor.nombre == numeroOrTraductor
+          );
+          if (a.length == 0) {
+            Toast.fire({type: 'error',
+                        title: 'No se encontraron datos'});
+            inputBusqueda.current.value = '';//limpiar input
+            setNumeroOrTraductor('');//limpiar estado
+            setCapitulos(capitulosAux); //volver la lista original
+          } else {
+            Toast.fire({type: 'success',
+                        title: `Se encontraron ${a.length} resultados. `})
+            setCapitulos(a);
+          }
+        } catch (error) {
+          console.log(error)
+          Toast.fire({type: 'error',
+                      title: 'Error en la busqueda, archivos defectuosos'});
+        }
+      }
       setLoading(false);
     }
   };

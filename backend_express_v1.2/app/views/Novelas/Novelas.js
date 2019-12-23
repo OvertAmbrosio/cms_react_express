@@ -8,10 +8,10 @@ import axios from 'axios';
 import "regenerator-runtime/runtime";
 import Swal from "sweetalert2";  
 //variables de la api
-import ReactApi from '../global';
+import ReactApi from '../../global';
 
-import TablaNovelas from '../components/novelas/TablaNovelas';
-import Paginacion from '../components/common/Paginacion';
+import TablaNovelas from '../../components/novelas/TablaNovelas';
+import Paginacion from '../../components/common/Paginacion';
 
 const SWBB = Swal.mixin({
   customClass: {
@@ -48,7 +48,7 @@ const Novelas = () => {
     setLoading(false);
   };
   //borrar novela
-  const borrarNovela = async(novelaId, titulo) => {
+  const borrarNovela = async(novelaId, titulo, imagenes, capitulos) => {
     SWBB.fire({
       title: '¿Eliminar Novela?',
       text: `Estas borrando "${titulo}"`,
@@ -64,7 +64,7 @@ const Novelas = () => {
             await axios({
               method: 'delete',
               url: (ReactApi.url_api + '/api/novelas/buscar/' + novelaId),
-              data: { method: "borrarNovela"}
+              data: { method: "borrarNovela", imagenes: imagenes, capitulos: capitulos}
             }).then((res) => {
               Swal.hideLoading()
               console.log(res.data.dataMessages)

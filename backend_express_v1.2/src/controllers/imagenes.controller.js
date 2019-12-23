@@ -13,10 +13,10 @@ AWS.config.update({
 
 const s3 = new AWS.S3();
 
-const Imagen = require('../models/Imagen');
+const Novela = require('../models/Novela');
 
 imagenCtrl.getImagenes = async (req, res) => {
-  await Imagen.find().populate('id_novela', 'titulo').sort({updatedAt:-1}).
+  await Novela.find().select({imagenes: 1, titulo: 1}).
   exec(function (err, imgs) {
     if (err){
       console.log(err);
@@ -84,31 +84,34 @@ imagenCtrl.subirImagen = async (req, res) => {
   //comprobar si guarda la imagen a la base de datos
   } else if (req.body.method === "guardarImagen") {
     const { id_novela, titulo, tipo, contentType, url, key } = req.body.data;
-    const nuevaImagen = new Imagen({id_novela, titulo, tipo, contentType, url, key});
-    await  nuevaImagen.save()
-                      .then(() => {
-                        res.send({
-                          title: '¡Guardado con éxito!', 
+    await Novela.findByIdAndUpdate({
+                  _id: id_novela
+                }, {
+                  $push: {
+                    imagenes: {titulo, tipo, contentType, url, key}
+                  }
+              }).then((r) => {
+                res.send({title: '¡Guardado con éxito!', 
                           message: 'Imagen guardada correctamente compa.', 
-                          status: 'success'
-                        });
-                    }).catch((err) => {
-                      logger.error(err);
-                      res.send({
-                        title: '¡Error al guardar!', 
-                        message: err._message? err._message:err.code, 
-                        status: 'error'
-                      });
-                    });
+                          status: 'success'});
+              }).catch((err) => {
+                logger.error(err);
+                      res.send({title: '¡Error al guardar!', 
+                                message: err._message? err._message:err.code, 
+                                status: 'error'});
+              });
   } else {
     res.send("Que haces papu, por ahi no se sube")
   }
 }
 
 imagenCtrl.getImagen = async (req, res) => {
-  await Imagen.findById(req.params.id)
-              .then((imagen) => res.json(imagen))
-              .catch((err) => {
+  await Novela.findOne({'imagenes._id' : req.params.id}, {'imagenes.$': 1})
+              .select({_id:0})
+              .then((imagen) => { 
+                console.log(imagen.imagenes[0]);
+                res.json(imagen.imagenes[0])
+              }).catch((err) => {
                 logger.error(err)
                 res.send('Error en el servidor')
               });
@@ -124,7 +127,8 @@ imagenCtrl.actualizarImagen = async (req, res) => {
             CopySource: `${bucket}/${req.body.oldKey}`, 
             Key: req.body.data.key
           }).promise()
-            .then(() => {
+            .then((img) => {
+              console.log(img)
               s3.deleteObject({
                 Bucket: bucket, 
                 Key: req.body.oldKey
@@ -133,8 +137,16 @@ imagenCtrl.actualizarImagen = async (req, res) => {
                 console.log("error borrando antigua imagen")
               })
           }).then( async() => {
-            await Imagen.findByIdAndUpdate(req.params.id, {id_novela, titulo, tipo, contentType, url:newURL, key})
-                        .then(() => {
+            await Novela.findOneAndUpdate({
+                          'imagenes._id' : req.params.id } , {
+                            $set : {
+                              'imagenes.$.titulo': titulo, 
+                              'imagenes.$.tipo': tipo, 
+                              'imagenes.$.contentType': contentType, 
+                              'imagenes.$.url': newURL, 
+                              'imagenes.$.key': key
+                            }
+                        }).then(() => {
                           res.send({title: '¡Actualizado con éxito!', 
                                     message: 'Imagen actualizado correctamente compa.', 
                                     status: 'success'
@@ -154,7 +166,6 @@ imagenCtrl.actualizarImagen = async (req, res) => {
                       });
           });
   }
-
 }
 
 imagenCtrl.borrarImagen = async (req, res) => {
@@ -179,9 +190,11 @@ imagenCtrl.borrarImagen = async (req, res) => {
   if (req.body.method == "borrarImagen") {
     // borra la imagen del S3
     await eliminarImagenS3();
-    //Borrar la imagen de la base de datos      
-    await Imagen.findByIdAndDelete(req.params.id)
-                .then(() => {
+    //Borrar la imagen de la base de datos  
+     await Novela.update({},
+                    { $pull: { imagenes: { _id: req.params.id } } },
+                    { multi: false 
+                }).then(() => {
                   res.send({title: 'Imagen Eliminada!', 
                             status: 'success', 
                             message: 'Imagen eliminada exitosamente',
@@ -192,13 +205,13 @@ imagenCtrl.borrarImagen = async (req, res) => {
                             status: 'error', 
                             message: 'La imagen no se eliminó.', 
                             errorData: errorData});
-                })
+                });    
   } else if (req.body.method == "borrarImagenS3"){
-    await eliminarImagenS3().then(()=> {
+    await eliminarImagenS3().then(() => {
       res.send({title: 'Imagen Eliminada!', 
-                status: 'success', 
-                message: 'Operación cancelada.',
-                messageData: messageData}) 
+                            status: 'success', 
+                            message: 'Imagen eliminada exitosamente',
+                            messageData: messageData})
     });
   } else {
     res.send({title: '¡Error!', 
@@ -208,13 +221,14 @@ imagenCtrl.borrarImagen = async (req, res) => {
 }
 
 imagenCtrl.getImagensXNovelas = async (req, res) => {
-  await Imagen.find({id_novela: req.params.id}).sort({numero:-1})
+  await Novela.findOne({_id: req.params.id})
+              .select({imagenes: 1,})
               .exec(function (err, imgs) {
                 if (err){
                   logger.error(err)
                   res.send({message: "Error en el servidor."})
                 }
-                res.json(imgs)
+                res.send(imgs.imagenes)
               });
 }
   

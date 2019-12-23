@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import {
   Table, Badge, Button, CustomInput
 } from 'reactstrap'
@@ -69,13 +70,13 @@ const TablaCapitulos = ({primerCampo, capitulos, editar, borrar, loading}) => {
         {
           capitulos.map((capitulo, index) => (
             <tr className="table-light py-3" key={index}>
-              <td>{primerCampo=="Capitulo" ? capitulo.titulo:capitulo.id_novela == null ? "Novela No Encontrada": capitulo.id_novela.titulo}</td>
+              <td>{primerCampo=="Capitulo" ? capitulo.titulo:capitulo.titulo_novela == null ? "Novela No Encontrada": capitulo.titulo_novela}</td>
               <td>
                 <Badge pill color="primary">
                   {capitulo.numero}
                 </Badge>
               </td>
-              <td>{capitulo.traductor}</td>
+              <td>{capitulo.traductor?capitulo.traductor:'Sin traductor'}</td>
               <td>
                 <Moment format="YYYY/MM/DD"> 
                   {capitulo.updatedAt}
@@ -88,21 +89,31 @@ const TablaCapitulos = ({primerCampo, capitulos, editar, borrar, loading}) => {
                   id={index}
                   name="estado"
                   color="success"
-                  onChange={e => actualizarEstado(e, capitulo.numero, capitulo._id)}
+                  onChange={e => actualizarEstado(e, capitulo.numero, capitulo.id_cap)}
                 />
               </td>
               <td>
                 <Button 
-                  title="Editar Capitulo" 
-                  color="warning" 
-                  onClick={() => editar(capitulo)}
+                  title="Editar Novela" 
+                  color="warning"
+                  tag={Link} 
+                  to={{
+                    pathname: '/cms/capitulos/editar/' + capitulo.slug, 
+                    state: { 
+                      params: { 
+                        id_cap: capitulo.id_cap,
+                        id_novela: capitulo.id_novela,
+                        titulo_novela: capitulo.titulo_novela
+                      }
+                    }
+                  }}
                 >
                   <i className="fas fa-edit"></i>
                 </Button>
                 <Button 
                   title="Borrar Capitulo"
                   color="danger" 
-                  onClick={() => borrar(capitulo._id, capitulo.numero)}
+                  onClick={() => borrar(capitulo.id_cap, capitulo.numero, capitulo.id_contenido)}
                 >
                   <i className="fas fa-trash-alt"></i>
                 </Button>

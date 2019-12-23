@@ -43,15 +43,38 @@ const Dashboard = () => {
   };
 
   const cargarResumenCapitulos = async () => {
-    const res = await axios.get(ReactApi.url_api + '/api/capitulos');
+    let data = [];
     let resumenC = new Object;
-    resumenC.aprobado = (res.data.filter((capitulo) =>
-      capitulo.estado == "Aprobado")).length;
-    resumenC.pendiente = (res.data.filter((capitulo) =>
-      capitulo.estado == "Pendiente")).length;
-    resumenC.total = (res.data).length;
-
-    setResumenCapitulos(resumenC);
+    await axios.get(ReactApi.url_api + '/api/capitulos')
+      .then(function (res) {
+        var promises = (res.data).map(function(capitulos){
+          return (capitulos.capitulos).map((c) => (
+            data.push({
+              id_novela: capitulos._id,
+              id_cap: c._id,
+              titulo_novela : capitulos.titulo,
+              titulo: c.titulo,
+              numero : c.numero,
+              slug: c.slug,
+              traductor : c.contenido[0].traductor.nombre,
+              updatedAt : c.updatedAt,
+              estado : c.estado
+            })
+          ))
+        })
+        
+        Promise.all(promises).then(function() {
+          resumenC.aprobado = (data.filter((capitulo) =>
+            capitulo.estado == "Aprobado")).length;
+          resumenC.pendiente = (data.filter((capitulo) =>
+            capitulo.estado == "Pendiente")).length;
+          resumenC.total = (data).length;
+          setResumenCapitulos(resumenC);
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      })        
   };
 
   const cargarResumenUsers = async () => {

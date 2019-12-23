@@ -42,7 +42,6 @@ const FormImagen = ({accion, idNovela, tituloNovela, imagen, loading, cancelar})
     )
   }
 
-  const [id] = useState(idNovela);
   const [titulo, setTitulo] = useState(imagen ? imagen.titulo : '');
   const [tipo, setTipo] = useState(imagen ? imagen.tipo:'Wallpaper');
   const [contentType, setContentType] = useState(imagen ? imagen.contentType:'')
@@ -176,7 +175,7 @@ const FormImagen = ({accion, idNovela, tituloNovela, imagen, loading, cancelar})
   const guardarImagen = () => {
     if (imageKey && titulo) {
       const img = {
-        id_novela: accion=='crear'?id:imagen.id_novela,
+        id_novela: idNovela,
         titulo: tipo=='Portada'|| tipo=='Miniatura' ?titulo + ' ' + tipo:titulo,
         tipo: accion=='crear'?tipo:imagen.tipo,
         contentType: contentType,

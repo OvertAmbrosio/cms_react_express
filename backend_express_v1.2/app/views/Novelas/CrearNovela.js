@@ -3,7 +3,7 @@ import { Row, Col } from 'reactstrap';
 import { connect } from "react-redux";
 import PropTypes from 'prop-types'
 
-import FormNovela from '../components/novelas/FormNovela'
+import FormNovela from '../../components/novelas/FormNovela'
 
 const CrearNovela = (props) => {
   return (

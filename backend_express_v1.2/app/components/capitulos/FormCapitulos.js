@@ -18,21 +18,33 @@ const SWBB = Swal.mixin({
   buttonsStyling: false
 })
 
-const FormCapitulos = ({accion, idNovela, usuario, tituloNovela, capitulo, modal, listar}) => {
+const FormCapitulos = ({loading, accion, idNovela, usuario, tituloNovela, capitulo}) => {
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center">
+        <div className="spinner-grow text-primary" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    )
+  }
+
   const [id] = useState(idNovela);
-  const [traductor, setTraductor] = useState(usuario ? usuario : capitulo.traductor);
+  const [traductor, setTraductor] = useState(usuario ? usuario : capitulo ? capitulo.contenido[0].traductor.nombre: 'Sin traductor papu');
   const [titulo, setTitulo] = useState(capitulo ? capitulo.titulo : '');
   const [numero, setNumero] = useState(capitulo ? capitulo.numero : 0);
   const [estado, setEstado] = useState(capitulo ? capitulo.estado : 'Aprobado');
-  const [notaTraductor, setNotaTraductor] = useState(capitulo ? capitulo.nota : '');
-  const [contenido, setContenido] = useState(capitulo ? capitulo.contenido : '');
+  const [notaTraductor, setNotaTraductor] = useState(capitulo ? capitulo.contenido[0].nota : '');
+  const [idContenido, setIdContenido] = useState(capitulo ? capitulo.contenido[0]._id : '');
+  const [contenido, setContenido] = useState(capitulo ? capitulo.contenido[0].contenido : '');
   const [capObject, setCapObject] = useState('')
   const [listo, setListo] = useState('')
   const inputTitulo = useRef(null);
   const inputNumero = useRef(null);
   const selectEstado = useRef(null);
   //efecto para poner el cursor en el input del titulo
-  useEffect(() => {    
+  useEffect(() => {
     inputTitulo.current.focus();
   },[id]);
   //efecto para ejecutar la funcion de guardar/editar cuando cambia el estado de listo
@@ -58,13 +70,16 @@ const FormCapitulos = ({accion, idNovela, usuario, tituloNovela, capitulo, modal
     e.preventDefault();
     let Capitulo = new Object();
     Capitulo.id_novela = id;
+    Capitulo.id_contenido = idContenido;
+    Capitulo.tipo = 'primario'
     Capitulo.titulo = titulo;
     Capitulo.numero = numero;
     Capitulo.estado = estado;
-    Capitulo.nota = notaTraductor;
-    Capitulo.contenido = contenido;
-    Capitulo.traductor = traductor;
     Capitulo.slug = "capitulo-" + numero;
+    Capitulo.traductor = {nombre: traductor, url: 'www.tunovelaonline.com'};
+    Capitulo.contenido = contenido;
+    Capitulo.nota = notaTraductor;
+    
     setCapObject(Capitulo);
     setListo(1)
   }
@@ -142,8 +157,7 @@ const FormCapitulos = ({accion, idNovela, usuario, tituloNovela, capitulo, modal
                 type: res.data.status
               }).then((result) => {
                 if(result.value){
-                  listar();
-                  modal();
+                  window.history.back();
                 }
               });
             });

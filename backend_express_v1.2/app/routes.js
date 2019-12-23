@@ -1,21 +1,19 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
-
 //Layout
 import Layout from './components/layout/Layout';
 
 //Vistas
 import Dashboard from "./views/Dashboard";
-import Novelas from "./views/Novelas";
-import CrearNovela from "./views/CrearNovela";
-import EditarNovela from "./views/EditarNovela";
-import ConfigurarNovela from "./views/ConfigurarNovela";
-import Capitulos from "./views/Capitulos";
-import ListarCapitulos from "./views/ListarCapitulos";
-import CrearCapitulo from "./views/CrearCapitulo";
-import Imagenes from "./views/Imagenes";
-import SubirImagen from "./views/SubirImagen";
-import EditarImagen from "./views/EditarImagen";
+import Novelas from "./views/Novelas/Novelas";
+import CrearNovela from "./views/Novelas/CrearNovela";
+import EditarNovela from "./views/Novelas/EditarNovela";
+import ConfigurarNovela from "./views/Novelas/ConfigurarNovela";
+import Capitulos from "./views/Capitulos/Capitulos";
+import ListarCapitulos from "./views/Capitulos/ListarCapitulos";
+import CrearCapitulo from "./views/Capitulos/CrearCapitulo";
+import EditarCapitulo from "./views/Capitulos/EditarCapitulo";
+import Imagenes from "./views/Imagenes/Imagenes";
+import SubirImagen from "./views/Imagenes/SubirImagen";
+import EditarImagen from "./views/Imagenes/EditarImagen";
 
 export default [
   {
@@ -65,6 +63,12 @@ export default [
     exact: true,
     layout: Layout,
     component: CrearCapitulo
+  },
+  {
+    path: "/cms/capitulos/editar/:id",
+    exact: true,
+    layout: Layout,
+    component: EditarCapitulo
   },
   {
     path: "/cms/imagenes/listar/:var",
