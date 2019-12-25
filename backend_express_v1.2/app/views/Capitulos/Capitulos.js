@@ -11,7 +11,7 @@ import ReactApi from '../../global';
 import TablaCapitulos from '../../components/capitulos/TablaCapitulos';
 import Paginacion from '../../components/common/Paginacion';
 //personalizar estilo del sweetalert
-const swalWithBootstrapButtons = Swal.mixin({
+const SWBB = Swal.mixin({
   customClass: {
     confirmButton: 'btn btn-primary',
     cancelButton: 'btn btn-danger'
@@ -45,17 +45,17 @@ const Capitulos = () => {
     let data = [];
     await axios.get(ReactApi.url_api + '/api/capitulos')
       .then(function (res) {
-        var promises = (res.data).map(function(capitulos){
+        let promises = (res.data).map(function(capitulos){
           return (capitulos.capitulos).map((c) => (
             data.push({
               id_novela: capitulos._id,
               id_cap: c._id,
-              id_contenido: c.contenido[0]._id,
+              id_contenido: c.contenido[0]?c.contenido[0]._id: 'Sin contenido',
               titulo_novela : capitulos.titulo,
               titulo: c.titulo,
               numero : c.numero,
               slug: c.slug,
-              traductor : c.contenido[0].traductor.nombre,
+              traductor : c.contenido[0]?c.contenido[0].traductor.nombre: 'Sin Traductor',
               updatedAt : c.updatedAt,
               estado : c.estado
             })
@@ -73,7 +73,7 @@ const Capitulos = () => {
   };
   //borrar capitulos
   const borrarCapitulo = async (capituloId, numero, contenidoId) => {
-    swalWithBootstrapButtons.fire({
+    SWBB.fire({
       title: '¿Eliminar Capitulo?',
       text: `Estas borrando el capitulo N° ${numero}`,
       type: 'warning',
@@ -110,7 +110,7 @@ const Capitulos = () => {
       /* Read more about handling dismissals below */
       result.dismiss === Swal.DismissReason.cancel
       ){
-        swalWithBootstrapButtons.fire(
+        SWBB.fire(
           'Cancelado',
           'Tu capitulo esta seguro compa',
           'error',
@@ -217,6 +217,7 @@ const Capitulos = () => {
           borrar={borrarCapitulo}
         />
         <Paginacion 
+          loading={loading}
           objetosPorPagina={capitulosPorPagina}
           totalObjetos={capitulos.length}
           paginacion={paginacion}

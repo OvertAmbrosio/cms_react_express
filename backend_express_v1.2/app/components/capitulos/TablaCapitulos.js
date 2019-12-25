@@ -70,7 +70,9 @@ const TablaCapitulos = ({primerCampo, capitulos, editar, borrar, loading}) => {
         {
           capitulos.map((capitulo, index) => (
             <tr className="table-light py-3" key={index}>
-              <td>{primerCampo=="Capitulo" ? capitulo.titulo:capitulo.titulo_novela == null ? "Novela No Encontrada": capitulo.titulo_novela}</td>
+              <td style={{overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', maxWidth: 0}}>
+                {primerCampo=="Capitulo" ? capitulo.titulo:capitulo.titulo_novela == null ? "Novela No Encontrada": capitulo.titulo_novela}
+              </td>
               <td>
                 <Badge pill color="primary">
                   {capitulo.numero}

@@ -159,7 +159,7 @@ novelaUtilsCtrl.borrarNovelaUtil = async (req, res) => {
   if (req.body.method === 'borrarCategoria' || req.body.method === 'borrarTipo') {
     //borrar dependiendo si es categoria o tipo
     if (req.body.method === 'borrarCategoria') {
-      await NovelaUtil.update({},
+      await NovelaUtil.updateOne({'categorias._id': { _id: req.params.id }},
                         { $pull: { categorias: { _id: req.params.id } } },
                         { multi: false 
                     }).then(() => {
@@ -173,7 +173,7 @@ novelaUtilsCtrl.borrarNovelaUtil = async (req, res) => {
                                 status: 'error'})
                     });
     } else if (req.body.method === 'borrarTipo'){
-      await NovelaUtil.update({},
+      await NovelaUtil.updateOne({'tipos._id': { _id: req.params.id }},
                       { $pull: { tipos: { _id: req.params.id } } },
                       { multi: false 
                     }).then(() => {
@@ -188,12 +188,12 @@ novelaUtilsCtrl.borrarNovelaUtil = async (req, res) => {
                     });
     }
   } else if (req.body.method === 'borrarEtiqueta' ) {
-    await NovelaUtil.update({},
+    await NovelaUtil.updateOne({ 'etiquetas._id': { _id: req.params.id } },
                       { $pull: { etiquetas: { _id: req.params.id } } },
                       { multi: false 
                   }).then(() => {
                     res.send({title: 'Eliminado Con éxito Compa.!', 
-                              message: 'Etiqueta actualizada correctamente.', 
+                              message: 'Etiqueta eliminada correctamente.', 
                               status: 'success'});
                   }).catch((err) => {
                     logger.error(err);

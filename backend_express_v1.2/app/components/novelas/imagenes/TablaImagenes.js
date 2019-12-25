@@ -35,7 +35,9 @@ const TablaImagenes = ({imagenes, borrar, loading, tituloNovela}) => {
           imagenes.map((imagen, index) => (
             <tr className="table-light py-3" key={index}>
               <th scope="row">{index + 1}</th>
-              <td>{imagen.titulo}</td>
+              <td style={{overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', maxWidth: '120'}}>
+                {imagen.titulo}
+              </td>
               <td>{imagen.contentType?(imagen.key).substring(8) + '.' + (imagen.contentType).split('/')[1]:imagen.key}</td>
               <td>
                 <Badge pill color="blue-accent">

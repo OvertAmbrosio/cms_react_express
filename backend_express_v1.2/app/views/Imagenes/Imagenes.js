@@ -138,12 +138,12 @@ const Imagenes = (props) => {
         </Col>
       </Row>
       <Row className="d-flex justify-content-center">
-        {<TablaImagenes
+        <TablaImagenes
           imagenes={imagenes}
           loading={loading}
           borrar={borrarImagen}
           tituloNovela={props.location.state.params.titulo}
-        />}
+        />
       </Row>
     </Container>
   )

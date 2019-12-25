@@ -17,6 +17,13 @@ const SWBB = Swal.mixin({
   },
   buttonsStyling: false
 })
+//personalizar el Toast
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
+})
 
 const FormCapitulos = ({loading, accion, idNovela, usuario, tituloNovela, capitulo}) => {
 
@@ -84,50 +91,25 @@ const FormCapitulos = ({loading, accion, idNovela, usuario, tituloNovela, capitu
     setListo(1)
   }
 
-  const guardarCapitulo = () => {
-    SWBB.fire({
-      title: '¿Guardar Capitulo?',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Si, ¡Subelo compa!',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
-      if (result.value) {
-        Swal.fire({
-          onBeforeOpen: async () => {
-            Swal.showLoading()
-            await axios({
-              method: 'post',
-              url: ReactApi.url_api + '/api/capitulos',
-              data: {
-                method: 'crearCapitulo',
-                data:capObject
-              }
-            }).then((res) => {
-              Swal.hideLoading()
-              Swal.fire({
-                title: res.data.title,
-                text: res.data.message,
-                type: res.data.status
-              }).then((result) => {
-                if(result.value && res.data.status != "error"){
-                  limpiarInputs();
-                }
-              });
-            });
-          }
-        })
-      } else if (
-      /* Read more about handling dismissals below */
-      result.dismiss === Swal.DismissReason.cancel
-      ) {
-        SWBB.fire(
-          'Cancelado',
-          'Capitulo no guardado',
-          'error',
-        )
+  const guardarCapitulo = async() => {
+    await axios({
+      method: 'post',
+      url: ReactApi.url_api + '/api/capitulos',
+      data: {
+        method: 'crearCapitulo',
+        data:capObject
       }
-    })
+    }).then((res) => {
+      console.log(res.data.message);
+      Toast.fire({
+        type: res.data.status,
+        title: res.data.title
+      });
+      if(res.data.status != "error"){
+        limpiarInputs();
+        inputTitulo.current.focus();
+      }
+    });
   }
 
   const editarCapitulo = () => {
@@ -256,7 +238,7 @@ const FormCapitulos = ({loading, accion, idNovela, usuario, tituloNovela, capitu
           onChange={e => setNotaTraductor(e.target.value)}
         />
       </FormGroup>
-      <Button onClick={crearCapitulo} color="primary">Guardar</Button>
+      <Button onClick={crearCapitulo} color="blue-accent">Guardar</Button>
     </Form>
   )
 }

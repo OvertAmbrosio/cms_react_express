@@ -191,7 +191,7 @@ imagenCtrl.borrarImagen = async (req, res) => {
     // borra la imagen del S3
     await eliminarImagenS3();
     //Borrar la imagen de la base de datos  
-     await Novela.update({},
+     await Novela.updateOne({ 'imagenes._id': req.params.id},
                     { $pull: { imagenes: { _id: req.params.id } } },
                     { multi: false 
                 }).then(() => {

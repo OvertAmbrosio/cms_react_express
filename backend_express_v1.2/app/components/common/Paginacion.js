@@ -4,19 +4,25 @@ import {
   Pagination, PaginationItem, PaginationLink,
 } from 'reactstrap';
 
-const Paginacion = ({objetosPorPagina, totalObjetos, paginacion, idNovela, tituloNovela}) => {
+const Paginacion = ({objetosPorPagina, totalObjetos, paginacion, idNovela, tituloNovela, loading}) => {
 
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalObjetos / objetosPorPagina); i++) {
     pageNumbers.push(i);
   }
+
+  if (loading) {
+    return(
+      <div style={{overflowX: 'hidden'}}></div>
+    )
+  }
   
   return (
-    <Pagination>
+    <Pagination style={{overflowX: 'scroll', width: '80vh'}}>
       {pageNumbers.map(number => (
         <PaginationItem key={number}>
-          <PaginationLink onClick={() => paginacion(number)} tag={Link} to={{pathname:'#', state: {params: {id: idNovela, titulo: tituloNovela}}}}>
+          <PaginationLink onClick={() => paginacion(number)}>
             {number}
           </PaginationLink>
         </PaginationItem>

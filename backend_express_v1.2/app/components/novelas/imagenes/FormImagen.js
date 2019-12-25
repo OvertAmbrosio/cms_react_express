@@ -106,7 +106,7 @@ const FormImagen = ({accion, idNovela, tituloNovela, imagen, loading, cancelar})
                 type: res.data.status
               }).then((result) => {
                 if(result.value && res.data.status != "error"){
-                  window.location.href = '/cms/novelas';
+                  window.history.back();
                 } 
               });
             }).catch(err => console.log(err));

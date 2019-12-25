@@ -179,6 +179,7 @@ const Novelas = () => {
           borrar={borrarNovela}
         />
         <Paginacion 
+          loading={loading}
           objetosPorPagina={novelasPorPagina}
           totalObjetos={novelas.length}
           paginacion={paginacion}

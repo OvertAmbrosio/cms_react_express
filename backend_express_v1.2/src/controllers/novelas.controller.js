@@ -11,25 +11,27 @@ const s3 = new AWS.S3({
 const novelasCtrl = {};
 
 const Novela = require('../models/Novela');
-const Capitulo = require('../models/Capitulo');
+const Contenido = require('../models/CapituloContenido');
 
 novelasCtrl.getNovelasEmision = async (req, res) => {
-   await Capitulo.find({estado: 'Aprobado'}, { id_novela: { $slice: 1 } })
-                .populate({
-                  path:'id_novela', 
-                  select: 'titulo acron estado',
-                  match: {"estado": "Emision"},
-                  options: { limit: 2 }
-                })
-                .sort({numero:-1})
-                .then((novelas, err) => {
-                  if (err) {
-                    logger.error(err);
-                    res.send({message: "Error en el servidor", err: err.code})
-                  } else {
-                    res.json(novelas)
-                  }
-                });
+  await Novela.find({
+                estado: "Emision"
+              },{
+                capitulos: { $elemMatch: { estado: "Aprobado" } },
+                imagenes: { $elemMatch: { tipo: "Portada" } },
+              },{
+                "capitulos.$": 1,
+                "imagenes.$": 1,
+              }).limit(8).select({
+                titulo:1, acron:1
+              }).exec(function(err, results){
+                if(err){
+                  logger.error(err);
+                  res.send({message: "Error en el servidor", err: err.code})
+                } else {
+                  res.json(results)
+                }
+              });
 } 
 
 novelasCtrl.buscarNovelas = async (req, res) => {
@@ -53,7 +55,7 @@ novelasCtrl.buscarNovelas = async (req, res) => {
 
 novelasCtrl.getNovelas = async (req, res) => {
   await Novela.find()
-              .select({titulo:1, slug:1, tipo:1, uploadedBy:1, updatedAt: 1, estado:1, imagenes: 1, capitulos: 1})
+              .select({titulo:1, slug:1, tipo:1, uploadedBy:1, updatedAt: 1, estado:1, imagenes: 1})
               .sort({createdAt:-1})
               .then((novelas, err) => {
                 if (err) {
@@ -76,7 +78,8 @@ novelasCtrl.crearNovela = async (req, res) => {
     } = req.body;
     //objetos a guardar
     let nuevaNovela = new Novela({ 
-      titulo, titulo_alt, acron, autor, sinopsis, tipo, estado, categorias, etiquetas, uploadedBy, imagenes});
+      titulo, titulo_alt, acron, autor, sinopsis, tipo, estado, categorias, etiquetas, uploadedBy, imagenes
+    });
     //guardando novela              
     await nuevaNovela.save()
                      .then(() => {
@@ -150,8 +153,24 @@ novelasCtrl.actualizarNovela = async (req, res) => {
 }
 
 novelasCtrl.borrarNovela = async (req, res) => {
-  let dataMessages = {imagenes_s3: [] };
-  let dataError = {imagenes_s3: [] };
+  let dataMessages = {imagenes_s3: [], contenido: '', imagen: '', capitulo: '' };
+  let dataError = {imagenes_s3: [], contenido: '', otros: [] };
+  //borrar la novela
+  const borrarNovelaQuery = async() => {
+    await Novela.findByIdAndDelete(req.params.id)
+      .then(() => {
+        res.send({title: '¡Novela Eliminada!', 
+                  status: 'success', 
+                  message: 'Novela eliminada exitosamente',
+                  dataMessages: dataMessages});
+      }).catch((error) => {
+          logger.error(error);
+          res.send({title: '¡Error en el servidor!', 
+                    status: 'error',
+                    message: 'La novela no se eliminó, presiona F12/Console y envia la captura al administrador.', 
+                    errorData: dataError});
+      });
+  }
   if (req.body.method == "borrarNovela") {
     //Comprobar que haya imagenes
     if ((req.body.imagenes).length > 0) {
@@ -168,37 +187,38 @@ novelasCtrl.borrarNovela = async (req, res) => {
     } else {
       dataMessages.imagen = "No se encontraron imagenes";
     }
-    //comprobar que haya capitulos
-    if ((req.body.capitulos).length > 0) {
+    //comprobar que haya capitulos y borrar novela
+    try {
       await Novela.findById(req.params.id)
-              .select({capitulos:1, _id:0})
-              .then((data) => {
-                data.map((d) => (
-                  (d.contenido).map((c) => (
-                    console.log(c)
-                  ))
-                ))
+        .select({capitulos:1, _id:0})
+        .then(async (data) => {
+          let x = 0;
+          (data.capitulos).map((d) => (
+            (d.contenido).map((c) => {
+              x = x+1
+              Contenido.findByIdAndDelete(c)
+                .then(() => {
+                  dataMessages.contenido = 'se eliminó: ' + x + ' capitulos';
               }).catch((err) => {
-                logger.error(err);
-                res.send('Error en el servidor');
-              });
-    } else {
-      dataMessages.imagen = "No se encontraron capitulos";
-    }
-    //Borrar la novela
-    // await Novela.findByIdAndDelete(req.params.id)
-    //             .then(() => {
-    //               res.send({title: '¡Novela Eliminada!', 
-    //                         status: 'success', 
-    //                         message: 'Novela eliminada exitosamente',
-    //                         dataMessages: dataMessages});
-    //             }).catch((error) => {
-    //                 logger.error(error);
-    //                 res.send({title: '¡Error en el servidor!', 
-    //                           status: 'error',
-    //                           message: 'La novela no se eliminó, presiona F12/Console y envia la captura al administrador.', 
-    //                           errorData: dataError});
-    //             });
+                  logger.error(err);
+                  dataError.contenido = 'Error eliminando contenido ' + c;
+              })
+            })
+          ))
+          //borrar novela
+          borrarNovelaQuery();
+        }).catch((err) => {
+          logger.error(err);
+          (dataError.otros).push('Error en el servidor');
+        });
+      
+    } catch (error) {
+      logger.error(err);
+      res.send({title: '¡Error!', 
+                status: 'error',
+                message: 'Hubo un error papu',
+                errorData: dataError})
+    } 
   } else {
     res.send({title: '¡Error!', 
               status: 'error',

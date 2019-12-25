@@ -589,7 +589,7 @@ const FormNovela = ({novela, accion, usuario, loading}) => {
               </Card>
             </Col>
           </Row> 
-          <Button onClick={guardarNovela} color="primary">Actualizar</Button>
+          <Button onClick={guardarNovela} color="primary">Guardar</Button>
           <Button onClick={abortarNovela} color="danger">Cancelar</Button>
         </Form>
       </CardBody>

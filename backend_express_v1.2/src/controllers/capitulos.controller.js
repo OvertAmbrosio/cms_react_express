@@ -91,7 +91,6 @@ capituloCtrl.getCapitulo = async (req, res) => {
 
 capituloCtrl.actualizarCapitulo = async (req, res) => {
   const { id_contenido, titulo, numero, slug, estado, contenido, nota } = req.body.data;
-  console.log(req.param)
   if (req.body.method == "actualizarCapitulo") {
     let dataActualizar = {
       'capitulos.$.titulo' : titulo,
@@ -131,9 +130,10 @@ capituloCtrl.actualizarCapitulo = async (req, res) => {
 
 capituloCtrl.borrarCapitulo = async (req, res) => {
   if (req.body.method == 'borrarCapitulo') {
+    console.log(req.body)
     await Contenido.findByIdAndDelete(req.body.id_contenido)
-      .then(async() => {
-        await Novela.update({},
+      .then(() => {
+        Novela.updateOne({'capitulos._id' : req.params.id},
                       { $pull: { capitulos: { _id: req.params.id } } },
                       { multi: false 
                   }).then(() => {
@@ -151,7 +151,7 @@ capituloCtrl.borrarCapitulo = async (req, res) => {
           res.send({title: '¡Error en el servidor!', 
                     status: 'error',
                     message: 'El contenido del cap no se eliminó.', 
-                    errorData: dataError});
+                    errorData: error});
     });
   } else {
     res.send("Estas intentando borrar por medios sospechosos papu")

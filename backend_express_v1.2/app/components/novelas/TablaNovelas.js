@@ -22,7 +22,6 @@ const TablaNovelas = ({novela, borrar, loading}) => {
     <Table hover responsive>
       <thead>
         <tr className="table-light">
-          <th>#</th>
           <th>Titulo</th>
           <th>Tipo</th>
           <th>Usuario</th>
@@ -34,8 +33,9 @@ const TablaNovelas = ({novela, borrar, loading}) => {
         {
           novela.map((novela, index) => (
             <tr className="table-light py-3" key={index}>
-              <th scope="row">{index + 1}</th>
-              <td>{novela.titulo}</td>
+              <td title={novela.titulo} style={{overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', maxWidth: '160px'}}>
+                {novela.titulo}
+              </td>
               <td>
                 <Badge pill color="info">
                   {novela.tipo}
@@ -98,7 +98,7 @@ const TablaNovelas = ({novela, borrar, loading}) => {
                 <Button 
                   title="Borrar Novela"
                   color="danger" 
-                  onClick={() => borrar(novela._id, novela.titulo, novela.imagenes, novela.capitulos)}
+                  onClick={() => borrar(novela._id, novela.titulo, novela.imagenes)}
                 >
                   <i className="fas fa-trash-alt"></i>
                 </Button>

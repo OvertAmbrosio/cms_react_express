@@ -66,12 +66,12 @@ const ListarCapitulos = (props) => {
             data.push({
               id_novela: capitulos._id,
               id_cap: c._id,
-              id_contenido: c.contenido[0]._id,
+              id_contenido: c.contenido[0]?c.contenido[0]._id: 'Sin contenido',
               titulo_novela : capitulos.titulo,
               titulo: c.titulo,
               numero : c.numero,
               slug: c.slug,
-              traductor : c.contenido[0].traductor.nombre,
+              traductor : c.contenido[0]?c.contenido[0].traductor.nombre: 'Sin Traductor',
               updatedAt : c.updatedAt,
               estado : c.estado
             })
@@ -261,6 +261,7 @@ const ListarCapitulos = (props) => {
           editar={editarCapitulo}
         />
         <Paginacion 
+          loading={loading}
           objetosPorPagina={capitulosPorPagina}
           totalObjetos={capitulos.length}
           paginacion={paginacion}
